@@ -6,8 +6,7 @@ the current state.
 
 ## How it works
 A scheduled daily job runs `backup.sh`:
-1. Mirrors `/opt/hatch/skills` into the repo root (dereferenced,
-   so SKILL.md files are real and restorable — unlike a symlink-only mirror)
+1. Mirrors `/opt/hatch/skills` into the repo root (dereferenced)
 2. Excludes build output (`dist/`, `node_modules/`, `*.tgz`)
 3. Commits only if something changed, then pushes
 
