@@ -26,10 +26,6 @@ else
     "$SRC/" ./skills/
 fi
 
-# Your own work — the part that is NOT shipped upstream
-rsync -a --delete --exclude='.git/' ~/workspace/custom-skills/ ./custom-skills/ 2>/dev/null || mkdir -p custom-skills
-rsync -a --delete --exclude='.git/' ~/workspace/custom-connectors/ ./custom-connectors/ 2>/dev/null || mkdir -p custom-connectors
-
 git add -A
 if git diff --cached --quiet; then
   echo "No changes — nothing to commit."
@@ -45,4 +41,4 @@ MSG="${COMMIT_MSG:-skills snapshot $DATE
 $CHANGED}"
 git -c user.name="file-integrity" -c user.email="file-integrity@local" commit -m "$MSG"
 [ -n "${SKIP_PUSH:-}" ] || git push origin HEAD
-echo "Pushed: $MSG"
+echo "Committed: $MSG"
