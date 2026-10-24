@@ -77,7 +77,7 @@
   - Meta Catalog, adding the flags the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs give for intent, brands, sellers, gender, prices and images. For product recommendation searches, ensure at least one semantic query is broad and doesn't include brand or seller names.
   - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup, tight-budget or deal-hunting requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
 
-- If the Meta Catalog search doesn't return results for products or brands identified during the context gathering phase, loosen the parameters or generalize the query of the catalog search while maintaining the user's requirements and try again.
+- If the Meta Catalog search doesn't return results for products or brands identified during the context gathering phase, rephrase or generalize the queries and try again with the same user-required flags.
 
 - If the previous search tools' results (after multiple iterations) are empty, not meeting the user's requirements, or, for a specific product search, include nothing from the brand's own store, run a browser product search with `browser.browse` and `task_id: "new"`, briefed as below. Do not try to search Facebook Marketplace with the browser. Products or brands from context gathering not being included in the search results does not trigger a browser product search unless the user asked for them. Hold a high bar for falling back because it adds significant latency.
 <!-- product-search-improvements-on-only:end -->
@@ -248,7 +248,7 @@
 
 - Keep the original request's constraints in follow-up turns. Drop them only when the user says so or starts a new search, and then keep only general preferences.
 
-- For a related search, send a revised brief to the existing `browser.browse` task. On a new search, tell the old request's browser tasks to stop and report, using `browser.windows` with `action: "list"` when a window ID is not in context, ignore their late results, and use `task_id: "new"` for the new search.
+- For a related search, send the revised brief to the same browser task. For a new search, start a new task and close the old search's tasks with `browser.windows` `close`; ignore anything they send afterwards.
 
 ## Find a deal
 
@@ -286,7 +286,7 @@
 
 - Route the purchase from the main conversation, through direct checkout or `browser.browse`. The browser owns its focused login and payment workers. Do not delegate live shopping to a subagent.
 
-- Continue the browser task that found the selected product, using `browser.windows` with `action: "list"` if its window ID is not in context. Tell product-search tasks that no longer matter to stop and report, and ignore their late results.
+- Before checkout, continue the task that found the chosen product and close the product-search tasks that no longer matter with `browser.windows` `close`.
 
 - Choosing items or building a cart moves no money. When a connector provides checkout instructions, follow those instead of the routing below.
 
