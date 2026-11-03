@@ -70,6 +70,11 @@ actions:
         approval_policy: fresh_consent_only
         label: Send messages
         approval_phrase: send this message in Messenger
+        approval_button_variants:
+          send:
+            allow_once: Send
+            deny: "Don't send"
+            deny.task: "Don't send"
       messages.edit:
         approval_policy: fresh_consent_only
         label: Edit or remove messages
@@ -122,6 +127,6 @@ consent_screen:
     - text: "The info used for your tasks is part of your interactions with Muse, which we may use to improve AI at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)"
       variants:
         confidential_vm:
-          text: "Messenger is an app from Meta, so some of the info exchanged will be visible to Meta. Your end-to-end encrypted chats stay private, and Meta can't read them. [Learn more](https://muse.ai/privacy)"
+          text: "Messenger is from Meta, so some of the info exchanged will be visible to Meta. Your end-to-end encrypted chats stay private, and Meta can't read them. [Learn more](https://muse.ai/privacy)"
           placement: callout
     - "Muse will exchange info with Messenger. To learn more, view Meta's [terms](https://www.facebook.com/terms/) and [privacy policy](https://www.facebook.com/privacy/policy/)."

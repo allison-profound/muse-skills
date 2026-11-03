@@ -6,7 +6,7 @@
 
 - `muse.db` accepts one bounded, read-only `SELECT` for diagnosis. Use the purpose-built chat, goal, artifact and connector tools for ordinary tasks.
 
-Generated from migration set `24cb41e60ef124b2ebb271d1379fc27c4f6a55e3081bf2e3fcc6fe4e1db80d72`.
+Generated from migration set `d92e4c35465adbe5cc4fcd9e3e3ff8f8ec84447faca68201463910c69a614264`.
 
 ## Tables
 
@@ -356,9 +356,9 @@ Generated from migration set `24cb41e60ef124b2ebb271d1379fc27c4f6a55e3081bf2e3fc
 
 ### saved
 
-- [saved.item_links](/opt/muse/skills/muse_db/references/tables/saved.item_links.md). Relations from a saved item to other records, such as the widget or citation it was saved from.
+- [saved.item_links](/opt/muse/skills/muse_db/references/tables/saved.item_links.md). Relations from a saved item to other records: the widget, citation or chat message it was saved from, and its attached images, videos and files.
 
-- [saved.items](/opt/muse/skills/muse_db/references/tables/saved.items.md). Entities the user saved, each once, with notes saying what it was saved for, purchase state and the agent, chat and turn that saved it.
+- [saved.items](/opt/muse/skills/muse_db/references/tables/saved.items.md). Anything the user saved (a product, link, post, chat message or note), each once, with notes saying what it was saved for, its status and the agent, chat and turn that saved it.
 
 ### scheduler
 
