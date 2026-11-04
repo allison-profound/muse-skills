@@ -42,7 +42,7 @@
 
 ## Recipient details
 
-- A send or reply accepts at most 50 recipients across To, CC and BCC before duplicates are removed. When one address appears in several roles, the tool keeps it in the highest one, in the order To, BCC, CC.
+- A send or reply accepts at most 10 recipients across To, CC and BCC before duplicates are removed. When one address appears in several roles, the tool keeps it in the highest one, in the order To, BCC, CC.
 
 - The tool keeps the local part's case and normalizes the domain. Pass plain `name@domain` addresses with no display name, and never invent provider-specific equivalents such as dot or plus variants.
 
