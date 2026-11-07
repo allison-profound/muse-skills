@@ -6,7 +6,7 @@
 
 - `muse.db` accepts one bounded, read-only `SELECT` for diagnosis. Use the purpose-built chat, goal, artifact and connector tools for ordinary tasks.
 
-Generated from migration set `5ad39d1d5a73c31cfbeacfe6e576df4626d913a3c488434f75da6bd1437c617a`.
+Generated from migration set `eb0fe74d4f9b4aec74d8146b0a35ceb115f446d9f91e02161c5f0a8ed45cec5a`.
 
 ## Tables
 

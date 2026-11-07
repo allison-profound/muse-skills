@@ -85,6 +85,8 @@
 
 - `posts`, `feed` and `post` return the compact `social_posts_v1` collection that `social.search` also uses. Read `posts[]` directly instead of guessing a provider path or piping the output through `jq`.
 
+- Run each read command on its own: no pipe, redirect or command substitution, such as `| python3`, `| head` or `> file`. You can work on the output of the command in a later step.
+
 ```json
 {
   "format": "social_posts_v1",
@@ -213,12 +215,15 @@
 /opt/hatch/bin/instagram-cli rename-saved-collection --account-id <user_own_fbid> --collection-id <collection_id> --name "<name>"
 /opt/hatch/bin/instagram-cli save-post --account-id <user_own_fbid> --media-ids <media_id>,<media_id> --collection-id <collection_id>
 /opt/hatch/bin/instagram-cli unsave-post --account-id <user_own_fbid> --media-ids <media_id> --collection-id <collection_id>
-/opt/hatch/bin/instagram-cli unsave-post --account-id <user_own_fbid> --media-ids <media_id>
 ```
 
-- Saving with `--collection-id` saves the post and adds it to that collection. Unsaving with `--collection-id` removes it from that collection only, while unsaving without it unsaves the post everywhere.
+- Saving with `--collection-id` saves the post and adds it to that collection. Unsaving with `--collection-id` removes the post only from that collection. The post stays in the user’s Saved list.
 
-- To organize saved posts into collections at the user's request, inspect each post with `media-understanding` first. Put each post in the most specific matching collection and create a collection only when none fits. Afterwards, name any low-confidence assignments so the user can correct them.
+- To organize saved posts, inspect each post with `media-understanding` first. Add it to the most specific matching collection; create one only when none fits. Report low-confidence assignments afterwards.
+
+- Organize by adding posts to matching collections. When organizing, deduplicating, cleaning up or trying to undo changes, keep every post in Saved and its existing collections throughout. Keep existing collection names and the order of saved posts. Skip posts already in the matching collection.
+
+- Rename an existing collection only when the user explicitly asks to rename it. Remove posts from a collection only when the user explicitly asks to remove those posts. Use `unsave-post` with that collection's `--collection-id`. If the user asks to unsave posts from their entire Saved list, explain that only collection removal is supported; do not remove those posts from a collection instead.
 
 - `update-bio --action update-text --bio TEXT` changes biography text, at most 150 characters; an empty string clears it. Draft within the limit rather than truncating user text. Omitting `--action` retains this behavior. For profile links, use the actions below.
 
