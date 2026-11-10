@@ -49,7 +49,7 @@
 
 ## Manage message requests
 
-- Accept or decline a pending request only at the user's explicit request. Use
+- Accept or delete a pending request only at the user's explicit request. Use
   its `thread_fbid` from `inbox --folder pending` for the selected connected account.
 
 - Acceptance moves the thread into the inbox and lets the sender message freely
@@ -65,7 +65,7 @@
   --account-id ACCOUNT_ID --thread-fbid THREAD_ID
 ```
 
-- Report acceptance only when the response has `accepted: true`, and decline only
+- Report acceptance only when the response has `accepted: true`, and deletion only
   when it has `declined: true`.
 
 - Keep acceptance's `--retries` at 0. Automatic retries require one

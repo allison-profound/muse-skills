@@ -246,6 +246,10 @@
 - In the turn interim results arrive, resolve and name one or two strong products, such as catalog results from a well-known retailer. Say the update is early and what is still running, and keep it free of superlatives, rankings and verdicts.
 
 <!-- product-search-improvements-off-only:end -->
+<!-- product-search-improvements-on-only:start -->
+- After "Search every source in parallel", in the turn interim results arrive, resolve and name one or two strong products, such as catalog results from a well-known retailer. Say the update is early and what you're still checking, and keep it free of superlatives, rankings and verdicts.
+
+<!-- product-search-improvements-on-only:end -->
 - Once the last search finishes, pass every result file for the request in one `result_paths` list, rank the best products across the whole pool and call `shopping.create_shopping_results_widget` with the returned `path`. A later search adds candidates and never replaces earlier ones.
 
 - Give distinct product groups, such as shoes and pants, one widget each in the same presentation, each resolving its own selection from the pool.
@@ -336,13 +340,13 @@
 
 - Choosing items or building a cart moves no money. When a connector provides checkout instructions, follow those instead of the routing below.
 
-- For catalog products, confirm each selected product's exact variant as the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs describe. When its product details carry a `checkout_token`, check out as the [Shopify UCP](/opt/hatch/connectors/shopify-ucp/CONNECTOR.md) docs describe, whatever its checkout flags say.
+- For [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) products, confirm each selected product's exact variant as those docs describe. When its product-details response has a `checkout_token` and a `checkout.rail` of `shopify_ucp`, check out as the [Shopify UCP](/opt/hatch/connectors/shopify-ucp/CONNECTOR.md) docs describe.
 
 <!-- purchase-preapproval-off-only:start -->
 - Otherwise follow [browser checkout](/opt/muse/skills/shopping/references/browser-checkout.md). For a request to buy, assign the browser task to complete checkout and confirm the order was placed.
 <!-- purchase-preapproval-off-only:end -->
 <!-- purchase-preapproval-on-only:start -->
-- Otherwise follow [browser checkout](/opt/muse/skills/shopping/references/browser-checkout.md). For a purchase with a known product URL or a request to approve before checkout or complete the purchase later, request approval now through `~/docs/chat/browser-purchase-preapproval.md`, unless the user asks to approve at checkout.
+- Otherwise follow [browser checkout](/opt/muse/skills/shopping/references/browser-checkout.md). When the user asks you to buy and has selected what to buy or delegated the remaining choices, request preapproval now through `~/docs/chat/browser-purchase-preapproval.md`. For purchases scheduled for later or triggered by a condition, obtain approval during setup while the user is present. If the user asks to approve payment at checkout, obtain approval there instead. A request only to research, monitor, or notify does not authorize buying.
 <!-- purchase-preapproval-on-only:end -->
 <!-- muse-promo-code-on-only:start -->
 
@@ -351,7 +355,7 @@
 - When the order has no coupon and no other code (none from the user, a requested deal search or another item, and none already applied on the checkout), quietly try at most three of the details' `promo_offers` at checkout, in their returned order: those with a `coupon_code`, `offer_type` `NORMAL`, a `quality_score` of at least 0.9, `requires_email` and `is_bxgy` false, and terms the basket meets. Apply them one at a time, the same way as a coupon, and stop at the first the merchant accepts. Never retry or stack them, and keep rejected ones out of your replies. Quote a saving only from the checkout's refreshed total; when none applies, continue at the regular price. A coupon withheld because the lookup was not `complete` does not start these attempts.
 <!-- muse-promo-code-on-only:end -->
 
-- Products with a `checkout_token` keep their merchant cart as the Shopify UCP connector docs describe, and a connector with its own cart support keeps it there. Otherwise, have the browser task build the merchant cart with the specified variants and quantities. Continue the same task when the user changes the cart<!-- purchase-preapproval-on-only:start -->, unless the changes require renewed purchase preapproval<!-- purchase-preapproval-on-only:end -->. The store holds, prices and discounts that basket, so do not keep a list of your own as a cart. Follow the connector's instructions for cart reads, changes and widgets.
+- Products routed to Shopify UCP checkout keep their merchant cart as the Shopify UCP connector docs describe, and a connector with its own cart support keeps it there. Otherwise, have the browser task build the merchant cart with the specified variants and quantities. Continue the same task when the user changes the cart.<!-- purchase-preapproval-on-only:start --> For changes outside the approved terms, follow `~/docs/chat/browser-purchase-preapproval.md` for renewal before continuing checkout.<!-- purchase-preapproval-on-only:end --> The store holds, prices and discounts that basket, so do not keep a list of your own as a cart. Follow the connector's instructions for cart reads, changes and widgets.
 
 - Keep the catalog `cart_id` or browser `task_id` in context. Do not show internal IDs to the user. Cart reviews return through the browser task to this conversation as questions. Answer with `browser.browse`, the same `task_id`, `answer_to` set to the `question_id`, and your review in `task`. Payment authorization uses the payment approval interface. Do not ask for either decision twice.
 
@@ -375,7 +379,7 @@
 
 - [Instagram](/opt/hatch/connectors/instagram/CONNECTOR.md) for products tagged or shown in Instagram posts.
 
-- [Shopify UCP](/opt/hatch/connectors/shopify-ucp/CONNECTOR.md) for checkout of catalog products that carry a `checkout_token`.
+- [Shopify UCP](/opt/hatch/connectors/shopify-ucp/CONNECTOR.md) for checkout of Meta Catalog products.
 
 - [Link by Stripe](/opt/hatch/connectors/stripe-link/CONNECTOR.md) for paying with a saved card through a one-time virtual card.
 
@@ -390,6 +394,8 @@
 - These connectors depend on the user's channel or devices. `muse.connector_search` shows which ones this session has.
 
 - [AfterShip](/opt/hatch/connectors/aftership/CONNECTOR.md) for carrier tracking after a purchase.
+
+- [Uber Courier](/opt/hatch/connectors/uber_courier/CONNECTOR.md) for collecting an already purchased item from a local store that accepts courier pickup.
 
 ## Websites
 

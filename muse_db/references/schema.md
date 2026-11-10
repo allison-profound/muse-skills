@@ -6,7 +6,7 @@
 
 - `muse.db` accepts one bounded, read-only `SELECT` for diagnosis. Use the purpose-built chat, goal, artifact and connector tools for ordinary tasks.
 
-Generated from migration set `de6052481dd38c78cb24db2d822fe43c2951cf38bac4b33379ecd1e0a860d57d`.
+Generated from migration set `a2423b8a64c0bb88660017f3eb25e0b4a543f3e9dfd2fc95b7cbda5b71c41e1b`.
 
 ## Tables
 
@@ -353,12 +353,6 @@ Generated from migration set `de6052481dd38c78cb24db2d822fe43c2951cf38bac4b33379
 - [runtime.workflow_runs](/opt/muse/skills/muse_db/references/tables/runtime.workflow_runs.md). Workflow run identity, launch attribution and execution state.
 
 - [runtime.writer_epoch](/opt/muse/skills/muse_db/references/tables/runtime.writer_epoch.md). The active reliable-volume writer epoch.
-
-### saved
-
-- [saved.item_links](/opt/muse/skills/muse_db/references/tables/saved.item_links.md). Relations from a saved item to other records: the widget, citation or chat message it was saved from, and its attached images, videos and files.
-
-- [saved.items](/opt/muse/skills/muse_db/references/tables/saved.items.md). Anything the user saved (a product, link, post, chat message or note), each once, with notes saying what it was saved for, its status and the agent, chat and turn that saved it.
 
 ### scheduler
 
