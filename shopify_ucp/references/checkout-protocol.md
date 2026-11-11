@@ -1,8 +1,8 @@
-# Shopify UCP checkout protocol
+# UCP checkout protocol
 
 - Use this protocol after the user selects Meta Catalog products from one Shopify merchant, after a browser completion result supplies a privately captured `shopify_cart`, or when the user asks about a native order confirmed in this conversation by a successful `checkout complete` or a successful `order get` after an unclear completion.
 
-- Every command runs as `/opt/hatch/bin/shopify-ucp-cli`, and every command except `order get` takes a JSON input file.
+- Every command runs as `/opt/hatch/bin/ucp-cli`, and every command except `order get` takes a JSON input file.
 
 ## Use a captured storefront cart
 
@@ -82,6 +82,10 @@
 - Set `currency` from the products' latest catalog details, such as `CAD` for a product priced in Canadian dollars, and use `USD` only when the currency is absent. Never infer it from the shipping country. If the products' currencies differ, offer browser checkout for all of them instead.
 
 - Leave the wallet provider and payment-method ID out of this request.
+<!-- muse-promo-code-on-only:start -->
+
+- Pass any available promo codes in this call's optional `discount_codes` list in order: codes from the user or a deal search they asked for, the product's `pdp_coupon.coupon_code` or the selected variant's `coupon_code` in `variant_coupon_prices`, up to three applicable candidates from `promo_offers`.
+<!-- muse-promo-code-on-only:end -->
 
 ```json
 {
@@ -111,7 +115,7 @@
 ```
 
 ```text
-/opt/hatch/bin/shopify-ucp-cli checkout create --input-file '<checkout.json>'
+/opt/hatch/bin/ucp-cli checkout create --input-file '<checkout.json>'
 ```
 
 ## Read the creation result
@@ -190,7 +194,7 @@
 ```
 
 ```text
-/opt/hatch/bin/shopify-ucp-cli checkout update --input-file '<update.json>'
+/opt/hatch/bin/ucp-cli checkout update --input-file '<update.json>'
 ```
 
 - When the user asks to add or change buyer contact or shipping details on an existing checkout, run `checkout update` with its saved `checkout_id` and the complete desired `buyer` object. Use known buyer details and ask together for any missing or ambiguous fields.
@@ -225,14 +229,15 @@
 - Refresh the same checkout with `checkout get` to verify the buyer update and read its delivery options. A buyer update request does not authorize completing or charging the checkout.
 
 - Apply promo codes by passing the complete desired set in `discount_codes`, in the same call as a delivery choice or on its own with the `checkout_id`, even when the checkout offers no delivery options. Use codes the user supplied or found in a deal search they asked for, never invent codes and do not interrupt every checkout to ask for one.
-<!-- muse-promo-code-on-only:start -->
 
-- A coupon on the selected product's catalog details, Buy handoff or reply context (`pdp_coupon`, its `variant_coupon_prices` row, or `coupon`) also counts as a supplied code. Its `expires_at` (shown as "price checked until" in a `coupon` line, not "offer ends") only bounds the quoted price, so once that time passes, re-run `shopping product-details` for the product before creating or updating the checkout, and use the refreshed `checkout_token`, rather than dropping the code. While the refreshed details carry the coupon, quote its coupon price with the code and keep the code in the complete desired set in `discount_codes`. When `promo_offers_lookup_status` is `complete` and the coupon is gone, the offer has ended, so quote the regular price and leave the code out. For any other status, do not call the offer ended or quote the coupon price; omit `discount_codes` so applied codes stay, and report the refreshed total.
-
-- Only when the desired set holds no code at all (none from the user, a requested deal search, a catalog coupon or another item) and the checkout has none applied, the shopping skill's quiet `promo_offers` candidates also count as supplied codes. Send one at a time as the whole `discount_codes` set, replace it with the next when it comes back in `rejected_discount_codes`, and stop at the first accepted code or after three; when every attempted candidate fails and no candidates remain or three have been tried, send an empty list. When reporting `result.checkout.rejected_discount_codes` below, exclude these quiet-trial candidates. A coupon withheld because its lookup status was not `complete` does not start these attempts.
-<!-- muse-promo-code-on-only:end -->
+<!-- muse-promo-code-off-only:start -->
 
 - Omit `discount_codes` to keep the existing codes, and pass an empty list to clear them. Report the applied discounts, any `result.checkout.rejected_discount_codes` and the refreshed total, because rejected codes can appear even when `ok` is true.
+<!-- muse-promo-code-off-only:end -->
+<!-- muse-promo-code-on-only:start -->
+
+- Omit `discount_codes` to keep the existing codes, and pass an empty list to clear them. Report the applied discounts, any `result.checkout.rejected_discount_codes` and the refreshed total, because rejected codes can appear even when `ok` is true. Leave rejected promo codes from `promo_offers` out of the report as the user is unaware of these attempts.
+<!-- muse-promo-code-on-only:end -->
 
 ## Review and complete
 
@@ -252,7 +257,7 @@
 ```
 
 ```text
-/opt/hatch/bin/shopify-ucp-cli checkout complete --input-file '<complete.json>'
+/opt/hatch/bin/ucp-cli checkout complete --input-file '<complete.json>'
 ```
 
 - Direct Shop Pay completion pays with a one-time Shop Pay token and never exposes card details. When direct Shop Pay completion is unavailable, use the browser route rather than producing card details.
@@ -266,7 +271,7 @@
 - Any other failure after the wallet approval, or an unknown outcome, does not prove that no order was placed, so check `order get` before saying so, and never retry or switch to the browser automatically.
 
 ```text
-/opt/hatch/bin/shopify-ucp-cli order get --checkout-id '<checkout_id>'
+/opt/hatch/bin/ucp-cli order get --checkout-id '<checkout_id>'
 ```
 
 - Summarize the order status, products, merchant, final amount, delivery estimate and the returned confirmation link, without raw JSON, internal IDs, buyer contact details or the shipping address.
@@ -284,7 +289,7 @@
 - Use the saved `agent_state.checkout_id` from native `checkout create`, `checkout complete`, or the confirming `order get` result for that same checkout. Creation supplies an ID without confirming a purchase. Keep this ID internal.
 
 ```text
-/opt/hatch/bin/shopify-ucp-cli order get --checkout-id '<checkout_id>'
+/opt/hatch/bin/ucp-cli order get --checkout-id '<checkout_id>'
 ```
 
 - Read the top-level `ok` before describing the order. On success, summarize `.order.status`, the merchant's order number in `label`, `line_items`, `totals` and available fulfillment or tracking details.

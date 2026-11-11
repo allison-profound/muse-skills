@@ -1,6 +1,6 @@
-# Shopify UCP
+# UCP
 
-- Shopify UCP checks out [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) products, or a storefront cart privately retained by the browser checkout handoff, with the merchant, paid with [Link by Stripe](/opt/hatch/connectors/stripe-link/CONNECTOR.md) or [Shop Pay](/opt/hatch/connectors/shop-pay/CONNECTOR.md). Run `/opt/hatch/bin/shopify-ucp-cli`. It needs no merchant sign-in.
+- UCP checks out [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) products, or a storefront cart privately retained by the browser checkout handoff, with the merchant, paid with [Link by Stripe](/opt/hatch/connectors/stripe-link/CONNECTOR.md) or [Shop Pay](/opt/hatch/connectors/shop-pay/CONNECTOR.md). Run `/opt/hatch/bin/ucp-cli`. It needs no merchant sign-in.
 
 - Read the [checkout protocol](references/checkout-protocol.md) before creating or completing a checkout, or checking an order placed through native checkout. The Shopping skill covers choosing and comparing products.
 
@@ -9,9 +9,9 @@
 - Every command except `order get` reads a JSON input file with snake_case keys. Omit unknown optional fields and empty strings. Output is JSON, and `--timeout-secs` changes the 30-second default.
 
 ```text
-/opt/hatch/bin/shopify-ucp-cli cart create|get|update|cancel --input-file <file.json>
-/opt/hatch/bin/shopify-ucp-cli checkout create|get|update|complete|cancel --input-file <file.json>
-/opt/hatch/bin/shopify-ucp-cli order get --checkout-id <checkout_id>
+/opt/hatch/bin/ucp-cli cart create|get|update|cancel --input-file <file.json>
+/opt/hatch/bin/ucp-cli checkout create|get|update|complete|cancel --input-file <file.json>
+/opt/hatch/bin/ucp-cli order get --checkout-id <checkout_id>
 ```
 
 - `cart` keeps an optional saved basket. `checkout create` makes a quote, `checkout update` changes buyer contact and shipping details, the delivery option or discount codes and `checkout complete` pays and places the order.

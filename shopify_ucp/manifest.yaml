@@ -3,12 +3,12 @@ metadata:
   visible_in_settings: false
 auth: none
 connector: shopify-ucp
-display_name: Shopify UCP
+display_name: UCP
 icon: shopify
-description: Assemble a cart, prepare payment, view checkout, complete checkout, and cancel Shopify UCP orders for in-chat purchases.
+description: Assemble a cart, prepare payment, view checkout, complete checkout, and cancel UCP orders for in-chat purchases.
 cli:
-  binary: shopify-ucp-cli
-  skill: shopify_ucp
+  binary: ucp-cli
+  skill: ucp
 cli_subcommands:
   - checkout get
   - checkout create
