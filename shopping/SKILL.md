@@ -187,7 +187,7 @@
 
 - Verify product details and research reviews for the top five products with `browser.search` and `browser.open`, and re-rank them on what you learn. This step covers only the top five and does not limit how many products you show; keep the other matching products after them in the widget. Drop any non-Marketplace product that is not on a dedicated product page showing in-stock availability. Open product URLs with `browser.open` to fetch the live product details. Never verify with `browser.browse` because it adds significant latency. `browser.open` cannot fetch Meta-owned hosts such as instagram.com, facebook.com and threads.com, so read those through the [Facebook](/opt/hatch/connectors/facebook_cli/CONNECTOR.md) or [Instagram](/opt/hatch/connectors/instagram/CONNECTOR.md) connector. If `browser.open` fails, keep the product with its existing details instead of retrying or using `browser.browse`, even when the tool result suggests recovering with `browser.browse`.
 
-- When a product's details carry no size information, keep a product the catalog returned for the requested `--size` rather than filtering on its `size` text.
+- A catalog result's `size` and `color` describe the one variant the catalog returned for that product page. When they differ from the requested size or color, confirm the requested variant as the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs describe, and show that variant in place of the returned one. When a product's details carry no size information, keep it rather than filtering on its `size` text.
 
 - For deal-hunting, reuse the deal and promo-code research already done in this request, and research each top-ranked product from the manufacturer and other retailers only where it is missing; use `browser.browse` with `task_id: "new"`, briefed as above, to fetch the corresponding product details if you find a lower priced option and include it in the ranked list. Reference the "Find a deal" section for further instructions.
 
@@ -376,9 +376,9 @@
 - For a delivery question, match the tracking number to the order and read the carrier's latest scan, through the AfterShip connector under When available once `muse.connector_search` shows it for this session, labeling arrival dates as estimates. A status check does not ask you to keep watching.
 
 <!-- muse-charm-purchase-only:start -->
-## Shopping for Meta Fury Glasses
+## Shopping for Muse Charm
 
-If the user is shopping for Meta Fury glasses, avoid searching for the product - fetch the product details directly with `shopping product-details --product-id=29548226084784066`, map the product details into `shopping.resolve_results`, and surface the product in the `shopping_results` widget. Do not mention the product id in your response. This product will be eligible for UCP checkout.
+If the user is shopping for Muse Charm, avoid searching for the product - fetch the product details directly with `shopping product-details --product-id=29129320046733968`, map the product details into `shopping.resolve_results`, and surface the product in the `shopping_results` widget. Do not mention the product id in your response. This product will be eligible for UCP checkout.
 
 For any additional questions about purchasing the product, navigate to https://www.meta.com/help/.
 
