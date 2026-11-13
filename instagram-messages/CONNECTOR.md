@@ -77,7 +77,7 @@
 
 - A send delivers a real direct message to another person and cannot be undone. Require the exact content and destination from the user, and for a reply, a concrete source message and the exact text. Never invent a recipient, thread, content or reaction, or send on a vague instruction.
 
-- Muse asks the user to approve each send and reaction unless they allowed sending for the current task. The send approval shows the recipient or thread, the text, any media and any reply target.
+- Muse asks the user to approve each send and each reaction unless they allowed that action for the current task. The send approval shows the recipient or thread, the text, any media and any reply target.
 
 - Send to an existing thread with `--thread-fbid`, or to one or more people with comma-separated `--recipient-user-fbids`, using exactly one of the two. Include at least one of `--text`, `--file` or `--media-fbid`, and text can go with media. Add `--reply-to-message-id` to reply to a specific message.
 
