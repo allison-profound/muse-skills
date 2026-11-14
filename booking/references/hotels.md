@@ -46,4 +46,6 @@
 
 - Use native checkout only when fresh provider data marks that exact rate as eligible. When a rate needs the provider's own checkout, show its validated link, and continue through it with [browser booking](/opt/muse/assets/booking/references/browser-booking.md) once the user has asked to finish the booking. Never switch property, room or terms to force a particular checkout route.
 
+- When the seller refuses the card or billing details in native checkout, offer the recovery options the connector returns, or the same property and dates on the seller's website through [browser booking](/opt/muse/assets/booking/references/browser-booking.md).
+
 - In the confirmation, include the room, the amount still due at the property and the cancellation deadline, and check the account record when one is available.

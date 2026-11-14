@@ -52,5 +52,12 @@ consent_screen:
     - text: "The info used for your tasks is part of your interactions with Muse, which we may use to improve AI at Meta. You can manage this in Settings. [Learn more](https://www.facebook.com/privacy/genai/)"
       variants:
         confidential_vm:
+          omit: true
+        european_region:
+          omit: true
+        united_kingdom:
+          omit: true
+    - variants:
+        confidential_vm:
           text: "Threads is from Meta. This means the info exchanged is visible to Meta. [Learn more](https://muse.ai/privacy)"
           placement: callout

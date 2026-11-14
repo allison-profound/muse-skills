@@ -12,6 +12,10 @@
 - It also adds paid bags to a flight booking with `bag-options` and `--bag`, as [Booking](references/booking.md) describes.
 <!-- duffel-bags-only:end -->
 
+<!-- gflights-first-only:start -->
+- A flight search also reads Google Flights in a browser task, with `gflights-url` and `route`, as [Google Flights](references/google-flights.md) describes.
+<!-- gflights-first-only:end -->
+
 - `car-booking-status` and `car-cancel` check and cancel rental-car reservations made here. Read [rental cars](references/cars.md) before any rental-car command; the flight sections below do not apply to cars.
 
 - Before a user-facing search, read [Flight Booking](/opt/muse/skills/flight-booking/SKILL.md), which compares flight sources and builds the flight list. Read [checkout](/opt/muse/assets/booking/references/checkout.md) once the user picks a flight to book, not before searching. [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md) uses Duffel only for the fare check on a booked trip. Duffel does not report live flight status.

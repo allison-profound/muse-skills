@@ -65,6 +65,10 @@
     user-editable, excluded from memory ingest, and read directly by travel
     turns
 
+  - remembered product lists under `~/memory/products/`: `INDEX.md` and one
+    JSON file per list. Memory search skips the JSON files, so search their
+    contents and list names for the subject
+
   - `~/HEARTBEAT.md`, `~/AGENTS.md`, and `~/TOOLS.md` when the information
     became an instruction, standing check, or environment note
 
@@ -217,6 +221,13 @@
 
 - Removing only a final projection is insufficient when an objective run or its
   staging artifact can reapply it.
+
+- Claim retraction plus reindex does not reach the remembered product lists
+  under `~/memory/products/`. Clean them with their owning CLI,
+  `/opt/hatch/bin/product-lists`. Run
+  `remove --list "<list>" <ID>...` with each matching entry's `product_id` or
+  `result_id`, and `delete --list "<list>"` for a list whose name refers to the
+  subject. Verify the list files and `INDEX.md` from fresh state.
 
 - Claim retraction plus reindex is not enough for
   `~/memory/shopping/PROFILE.md` or `~/memory/travel/PROFILE.md`. Edit or

@@ -5,6 +5,12 @@ aliases: [expedia]
 include_in_prompt: false
 require_auth: false
 non_confidential: true
+features:
+  expedia-card-retry:
+    gk: hatch_expedia_card_retry
+    # After Expedia refuses the card or billing details, `book` opens a new
+    # attempt for another Link card or a confirmed billing address. Closed,
+    # a refused purchase only replays its refusal.
 availability:
   scopes: [internal-test, external-connectors-test, alpha, prod, prod-cvm, quail, swarm, swarm-cvm, canary, canary-cvm-2, debug-cvm]
   gk: hatch_connector_exp_enable

@@ -13,6 +13,11 @@ features:
     gk: hatch_duffel_bags
     # --bag on validate-booking and book is refused by the CLI's own check.
     methods: [flight.bags]
+  gflights-first:
+    gk: hatch_flight_search_gflights_first
+    # `gflights-url` and `route` serve the browser-first flight search; the
+    # Flight Booking skill's gflights-first blocks describe the flow.
+    methods: [flight.route]
   duffel-stays-shadow:
     gk: hatch_duffel_stays_shadow
     # The runtime runs `stay-shadow` in the background beside shown Expedia

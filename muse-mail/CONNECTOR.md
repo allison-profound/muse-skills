@@ -2,6 +2,8 @@
 
 - Muse Mail is Muse's own mailbox, never the user's account. `/opt/hatch/bin/muse-mail` manages it, and commands below omit that prefix. The [Email](/opt/muse/skills/email-management/SKILL.md) skill decides when to read or send from Muse Mail instead of the user's Gmail or Outlook.
 
+- The user can read, manage and delete emails and open Muse Mail settings in the Muse app; the Status screen section of `~/docs/client-surfaces.md` says where.
+
 - Only mail workers send Muse Mail. Every other agent, including the main agent, a subagent or a scheduled job, hands each send or reply to a mail worker with `mail.handoff`.
 
 - [Advanced operations](references/advanced.md) covers renaming the mailbox, browsing threads, revoking owner addresses and exceptional reply targets.
