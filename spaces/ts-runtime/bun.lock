@@ -62,7 +62,7 @@
     },
     "sdk": {
       "name": "@hatch/space-sdk",
-      "version": "0.14.0",
+      "version": "0.15.0",
       "dependencies": {
         "bun-plugin-tailwind": "0.0.15",
         "zod": "4.4.3",

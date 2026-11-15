@@ -72,7 +72,7 @@
 
 - [Descript](/opt/hatch/connectors/descript_mcp/CONNECTOR.md) for editing, exporting or publishing an existing Descript audio or video project.
 
-- [Jellypod](/opt/hatch/connectors/jellypod_mcp/CONNECTOR.md) for producing episodes in the user's Jellypod account with its voices and characters.
+- [Jellypod](/opt/hatch/connectors/jellypod/CONNECTOR.md) for producing episodes in the user's Jellypod account with its voices and characters.
 
 ## Websites
 
