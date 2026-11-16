@@ -8,27 +8,29 @@
 
 - The browser task takes several minutes. Follow the chat's acknowledgment guidance before it starts.
 
-- Get the trip's exact Google Flights search address with the trip flags described below, `/opt/hatch/bin/duffel gflights-url --origin SFO --destination JFK --departure-date 2026-12-10 --adults 1 --cabin economy`, which prints `search_url`. Add `--return-date` for a round trip.
+- Get the trip's exact Google Flights search address with the trip flags described below, `/opt/hatch/bin/duffel gflights-url --origin SFO --destination JFK --departure-date 2026-12-10 --adults 1 --cabin economy`, which prints `search_url`. The search keeps only the airlines Duffel can't sell or often prices above their own sites, listed in `airlines`; Duffel's first list covers the rest. Add `--return-date` for a round trip. Name an airline the traveler asked for with `--airlines`. Add `--all-airlines` only when Duffel isn't available, the traveler asked for nonstop flights, or the traveler asked for a wider comparison; otherwise leave it off, so the search stays on the airlines that can beat the first list.
 
-- Right away, start one `browser.browse` task with `task_id` `new` and `url` set to `search_url`, before Duffel's search, so the browser works while Duffel searches. The browser can't see this conversation, so write its assignment yourself with:
+- In one step, call `browser.browse` with `task_id` `new` and `url` set to `search_url`, together with Duffel's search below, so neither waits for the other. The browser can't see this conversation, so write its assignment yourself with:
   - **The trip:** route, dates, travelers with ages, cabin, and any limit the traveler set, such as a time of day or nonstop only. The page is already searched for it, so the browser keeps its filters.
-  - **The goal:** research only, without buying anything or signing in, and stay on that site. Read up to the number of trips the traveler wants to compare, as complete trips with one total, from the first results page, choosing on both price and travel time. Don't open booking options or seller pages: booking links come from `duffel route`.
-  - **Limits:** at most three searches, each read from its first results page only. Wait for each page's results to appear rather than pausing for a fixed time. Don't reload pages: on Google Flights a reload starts the search over and can bring back a bot check, and on some checks a reload hangs for minutes. If the site shows a CAPTCHA or an "unusual traffic" page, stop and report it as blocked without trying to clear it or change environment.
+  - **The goal:** research only, without buying anything or signing in, and stay on that site. Read the three cheapest trips and the fastest one when it isn't among them, as complete trips with one total, from the first results page. Keep connecting trips: a cheaper connection matters as much as a nonstop. Don't open booking options or seller pages: booking links come from `duffel route`.
+  - **Limits:** this one search, read from its first results page only. Wait for each page's results to appear rather than pausing for a fixed time. Don't reload pages: on Google Flights a reload starts the search over and can bring back a bot check, and on some checks a reload hangs for minutes. On a round trip, when a departing flight's return flights show an error instead of results, go back to the results list and open the next departing flight; stop after a second error and report what was read. If the site shows a CAPTCHA or an "unusual traffic" page, stop and report it as blocked without trying to clear it or change environment.
   - **The report, per trip:** the airlines; each flight's number, date, airports and local departure and arrival times; stops and layovers; total duration; the total price for all travelers and its currency; the cabin and fare name or fare code shown; and the bags included, when the site shows them.
 
-- Then, in the same turn, run Duffel's search for the same trip when Duffel is available. It takes seconds, and its offers are the first list:
+- Duffel's search for the same trip, in that same step when Duffel is available, covering every airport, date and cabin the request allows. It takes seconds, and its offers are the first list:
 
 ```sh
 /opt/hatch/bin/duffel search --origin SFO --destination JFK --departure-date 2026-12-10 --adults 1 --cabin economy --limit 300 > /tmp/sfo-jfk-duffel.json 2>/tmp/sfo-jfk-duffel.txt
 ```
 
-- Still in that turn, without waiting for the browser, show Duffel's useful offers as the first list, as Duffel's docs describe, and end the reply by saying in your own words that you're still checking more options in the background, which takes a few more minutes, and will message only if something better turns up. Wait for the browser instead when Duffel has no useful offers or the traveler asked for an airline it doesn't sell, such as United.
+- When Duffel's search fails or has nothing that meets the request, such as no nonstop when the traveler asked for one, the narrowed browser search is the only one: send its task an update with the `--all-airlines` address for the same trip, so it reads every airline.
+
+- Still in that turn, without waiting for the browser, show Duffel's useful offers as the first list, as Duffel's docs describe, and end the reply by saying in your own words that you're still checking more options in the background, which takes a few more minutes, and will message only if something better turns up. Wait for the browser instead when Duffel has no useful offers or the traveler asked for an airline it doesn't sell, such as United, and say you're checking more options in the browser. In every message, including updates, failure explanations and the follow-up, refer to your direct flight search and your browser search instead of naming Duffel or a site the browser reads.
 
 - When the traveler chooses a first-list trip while the browser is still searching, let it finish and route its trips before booking. When a trip is marked `better`, suggest it in a sentence or two before booking and let the traveler choose; otherwise go ahead with their choice. When the traveler changes the request, close the old search's window (`browser.windows` with `action` `close` and its `task_id`).
 
 - When the browser reports, write its trips to `/tmp/<route>-browser.json` as `{"currency": "USD", "offers": [...]}`, one offer per trip in the flight-row format from [Flight rows](/opt/muse/skills/flight-booking/references/flight-rows.md) ("Rows from a verified website fare"), with a stable `id` such as `gf_0`. Leave out facts the browser didn't report.
 
-- Then route the trips with Duffel's results, as below. When the first list was shown, follow up only with the routed trips marked `better`; otherwise present one list.
+- Then route the trips with Duffel's results, as below. When the first list was shown, follow up only with the routed trips marked `better`; otherwise present one list. Either way, present the browser's trips and their gaps, such as a missing bag allowance, as the browser search's findings.
 
 - The trip flags: `--origin` and `--destination` with up to three comma-separated airports, `--departure-date`, `--return-date` for a round trip, `--adults`, one `--child-age` per seated traveler aged 2 to 17 on the final travel date, `--lap-infants`, `--seat-infants`, one `--cabin` (`economy`, `premium_economy`, `business` or `first`), `--max-stops N`, and `--airlines`. Duffel takes `--max-connections N` for stops, up to two cabins, and no `--seat-infants`.
 
@@ -81,7 +83,7 @@
 
 ## Talk about results
 
-- Name the airlines, flights and fares. These commands, Duffel and the policy are internal details; the traveler chooses flights and sees where each one books.
+- Name the airlines, flights and fares. These commands, Duffel, Google Flights and the policy are internal details, described to the traveler as the direct flight search and the browser search, including when you say where a fact came from, such as "the browser search showed no bag allowance"; the traveler chooses flights and sees where each one books.
 
 - A Google Flights price is the price shown at `checked_at`. The airline or Duffel confirms the final price at checkout, as Flight Booking's checkout guidance describes.
 

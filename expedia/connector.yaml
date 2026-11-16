@@ -2,7 +2,7 @@ id: expedia
 title: "Expedia"
 description: "Search Expedia hotels and other lodging, inspect room rates, book pay-now rates and recover uncertain bookings."
 aliases: [expedia]
-include_in_prompt: false
+include_in_prompt: true
 require_auth: false
 non_confidential: true
 features:

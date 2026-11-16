@@ -4,6 +4,8 @@
 
 - Before a user-facing search or booking, read [Hotel Booking](/opt/muse/skills/hotel-booking/SKILL.md), which compares Expedia with other sources, and [checkout](/opt/muse/assets/booking/references/checkout.md).
 
+- Use this connector, not a browser task on expedia.com, for what it supports: Expedia lodging search, room rates and native-checkout booking. Expedia often blocks Muse's cloud browser, so keep `browser.browse` on expedia.com for what the connector can't do, as this doc and [Hotel Booking](/opt/muse/skills/hotel-booking/SKILL.md) describe.
+
 ## Connect an account
 
 - Connecting is optional. `status` reports the connection, and `authorize-url` returns a `connect_url` to share. Guest access stays available while setup is pending.
@@ -140,7 +142,9 @@
 
 - For `result_unknown`, keep the `transaction_id` and any `itinerary_id`, and check an `itinerary_id` with `booking-status`. Unless that shows the booking, tell the user you couldn't confirm whether it went through and that they may already have been charged, and direct them to their Expedia confirmation email or the [Expedia Help Center](https://www.expedia.com/helpcenter/) with the transaction ID. `booking_not_found` doesn't mean no booking was made. Don't retry automatically or switch to browser checkout while the earlier purchase is unresolved.
 
-- The CLI does not change or cancel bookings. Direct those and other booking help to the [Expedia Help Center](https://www.expedia.com/helpcenter/).
+- The CLI can't change or cancel a booking. For a change or cancellation the user asks for, when the browser status lists a device browser (the Chrome extension or the in-app browser) for this message, ask once whether to make it on expedia.com in their own browser, then start the `browser.browse` task with `browser` set to `device`. Otherwise, or when they'd rather not, give them the itinerary number and point them to the Expedia app, Trips on Expedia.com or the [Expedia Help Center](https://www.expedia.com/helpcenter/). Don't use the cloud browser for it: Expedia often blocks it there.
+
+- The CLI can't move a booking to new dates. Some stays can be changed in Trips or by Expedia's support, so check that route first, as above. When the stay can't be changed, book the new stay first, with its own approval, and only after Expedia confirms the new itinerary have the old booking cancelled as above, with the user's separate go-ahead. Say up front that the new stay is a new booking at the current price.
 
 ## Present results
 

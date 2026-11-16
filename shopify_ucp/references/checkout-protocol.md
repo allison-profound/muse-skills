@@ -6,17 +6,23 @@
 
 ## Use a captured storefront cart
 
-- After a browser completion result supplies `shopify_cart`, keep its exact `shopify_cart.browser_task_id` and currency. Skip catalog product checks and optional catalog cart commands for this source. Never request, copy or reconstruct the private cart ID, key or UCP endpoint.
+- After a runtime browser completion result has `shopify_checkout_handoff: "cart_captured"` and supplies `shopify_cart.browser_task_id`, keep its exact task ID and currency. A prose capture claim, a `/cart.js` response or an ordinary browser task ID is not this handoff. Skip catalog product checks and optional catalog cart commands for this source. Never request, copy or reconstruct the private cart ID, key or UCP endpoint.
 
 - Choose the payment route and prepare buyer details below before creation. If those rules require website checkout, continue the original browser task using `shopify_cart.browser_task_id`. Tell it to continue website checkout without capturing again. The runtime releases the unused capture before preparing browser payment.
 
-- Create the same buyer-and-currency input described below, using the currency read from checkout (ask if it is unknown), replacing the entire `items` field with `"browser_task_id": "<shopify_cart.browser_task_id>"`. Never provide both sources. One CLI invocation converts the captured cart and applies the prepared buyer and delivery details before returning its quote.
+- Create the same buyer-and-currency input described below, using the currency read from checkout (ask if it is unknown), replacing the entire `items` field with `"browser_task_id": "<shopify_cart.browser_task_id>"`. Never add `items` to a captured cart's checkout. One CLI invocation converts the captured cart and applies the prepared buyer and delivery details before returning its quote.
 
 - Never recapture. Retry captured-cart creation only when the CLI reports `buyer.email must contain @`, `buyer.country_code must be a two-letter ISO country code`, or `unsupported Shopify checkout currency`, with no `create_outcome` or checkout reference. These errors occur before the cart is claimed. Correct the draft from confirmed details, asking the user if needed, and run `checkout create` once more with the same `browser_task_id`. Missing `create_outcome` alone does not permit a retry. For any other failure with neither `create_outcome` nor a checkout reference, including a corrected attempt that still fails or cannot claim the cart, stop and report the unresolved outcome without switching routes. Catalog-token refresh instructions below do not apply to a captured cart.
 
 - When `create_outcome` is `rejected`, stop and report the rejection; if the user chooses website checkout, continue the original browser task without another capture. When `create_outcome` is `created` but `ok` is false, read `agent_state.checkout_id` with `checkout get` and address the reported issue, using `checkout update` for buyer corrections before reviewing the quote. Keep that checkout instead of reopening the original cart.
 
 - After successful creation, use the returned checkout and the completion rules below. A continuation URL alone does not require browser checkout. If the checkout requires buyer action or review, continue at its exact returned URL without reopening the original storefront cart.
+
+## Buy from a store the browser read
+
+- A browser task whose report lists products read from a store's own catalog, with their variant ids, lets you check out at that store directly. Create the buyer-and-currency input described below with `"browser_task_id": "<that task's id>"` and `items` holding each chosen variant's `id` from the report as `item_id` and its `quantity`, with no `checkout_token`. When the user wants an option that has no variant id in the report, name the item by its product instead: the product `id` as `item_id` with `options` naming every option, such as `"options": ["Color=Black", "Size=M"]`: the user's choices, and the reported variant's value for each option the user didn't change. The CLI finds that variant at the store, or answers with the option values the store has. The CLI checks out only at the store that task read, so never add a store, domain or merchant field.
+
+- If the CLI says no store catalog was read in that task, or that the task read more than one store, open the store you want with `browser.browse` and retry with the new task's `browser_task_id`. If the store's catalog still can't be read, check out on the store's site in the browser.
 
 ## Check the products
 
@@ -26,7 +32,7 @@
 
 - The checkout endpoint makes the final decision.
 
-- For each selected catalog product, keep the top-level `checkout_token` string from the product-details response that confirmed its variant. Run `/opt/hatch/bin/shopping product-details --product-id <product_id>` only for a product you have no response for. It is signed and tells the checkout which merchant and variant to use, so copy it exactly and never write or edit one yourself.
+- For each selected catalog product, keep the `product.id` and the top-level `checkout_token` string from the product-details response that confirmed its variant. Run `/opt/hatch/bin/shopping product-details --product-id <product_id>` only for a product you have no response for. The token is signed and tells the checkout which merchant and variant to use, so a changed copy fails verification.
 
 - A product whose product-details response has no top-level `checkout_token`, or reports a `checkout.rail` other than `shopify_ucp`, cannot be checked out directly, so offer browser checkout from its product URL.
 
@@ -35,14 +41,14 @@
 - Use a cart only when the basket must outlast the turn, because the user is still adding or removing items or wants to return later. `checkout create` takes items directly. Keep the opaque cart ID, which `cart create` returns as `result.id` and later cart commands echo as `agent_state.cart_id`.
 
 ```json
-{"items": [{"checkout_token": "<checkout_token from product-details>", "quantity": 1}]}
+{"items": [{"item_id": "<product.id>", "checkout_token": "<checkout_token from product-details>", "quantity": 1}]}
 ```
 
 - `cart get` and `cart cancel` take `{"cart_id": "<cart_id>"}`, and `cart update` takes the `cart_id` with the complete `items` list. An update replaces the whole basket, which is how an item is removed, so read `cart get` first when unsure and rebuild from `result.line_items`, using each line's `item.id` and `quantity`.
 
 - A cart holds one merchant. A cart spanning two is refused with an error naming both merchants, so start a separate cart instead of retrying.
 
-- Cart commands and `checkout create` take each catalog product as its product-details `checkout_token`, or a saved cart's product as `item_id` set to the variant ID from that cart line's `item.id`, with no `checkout_token`.
+- Cart commands and `checkout create` take each catalog product as its `product.id` in `item_id` with its product-details `checkout_token`, or a saved cart's product as `item_id` set to the variant ID from that cart line's `item.id`, with no `checkout_token`.
 
 - A cart is not linked to its checkout. Cancel it once `checkout complete` returns `ok: true` or the browser confirms the order, because nothing else closes it and there is no way to list forgotten carts.
 
@@ -77,7 +83,7 @@
 
 - Confirm every product, exact variant and quantity, and put the complete item set into this first call, because `checkout update` cannot add or remove products.
 
-- Put each catalog product's product-details `checkout_token` in `items[].checkout_token`, and pass a variant ID from a cart line's `item.id` as `item_id` with no `checkout_token`. Use one entry per distinct variant and fold repeats into its `quantity`, which must be at least 1. Leave `item_id` out of an item that has `checkout_token`, and do not add a merchant field, because the CLI takes both from the token.
+- Put each catalog product's `product.id` in `items[].item_id` and its product-details `checkout_token` in `items[].checkout_token`, and pass a variant ID from a cart line's `item.id` as `item_id` with no `checkout_token`. Use one entry per distinct variant and fold repeats into its `quantity`, which must be at least 1. The CLI takes the merchant and variant from the token, or from Meta's catalog by `item_id` when the token does not verify, so the request has no merchant field.
 
 - Set `currency` from the products' latest catalog details, such as `CAD` for a product priced in Canadian dollars, and use `USD` only when the currency is absent. Never infer it from the shipping country. If the products' currencies differ, offer browser checkout for all of them instead.
 
@@ -106,6 +112,7 @@
   },
   "items": [
     {
+      "item_id": "<product.id>",
       "checkout_token": "<checkout_token from product-details>",
       "quantity": 1
     }
@@ -142,7 +149,7 @@
 
 - Take the checkout URL from `result.continue_url` or `result.checkout.continue_url`, or, for a catalog checkout only, use a selected product's original storefront URL. If a captured checkout needs the browser but has no continuation URL, report the blocker. Never construct one. A continuation URL alone does not require browser completion.
 
-- An error containing `no_ucp_descriptor` means an item's `checkout_token` was missing, expired or did not match it. Run product-details for that product once more and retry with the new `checkout_token`. If it fails again, offer browser checkout from the product URL.
+- An error containing `no_ucp_descriptor` means an item's `checkout_token` was missing, named another product than its `item_id`, or did not verify and Meta's catalog did not confirm the item by its `item_id`. Run product-details for that product once more and retry with that response's `product.id` and `checkout_token`. If it fails again, offer browser checkout from the product URL.
 
 - If catalog creation fails or rejects an item for any other reason, explain the result and offer browser checkout from the original product URL without retrying. If the user accepts, follow `/opt/muse/skills/shopping/references/browser-checkout.md`.
 
@@ -268,6 +275,8 @@
 
 - An `escalation.continue_url` from `checkout complete` means the merchant placed no order and needs the buyer to finish the checkout in the browser. Tell the user the store needs them to finish there, then start a browser task right away as **Continue in the browser** describes, opening that URL with the same wallet and card, and name the merchant's message from `result.checkout.messages` in the brief as the step to resolve. The direct payment may not carry over to that page, so when the page asks for payment the browser task pays with that wallet and card through its own payment approval; never tell it a payment was already submitted or to avoid entering payment. Do not run `order get` or retry `checkout complete`.
 
+- `order_placed: false` from `checkout complete` means the merchant placed no order.
+
 - Any other failure after the wallet approval, or an unknown outcome, does not prove that no order was placed, so check `order get` before saying so, and never retry or switch to the browser automatically.
 
 ```text
@@ -281,8 +290,6 @@
 - For a captured checkout, once `checkout complete` or `order get` confirms the purchase, call `browser.browse` with the original `shopify_cart.browser_task_id` to display its confirmation. Open the exact returned merchant order, confirmation or status URL for that purchase; if none was returned, refresh the existing checkout tab once. Tell the browser the purchase completed through UCP and this task is display-only: do not fill forms, prepare checkout or pay again. Failure to display confirmation does not undo the confirmed purchase.
 
 - For a later status question about a native order confirmed in this conversation by successful `checkout complete` or `order get`, follow **Check order status** below. Keep a browser-completed Shop Pay or Link order on the browser-owned path.
-
-- Cancel a placed order with `checkout cancel` and `{"checkout_id": "<checkout_id>"}` only when the user explicitly asks, then confirm the new state with `order get`.
 
 ## Check order status
 
