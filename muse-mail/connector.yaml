@@ -11,3 +11,4 @@ sync:
   fetch_kind: connector_sync_muse_mail
   cadence_minutes: 60
   read_methods: []
+  content_hints: [email]

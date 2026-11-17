@@ -28,7 +28,7 @@
 
 - When the traveler chooses a first-list trip while the browser is still searching, let it finish and route its trips before booking. When a trip is marked `better`, suggest it in a sentence or two before booking and let the traveler choose; otherwise go ahead with their choice. When the traveler changes the request, close the old search's window (`browser.windows` with `action` `close` and its `task_id`).
 
-- When the browser reports, write its trips to `/tmp/<route>-browser.json` as `{"currency": "USD", "offers": [...]}`, one offer per trip in the flight-row format from [Flight rows](/opt/muse/skills/flight-booking/references/flight-rows.md) ("Rows from a verified website fare"), with a stable `id` such as `gf_0`. Leave out facts the browser didn't report.
+- When the browser reports, write its trips to `/tmp/<route>-browser.json` as `{"currency": "USD", "offers": [...]}`, one offer per trip in the flight-row format from [Flight rows](/opt/muse/skills/flight-booking/references/flight-rows.md) ("Rows from a verified website fare"), with a stable `id` such as `gf_0`. Give each slice the cabin the browser reported as `economy`, `premium_economy`, `business` or `first`, so `duffel route` compares the trip with the first list's trips from Duffel's search for that cabin. Leave out facts the browser didn't report.
 
 - Then route the trips with Duffel's results, as below. When the first list was shown, follow up only with the routed trips marked `better`; otherwise present one list. Either way, present the browser's trips and their gaps, such as a missing bag allowance, as the browser search's findings.
 
@@ -55,7 +55,7 @@
 
 - Use each entry's `row` unchanged in `widget.create_list_widget`, including its `flight_action`, so every row's button matches where it books. `lines` summarize the routes, and `decision.reason` says why, such as `united_booking_unsupported` or `no_duffel_match`.
 
-- `better` lists the trips Duffel didn't match that beat the first list, and each entry's `better` says how: `cheaper` than its cheapest trip by the larger of $20 or 5%, `shorter` than its fastest trip by an hour for no more money, or `no_first_list` when Duffel had no offers. It compares totals as each source states them, so check a cheaper trip's bags against what the traveler needs before calling it better.
+- `better` lists the trips Duffel didn't match that beat the first list by more than a few dollars, and each entry's `better` says how: `cheaper` than the first list's cheapest trip in the same cabin, `shorter` than its fastest trip in that cabin for no more money, or `no_first_list` when Duffel had no offers. A trip whose cabin is mixed or unstated, or in a cabin the first list lacks, is compared with the whole list. It compares totals as each source states them, not fares: a basic economy fare can beat a fuller fare in the same cabin. Before calling a cheaper trip better, check that its fare gives what the traveler asked for, such as an extra-legroom fare, a chosen seat or a checked bag.
 
 - Pass `--prefer airline_site` when the traveler wants to use miles, points, credits or status. The policy applies it to airlines that allow that route.
 

@@ -69,6 +69,10 @@
     JSON file per list. Memory search skips the JSON files, so search their
     contents and list names for the subject
 
+  - the travel booking history at `~/memory/travel/HISTORY.md`, written once
+    by the travel email bootstrap from past booking mail, user-editable, and
+    read directly by travel turns
+
   - `~/HEARTBEAT.md`, `~/AGENTS.md`, and `~/TOOLS.md` when the information
     became an instruction, standing check, or environment note
 
@@ -174,7 +178,8 @@
 
   - Travel-profile runs, staged `travel/PROFILE.md` files, receipts, queued or
     running profile writers, and the durable profile at
-    `~/memory/travel/PROFILE.md`
+    `~/memory/travel/PROFILE.md`; the travel email bootstrap and the booking
+    history it writes at `~/memory/travel/HISTORY.md`
 
   - Studying plans, goal briefs, suggestions, momentum, and
     `~/workspace/objectives/goals/STUDYING.md`
@@ -234,6 +239,8 @@
   remove matching profile entries directly, verify the file from fresh state,
   and prove no queued, running, staged, or scheduled shopping-profile or
   travel-profile run can restore them. Quiesce an in-flight writer first.
+  Past bookings in `~/memory/travel/HISTORY.md` are edited the same way and
+  verified from fresh state.
 
 - A retained run receipt may keep content-free provenance, but any model-readable
   evidence or generated proposal containing the subject needs an explicit

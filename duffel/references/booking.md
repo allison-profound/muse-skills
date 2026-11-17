@@ -56,6 +56,10 @@
 
 - Validation refreshes the offer and checks travelers, documents, seats and loyalty, without payment or approval. Ask for every `required_missing` and `invalid` item together and rerun until `ready_to_book: true`.
 
+<!-- duffel-payment-readiness-only:start -->
+- Validation also checks whether Link can pay. `payment_setup_required` means `book` would stop for Link setup, even when `ready_to_book` is true. Share its `next_action.markdown` unchanged at the end of the same message that asks for any missing details, so the user sets up Link while answering, and don't run `book` until Link is ready. Keep the offer and booking JSON and follow its `resume`; the user doesn't pick the flight again.
+<!-- duffel-payment-readiness-only:end -->
+
 - Treat `selected_offer` as the current itinerary, price, bags and fare terms. Check each slice's `from` and `to` against the chosen airports, and stop if they differ.
 
 - Pass the account holder's email and legal name on the first `validate-booking`, using what the user said and filling only missing fields from `wallet.get_user_info`, with `--customer-email`, `--customer-given-name` and `--customer-family-name`, so a first booking needs no extra round for its payment profile. Validation ignores them once a profile is stored. Pass the same three flags to `book` only when validation returned `customer_profile_stored: false`. This profile is the account holder, not a passenger, and it is created only after purchase approval.
@@ -70,9 +74,16 @@
 
 - `book` revalidates before any payment request. Its single approval covers the itinerary, travelers, seats and fees, fare terms, total, the first-time profile, a one-time virtual card, 3DS and immediate ticketing. Any change to the flight, fare, date, passengers, services or total needs a fresh approval.
 
+- `book` reads the live offer itself, including one whose quote expired, and the approval card shows its current total and fare terms. When they differ from what was last quoted, the card says what changed. If Duffel no longer sells the offer, `book` returns `offer_unavailable` with `next_step: search_again`: search the same route and dates again and let the user choose, since a different flight is a new purchase for them to pick.
+
+- When the price changes after approval, `book` closes that checkout and re-quotes the offer in the same call; see `next_step: requote` in [recovery](recovery.md).
+
 - Held orders, Duffel balance payment, inline cards and raw order APIs are not supported.
 
-- If Link is not connected, explain the one-time virtual card and share its connection link. For an airline-site fallback, use `browser.browse` and follow `~/docs/chat/payments-and-purchases.md`. A card the user supplies for that booking may go to the browser task as text with `wallet: null`; the browser checkout still requires payment approval. This does not enable inline cards in the Duffel API. If neither supported route works, stop with the itinerary prepared and say that payment is blocked.
+- If Link is not connected, explain the one-time virtual card and share its connection link.
+<!-- duffel-payment-readiness-only:start -->
+  When `book` itself stops for Link setup, its `resume` says how to continue: once Link is ready, rerun the same `book` unchanged rather than starting the booking over.
+<!-- duffel-payment-readiness-only:end --> For an airline-site fallback, use `browser.browse` and follow `~/docs/chat/payments-and-purchases.md`. Use Wallet for secure payment or assign browser takeover for the user to enter payment on the merchant site. Do not pass card details in task text. If neither supported route works, stop with the itinerary prepared and say that payment is blocked.
 
 - Prefer one offer that covers the whole itinerary. Split it into separate bookings only with the user's agreement before the first `book`. Explain that each booking has its own approval, payment and terms, that later offers are not held, and that a later failure can leave earlier tickets booked.
 

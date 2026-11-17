@@ -1,6 +1,6 @@
 {
   "name": "@hatch/space-sdk",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "TypeScript SDK consumed by every Muse TS web artifact — defines the action contract, ctx, and the client-side typed RPC.",
   "type": "module",
   "main": "./dist/index.js",

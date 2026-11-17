@@ -2,6 +2,8 @@
 
 - Find high-quality, low-priced products that match every constraint, and aim to save the user money.
 
+- When the user wants help choosing a gift, planning gifts for several people or drafting a wishlist, follow [gift planning](/opt/muse/skills/shopping/references/gift-planning.md).
+
 ## Understand what the user needs
 
 <!-- product-search-improvements-off-only:start -->
@@ -371,7 +373,7 @@
 <!-- muse-charm-purchase-only:start -->
 ## Shopping for Muse Charm
 
-Muse Charm is Meta's own device, sold from a known Meta Catalog listing, so its details come straight from `shopping product-details --product-id=29129320046733968` and a product search isn't needed. Map those details into `shopping.resolve_results` and show the product in the `shopping_results` widget. It supports UCP checkout. The product id is an internal catalog key, so refer to the product by name.
+Muse Charm is Meta's own device, sold from a known Meta Catalog listing, so its details come straight from `shopping product-details --product-id=29129320046733968 --out <file>`, which also writes them to a new results file, and a product search isn't needed. Pass that file's path to `shopping.resolve_results` and show the product in the `shopping_results` widget. It supports UCP checkout. The product id is an internal catalog key, so refer to the product by name.
 
 Meta's help center at https://www.meta.com/help/ covers other questions about buying it.
 

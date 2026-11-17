@@ -136,6 +136,8 @@ users threads get --params '{"userId":"me","id":"<thread_id>","format":"full"}'
 
 - Before any send, reply or forward, show the user the exact recipients, subject and body and get an explicit go-ahead. Do this even when the recipient is obvious or the user asked in one line to "reply to X". The exceptions are a message the user has already seen exactly and told you to send, and a send the user pre-approved for this task with `permissions.preapprove`, which runs without another confirmation.
 
+- A send that needs an approval card goes out only when the user approves the card, and a card left unanswered expires with nothing sent. When you ask for the go-ahead, let the user know a card may follow, so they stay to approve it.
+
 - For a reply or forward, tell the user the resolved recipients and subject in plain words before sending.
 
 - Marking, labeling, archiving, trashing, restoring, importing and drafting can proceed from a clear request without another confirmation. Resolve exactly which messages the user means first.
@@ -153,6 +155,8 @@ users threads get --params '{"userId":"me","id":"<thread_id>","format":"full"}'
 - When `permissions.preapprove` is available and a task will send after the user leaves, pre-approve that one send before starting: connector `gmail`, method `users.messages.send`, and a binding with `recipients`, every To, Cc and Bcc address the send will use, plus `thread_id`, the source email's thread ID, for a reply or forward. Omit `thread_id` only for a new email: a new-email pre-approval does not cover a reply or forward, nor the reverse. The send still runs only to exactly those recipients, and anything else asks when it runs.
 
 - When a successful `+send` prints a `Final sent message (supersedes the original request):` note, that note carries the copy that went out, with `user_edited: true` when the user changed it. Describe that copy, not your original text.
+
+- An `approval_expired` error means the send was not approved in time, so nothing was sent. Tell the user right away that the email still needs their approval, and try again only when they ask.
 
 - If the user declines, nothing was sent. If `+send` fails after approval, report the failure and wait for the user's direction, because they may have edited the message on the card even when the error does not say so.
 

@@ -116,7 +116,7 @@ consent_screen:
   bullets:
     - icon: data_types
       title: "Level up with Messenger"
-      text: "Muse will access things like messages and media."
+      text: "Muse will access data like messages and media. It will automatically be updated with the latest information, so it can help you keep up with what’s important to you."
     - icon: info
       title: "You choose what Muse can do"
       text: "By default, Muse will ask before taking actions it thinks need review. Disconnect at any time in Settings."

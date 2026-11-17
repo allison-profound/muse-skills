@@ -42,6 +42,8 @@
 
 - Pass the cabin with `--cabin economy`, `premium_economy`, `business` or `first`. Omitting it searches economy. A domestic premium cabin may be sold as First, so search a domestic business request as `--cabin business,first` unless the user excluded First.
 
+- Many airlines sell extra-legroom economy as an economy fare brand, not a premium economy cabin. Search a request for it with `--cabin economy` and read the matching fare in each offer's `fare_options`. A premium economy search leaves those fares out, and its `note` says so when it finds no offers. When an airline sells extra legroom as a seat added to an economy fare, the fare doesn't include that seat.
+
 - Use `--limit 300`, the maximum. The default is 20. The digest ranks every matching offer the search read, whatever the sort, so one search covers both price and duration.
 
 - Duffel searches at most one connection per direction unless you pass `--max-connections 2`. Use 2 when the route has few one-stop options or the user accepts longer trips, and 0 for nonstop only.
@@ -51,6 +53,8 @@
 - Narrow with `--airlines` (comma-separated names or IATA codes), `--max-price` and `--refundable` only when the user set that limit. `--refundable` keeps only offers marked refundable before departure without a penalty, which is not the same as cancel anytime, and it counts offers with unstated refund terms in `refundable_unknown_excluded`. Those offers are unknown, not non-refundable.
 
 - Report the actual cabin and fare brand on each leg. Domestic First does not promise a lie-flat seat, and economy is a different product the user decides on.
+
+- Duffel's results leave out the airlines it can't sell, even on routes they fly. When an airline missing from the results could change the choice, such as one flying the route nonstop, and no browser search covered it, tell the user which airlines the results don't include.
 
 ## Read the digest
 

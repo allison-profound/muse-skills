@@ -23,6 +23,10 @@ features:
     # The runtime runs `stay-shadow` in the background beside shown Expedia
     # hotel results. It is left out of the CLI help and the connector docs.
     methods: [stay.read]
+  duffel-payment-readiness:
+    # validate-booking's payment_setup_required and book's Link setup resume
+    # hint. The readiness read and its logging run whatever the gate says.
+    gk: hatch_travel_payment_readiness
 non_confidential: true
 availability:
   confidential_vm: true

@@ -16,7 +16,7 @@
 
 - For the latest episode of a named show, use `--content-type latest_episode` with the show as `--query`. For a named artist's latest album, use `--content-type latest_album` with the artist as `--query`.
 
-- When the request names nothing to play, such as "play music" or "play Spotify", run `wearable-play --content-type saved_music` with no query instead of asking what to play. For the caller's liked songs, use `--content-type liked_songs`.
+- When the request names nothing to play, such as "play music" or "play Spotify", run `wearable-play --content-type saved_music` with no query instead of asking what to play. When it names only a playlist, album, artist, podcast or audiobook of the caller's own, such as "play my podcast" or "play my audiobook", run `wearable-play --content-type <kind>` with no query: it plays the first one saved in their library. For the caller's liked songs, use `--content-type liked_songs`.
 
 - Spotify's DJ is a playlist. For "play my DJ", "play DJ" or "play AI DJ", run `wearable-play --query "DJ" --content-type playlist` and play the result like any other. A `not_found` result means the caller's Spotify account doesn't have DJ: relay its `message` and play nothing else.
 

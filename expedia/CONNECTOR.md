@@ -10,7 +10,7 @@
 
 - Connecting is optional. `status` reports the connection, and `authorize-url` returns a `connect_url` to share. Guest access stays available while setup is pending.
 
-- When you first show results, end with any `connect_offer` and the `connect_url`. Member discounts appear only after they connect, so search again then rather than estimating them.
+- Guest results leave out Expedia's member discounts of 10% or more at select hotels, as `member_discounts_included: false` shows. They appear once the user connects through the `connect_url`. After they connect, search again rather than estimating member prices.
 
 - When the user asks about Expedia itself, such as One Key, member discounts, OneKeyCash or support, read [Expedia membership and support](/opt/hatch/connectors/expedia/references/membership-and-support.md).
 
@@ -124,6 +124,10 @@
 ```
 
 - For booking review, run `validate-booking` after guest details and Link are ready. Compare the fresh rate with `displayed_terms` for the same offer and rate. Explain material changes and follow the checkout guide if the price rises or terms worsen. Continue when `ready_to_book` is true. For other checkouts, this separate call is optional because `book` refreshes the rate.
+
+<!-- expedia-payment-readiness-only:start -->
+- `validate-booking` also checks whether Link can pay a pay-now rate. `payment_setup_required` means `book` would stop for Link setup: share its `next_action.markdown` unchanged and end the message, and don't run `book` until Link is ready. Keep the booking document unchanged and follow its `resume`, so the user doesn't choose the room again. A `book` that stops for Link setup carries the same `resume`.
+<!-- expedia-payment-readiness-only:end -->
 
 - Call `book --body-json '<unchanged document>'` once to open checkout approval, and never retry a failed booking automatically. For `billing_address_incomplete`, once the user gives the missing billing details, run the same command with the `--billing-*` flags it names. Those flags don't change the purchase, so it resumes the approved checkout. `link_request_open` means Stripe Link refused this payment request for a few minutes because a matching one from an earlier attempt was created in the last few minutes; nothing was created or charged, and this checkout keeps its approval. Run the same command again after 5 minutes only if the earlier attempt is known to have ended without a booking or charge. If it may have booked or is unresolved, stop and recover it as below. If the outcome is uncertain, follow **Recover a booking or arrange changes** below. Add `--payment-method-id ID` only for a card the user chose for this purchase. Otherwise omit it: the approval preselects the wallet default, or a usable card if none is marked default. The user can change the card there.
 
