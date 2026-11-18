@@ -60,7 +60,9 @@ users threads get --params '{"userId":"me","id":"<thread_id>","format":"full"}'
 
 - Read one message with `+read`, headers alone with `users messages get` and a whole conversation with `users threads get`. Read bodies only for the messages that matter.
 
-- `+read` lists the sender, recipients, subject and date first, then the attachments, with filenames, types, sizes, MIME part IDs and download references but no file contents, and puts the body last. Bcc is visible only on messages the user sent. `attachments_coverage` and `body_coverage` describe what was captured, and an incomplete inventory does not prove there are no attachments. A part listed under `unavailable_body_parts` was not read, so use its download reference when you need it.
+- Read several related messages in one call by repeating `--id` in `+read`, up to 20 per call. Each message still costs 20 units.
+
+- `+read` lists the sender, recipients, subject and date first, then the attachments, with filenames, types, sizes, MIME part IDs and download references but no file contents, and puts the body last. Bcc is visible only on messages the user sent. `attachments_coverage` and `body_coverage` describe what was captured, and an incomplete inventory does not prove there are no attachments. A part listed under `unavailable_body_parts` was not read; save it with its download reference when it has one. A part without one cannot be saved here, but for one marked `non_utf8`, `users messages get` with `"format":"raw"` may still show its text.
 
 - Each `+read` saves a Markdown copy under `~/workspace/email/gmail/` and returns its `message_file` path. When `body_text_inline_complete` or `attachments_inline_complete` is false, read that file with `muse.read` using `offset` and `limit`, or search it with `rg`, before concluding anything from the omitted part.
 
@@ -70,7 +72,7 @@ users threads get --params '{"userId":"me","id":"<thread_id>","format":"full"}'
 
 - HTML bodies arrive as Markdown with links and quoted text kept. `--html` also saves the original HTML at `body_html_file`, which holds the full source when `body_html_inline_complete` is false.
 
-- Download an attachment with `users messages attachments get --params '{"userId":"me","messageId":"<id>","id":"<attachment_id>"}'` once you have both IDs. It returns base64url in a `data` field that you decode into a file yourself, because Gmail commands refuse `--output`. Raw RFC 822 reads show canonical headers and inline text but leave out attachments.
+- Save attachments with `+save-attachment --ref <reference> [--ref <reference> ...]`, passing the download reference `+read` lists for each (raw message and thread reads show it as `attachmentId`), and save all the attachments a task needs in one call, up to 20 files totaling about 6 MB. It saves each file under `~/workspace/email/gmail/attachments/` and prints one line per reference with its `path`, or the `error` that kept it from being saved, never the contents. Pass `--dir ~/workspace/your_files` when the user wants the files saved for them. Raw RFC 822 reads show canonical headers and inline text but leave out attachments.
 
 - `message_sent_at` is when a message was sent and `mailbox_recorded_at` is Gmail's ordering time, and neither is the time of an event the email describes. Read relative words such as "tomorrow" against the date of `message_sent_at.user_local` unless the body gives its own date or timezone, and leave the date uncertain when no reliable anchor exists.
 
@@ -193,7 +195,7 @@ users threads get --params '{"userId":"me","id":"<thread_id>","format":"full"}'
 
 ## Request limits
 
-- Gmail enforces a per-account budget of request units, so run Gmail commands one at a time, combine overlapping searches and fetch full bodies or attachments only for relevant messages. `+triage --max N` costs up to `5 + 20N` units, `+read` costs 20 and `+unsubscribe` costs 20 per message.
+- Gmail enforces a per-account budget of request units, so combine overlapping searches and fetch full bodies or attachments only for relevant messages. `+triage --max N` costs up to `5 + 20N` units, `+read` costs 20, `+save-attachment` costs 20 per email plus 20 per fetched attachment, and `+unsubscribe` costs 20 per message.
 
 - A new `+send` costs 101 units, and a new `+draft` costs about 11. Replies and forwards add 20 to read the source, reply-all adds 1 and each forwarded attachment adds 20. A raw command costs the units of the Gmail method it calls.
 

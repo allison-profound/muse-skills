@@ -3,16 +3,16 @@
 - `post read` is useful for shopping for products found in a Facebook Reel. [Posts](/opt/hatch/connectors/facebook_cli/references/reading-posts.md) explains how to decode share links.
 
 ```sh
-/opt/hatch/bin/facebook-cli post read --url '<Reel URL>' --out '<new file>'
+/opt/hatch/bin/facebook-cli post read --url '<Reel URL>'
 ```
 
-- `--out '<file>'` requests recommendations for products similar to those in the reel, and to save those recommendations as a local shopping catalog file.
+- to save recommendations as a local shopping catalog file, use `--out '<file>'`
 
-- If the user asks to choose only from products already shown, filter just those by verified attributes. A missing or unclear attribute isn't a match, and if none fit, say so without starting another search. This comes before the fresh-search paths below.
+- If the user asks to choose only from products previously returned to the user, filter just those by verified attributes. A missing or unclear attribute isn't a match, and if none fit, say so without starting another search. This comes before the fresh-search paths below.
 
 - If the response reveals a hard requirement, reuse its context for fresh searches rather than filtering recommendations or reading the Reel again.
 
-- For a named product, a product type the Reel doesn't feature, or a hard requirement, leave out `--out` and use [Shopping](/opt/muse/skills/shopping/SKILL.md) for fresh searches with every requirement.
+- For a named product, a product type, or a hard requirement, leave out `--out` and use [Shopping](/opt/muse/skills/shopping/SKILL.md) for fresh searches with every requirement.
 
 ```sh
 /opt/hatch/bin/facebook-cli post read --url '<Reel URL>'
@@ -46,11 +46,11 @@
 
 - When shopping from Reels, prioritize the stated requirements and instructions. Apply relevant saved hard requirements even when the user did not repeat them, and let explicit current instructions override conflicting ones.
 
-- Without a hard requirement, use the products from `tagged_product_ids` when the list is not empty. If the list is empty or missing, use the recommendations returned by `post read --out`. Do not filter or reorder these recommendations just to match a soft preference.
-
 - If a required detail is missing, explain what you couldn't verify.
 
 ## Use recommendations
+
+- If the user hasn't specified a product, product type, or hard requirement, use the products from `tagged_product_ids` when the list is not empty. If the list is empty or missing, use the recommendations returned by `post read --out`. Do not filter or reorder these recommendations just to match a soft preference.
 
 - For `post read --out` without a hard requirement, `featured_products_status` describes the next step:
 

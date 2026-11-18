@@ -53,17 +53,19 @@
 | `airline_site` | Book on the airline's website in a visible browser task. | "Book on aa.com", for example. |
 | `handoff_link` | Muse can't book this airline. The traveler books it from a link. | "Open on united.com", for example. |
 
-- Use each entry's `row` unchanged in `widget.create_list_widget`, including its `flight_action`, so every row's button matches where it books. `lines` summarize the routes, and `decision.reason` says why, such as `united_booking_unsupported` or `no_duffel_match`.
+- Use each entry's `row` unchanged in `widget.create_list_widget`, including its `flight_action`, so every row's button matches where it books. `lines` summarize the routes, and `decision.reason` says why, such as `united_booking_unsupported`, `no_duffel_match` or `points_handoff`.
 
 - `better` lists the trips Duffel didn't match that beat the first list by more than a few dollars, and each entry's `better` says how: `cheaper` than the first list's cheapest trip in the same cabin, `shorter` than its fastest trip in that cabin for no more money, or `no_first_list` when Duffel had no offers. A trip whose cabin is mixed or unstated, or in a cabin the first list lacks, is compared with the whole list. It compares totals as each source states them, not fares: a basic economy fare can beat a fuller fare in the same cabin. Before calling a cheaper trip better, check that its fare gives what the traveler asked for, such as an extra-legroom fare, a chosen seat or a checked bag.
 
-- Pass `--prefer airline_site` when the traveler wants to use miles, points, credits or status. The policy applies it to airlines that allow that route.
+- Pass `--prefer airline_site` when the traveler asks to pay with miles, points, credits or a certificate. Duffel sells only cash fares, so each trip then routes to where its airline takes points: its site, or a hand-off link when Muse can't book them there. A loyalty number for status or earning needs no preference, since it goes on a Duffel booking too.
+
+- Every decision's `points` says where a booking with points runs for its airline, with or without the preference: `route` is `airline_site` or `handoff_link`, and `browser` is `device` when it runs in the traveler's own browser. Flight Booking's booking guide uses it to decide whether to offer a points check.
 
 - Pass `--device-browser` when the browser status lists a device browser (the Chrome extension or the in-app browser) for this message, here and when routing a tapped trip. An airline whose site refuses Muse's cloud browser, such as United, then routes to `airline_site` with `decision.browser` set to `device` instead of a hand-off.
 
 ## When the traveler taps a row
 
-- When the traveler taps a row to book it, route it again before acting: `duffel route --search FILE --offer /offers/N`, with `--duffel FILE` when Duffel ran. A tapped Duffel row is the Duffel offer, so follow Duffel's booking guide for it. Follow the returned `decision` and its `instructions` for where to book, whatever the row's button said.
+- When the traveler taps a row to book it, route it again before acting: `duffel route --search FILE --offer /offers/N`, with `--duffel FILE` when Duffel ran and `--prefer airline_site` when the traveler pays with points. A tapped Duffel row is the Duffel offer, so follow Duffel's booking guide for it. Follow the returned `decision` and its `instructions` for where to book, whatever the row's button said.
 
 - A tap on a planning list's "Add to plan" adds the flight to the plan; it doesn't start booking. Route the flight when the traveler later chooses to book it.
 

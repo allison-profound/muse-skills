@@ -18,9 +18,9 @@
 
 ## Buy from a store the browser read
 
-- A browser task whose report lists products read from a store's own catalog, with their variant ids, lets you check out at that store directly. Create the buyer-and-currency input described below with `"browser_task_id": "<that task's id>"` and `items` holding each chosen variant's `id` from the report as `item_id` and its `quantity`, with no `checkout_token`. When the user wants an option that has no variant id in the report, name the item by its product instead: the product `id` as `item_id` with `options` naming every option, such as `"options": ["Color=Black", "Size=M"]`: the user's choices, and the reported variant's value for each option the user didn't change. The CLI finds that variant at the store, or answers with the option values the store has. The CLI checks out only at the store that task read, so never add a store, domain or merchant field.
+- A browser task whose report lists products read from a store's own catalog, with their variant ids, lets you check out at that store directly. Create the buyer-and-currency input described below with `"browser_task_id": "<that task's id>"` and `items` holding each chosen variant's `id` from the report as `item_id` and its `quantity`, with no `checkout_token`. When the user wants an option that has no variant id in the report, name the item by its product instead: the product `id` as `item_id` with `options` naming every option, such as `"options": ["Color=Black", "Size=M"]`: the user's choices, and the reported variant's value for each option the user didn't change. The CLI finds that variant at the store, or answers with the option values the store has. Add `"store"` with the store those items come from, as the report's `ucp_merchants` names it. The CLI checks out only at a store that task read, so never name any other store, domain or merchant.
 
-- If the CLI says no store catalog was read in that task, or that the task read more than one store, open the store you want with `browser.browse` and retry with the new task's `browser_task_id`. If the store's catalog still can't be read, check out on the store's site in the browser.
+- If the CLI says the task read more than one store, or no catalog of the store you named, retry with `store` set to the store it lists that the items come from. If no store catalog was read in that task, or the store you want isn't listed, open it with `browser.browse` and retry with the new task's `browser_task_id`. If the store's catalog still can't be read, check out on the store's site in the browser.
 
 - Open a create output's `escalation.continue_url` in the browser as **Read the creation result** describes, and name that exact URL in the brief even when you continue the task that read the store, never its product page.
 
@@ -34,7 +34,7 @@
 
 - For each selected catalog product, keep the `product.id` and the top-level `checkout_token` string from the product-details response that confirmed its variant. Run `/opt/hatch/bin/shopping product-details --product-id <product_id>` only for a product you have no response for. The token is signed and tells the checkout which merchant and variant to use, so a changed copy fails verification.
 
-- A product whose product-details response has no top-level `checkout_token`, or reports a `checkout.rail` other than `shopify_ucp`, cannot be checked out directly, so offer browser checkout from its product URL.
+- A product whose product-details response has no top-level `checkout_token`, or reports a `checkout.rail` other than `shopify_ucp` or `ucp_direct`, cannot be checked out directly, so offer browser checkout from its product URL. A `ucp_direct` (Nike) checkout refused with "Nike checkout is not enabled for this user" isn't available to this user, so offer browser checkout the same way. Any other `not_supported` names its own reason.
 
 ## Keep an optional cart
 
@@ -61,11 +61,12 @@
 - If the selected route is PayPal or a merchant-saved payment method, do not create a UCP checkout. Continue website checkout instead. For a captured cart, continue the original browser task without capturing again.
 
 - Otherwise, use a connected wallet without asking the user:
+  - For a `ucp_direct` (Nike) checkout, create the checkout before offering or starting any wallet setup: a user outside Nike checkout is refused at creation with "Nike checkout is not enabled for this user", and then gets browser checkout without being asked to set up a wallet. Skip Shop Pay: Nike takes card credentials only, so use Link.
   - Call `wallet.list_payment_methods` with `provider: "shop-pay"`. Use Shop Pay when its `status` is `connected`.
   - When Shop Pay is not connected, do not share its `next_action.markdown` yet. Call `wallet.list_payment_methods` with `provider: "stripe-link"`, and use Link when its `status` is `connected`.
   - When neither wallet is connected, ask with `muse.create_options` and wait, offering to set up Shop Pay or Link. Then share only the chosen wallet's `next_action.markdown`, as its connector docs describe.
 
-- Before creating the checkout, set up the chosen wallet and choose its card as that wallet's connector docs describe. If the user declines that setup, or it cannot finish, offer the other wallet with `muse.create_options` and wait.
+- Before creating the checkout (after it, for a `ucp_direct` checkout), set up the chosen wallet and choose its card as that wallet's connector docs describe. If the user declines that setup, or it cannot finish, offer the other wallet with `muse.create_options` and wait.
 
 - Offer only Shop Pay and Link. Both pay without Muse seeing the card number. When the user declines both, tell them Muse pays only through Shop Pay or Link and leave the purchase unfinished.
 
