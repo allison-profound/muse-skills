@@ -21,3 +21,8 @@
 - Include the post's link with every reaction summary. When comparing posts, give each post's reaction counts and link. When listing comments, follow the [reading comments guide](/opt/hatch/connectors/facebook_cli/references/reading-comments.md) for comment links.
 
 - Map common words to reaction types without prompting the user, for example, funny or laughing maps to the Haha reaction type, angry or mad maps to Angry, etc.
+
+<!-- facebook-reactions-only:start -->
+## References
+- [Writing reactions](/opt/hatch/connectors/facebook_cli/references/writing-reactions.md) serves as a reference for adding, removing, and updating reactions to posts and comments.
+<!-- facebook-reactions-only:end -->

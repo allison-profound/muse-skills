@@ -2,7 +2,7 @@
 
 - These commands are for hotel stays. They're hidden from `--help`, so use them as shown here.
 
-- Duffel books only rates paid in full now, by card, in US dollars, and only for US accounts. Each hotel a search returns comes with its cheapest such rate.
+- Duffel books rates paid by card, in US dollars, and only for US accounts. Each hotel a search returns comes with its cheapest such rate, and the quote says when it's paid: now or at the hotel.
 
 ## Search
 
@@ -22,6 +22,10 @@
 
 - `stay-rates` shows the full details of a rate the search chose, as the search found it. It takes `--search-result` and `--rate` plus the same stay flags, and works for 30 minutes after the search.
 
+## Hotel cards
+
+- To show the hotels as cards, pass the search file unchanged to `travel.create_hotel_results_widget`, with up to four `hotel_id` values in `hotel_ids`. The cards read the hotels, prices and photos from it.
+
 ## Quote
 
 ```sh
@@ -29,6 +33,8 @@
 ```
 
 - Quote the rate the user picked before asking for guest details, so they confirm the price first.
+
+- When the user presses Book on a card, the selection gives the `search_result_id` and `rate_id` to quote.
 
 - The quote has the current price and terms: what's charged now, any amount due at the property, the total, the cancellation terms and the rate's `conditions`. The user needs to see these before booking, including anything that changed since the search.
 
@@ -55,7 +61,7 @@
 
 - If the quote's `next_step` asks for the account holder's details, add `--customer-email`, `--customer-given-name` and `--customer-family-name`.
 
-- `book` asks the user to approve the payment, then pays with their Link card and books. The approval shows the hotel, dates, rooms, guests, room, amounts and cancellation terms.
+- `book` asks the user to approve, then books with their Link card. A pay-now rate is charged at booking. A guarantee rate charges nothing at booking. The guest pays at the hotel, and the card guarantees the booking, so the hotel can charge it as the rate's terms allow. The approval shows the hotel, dates, rooms, guests, room, amounts and cancellation terms.
 
 - `booking_confirmed` includes the hotel's booking `reference`. `supplier_confirmed_details_pending` means the hotel confirmed the booking and the reference comes later.
 
