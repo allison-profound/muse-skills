@@ -20,9 +20,11 @@
 
 ## Insights
 
-- `insights-overview` reads account insights, such as views, likes, quotes, replies, reposts, traffic sources and demographics. It requires `--start-date` and `--end-date` in YYYY-MM-DD. `--sections` takes a comma-separated subset of `summary`, `views`, `interactions`, `followers`, `demographics` and `all`.
+- `insights-overview` reads account insights, such as views, likes, quotes, replies, reposts, traffic sources, demographics and clicks on the links in the user's bio. It requires `--start-date` and `--end-date` in YYYY-MM-DD. `--sections` takes a comma-separated subset of `summary`, `views`, `interactions`, `followers`, `demographics`, `profile_links` and `all`.
 
-- `post-insights --post-id ID` reads insights for one post.
+- `post-insights --post-id ID` reads insights for one of the user's posts. Besides its counts, the result has the clicks on each link in the post, its save rate and how that compares with the user's typical post, who saw the post (gender, age, countries and cities) and that audience's top interests and communities. The audience breakdowns stay empty until the post has reached 100 viewers.
+
+- `post-insights --include-ai-summary` adds `ai_summary`, the Meta AI summary of the post's performance that the Threads app shows. It can take around ten seconds. Threads has no summary for some posts, such as those under 100 views, and the result then has no `ai_summary`.
 
 - `top-posts` returns the most-viewed posts and the service's top three most-liked posts between the required `--start-date` and `--end-date`. `--count` sets how many most-viewed posts come back and defaults to 10.
 

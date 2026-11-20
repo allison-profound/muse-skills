@@ -102,7 +102,7 @@
 
 - Use the confirmed guest details: a primary guest for each room, a booking email and a contact phone number.
 
-- Check `wallet.list_payment_methods` for `stripe-link`. If connection or reauthentication is needed, say “Connect Stripe Link to securely add a payment method and finish checking out.” Send the returned `next_action.markdown` unchanged and end the message. Resume the same checkout after connection. With no usable card, use `wallet.add_payment_method`.
+- Check `wallet.list_payment_methods` for `stripe-link`. If connection or reauthentication is needed, say “Connect Link, a wallet by Stripe, to generate a one-time card for checkout.” Send the returned `next_action.markdown` unchanged and end the message. Resume the same checkout after connection. With no usable card, use `wallet.add_payment_method`.
 
 - Copy the chosen rate's `selection`, add `booking` and pass the document as `--body-json`. Omit `roomN.childAges` for a room without children rather than sending an empty value, and never put prices or payment details in the body.
 
@@ -138,7 +138,7 @@
 - `another_link_card`: ask which other Link card to use, then run the same `book` command with `--payment-method-id` set to it. That opens one new approval for this stay, where the user picks the card, so they should keep one other than the refused card. A command naming the same card as the command that sent the refused attempt only returns its refusal. Every later command naming another card or address reaches that same new attempt, so once it books it returns `already_booked`. `confirm_billing_address` (after a billing refusal): confirm the card's billing address with the user and run the same command with `--billing-address-line1`, `--billing-city` and `--billing-country`, plus `--billing-region` and `--billing-postal-code` for a US or Canadian address or when the address has them. Together they replace the card's whole address for that attempt. A billing address confirmed after a billing refusal is fine to ask for, and it goes only in the `--billing-*` flags.
 <!-- expedia-card-retry-only:end -->
 
-- A booking succeeded only when Expedia returns an itinerary number. Return the safe confirmation, dates, amount charged now, amount due at the property, total and cancellation terms, and never reveal the virtual card.
+- A booking succeeded only when Expedia returns an itinerary number. Return the safe confirmation, dates, amount charged now, amount due at the property, total and cancellation terms, and never reveal the one-time card.
 
 ## Recover a booking or arrange changes
 

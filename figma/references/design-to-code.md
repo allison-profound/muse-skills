@@ -1,6 +1,6 @@
 # Design to code
 
-- Read the design from Figma with the steps below, then follow [App Creation](/opt/muse/skills/app-creation/SKILL.md) to build it in the user's project.
+- Read the design from Figma with the steps below, then build it in the user's project.
 
 - Before editing, inspect the project's framework, styling, design-system packages, components, assets and tokens.
 

@@ -47,6 +47,4 @@
 
 ## Related skills
 
-- [App Creation](/opt/muse/skills/app-creation/SKILL.md)
-
 - Use `muse.skill_search` to find other skills and `muse.connector_search` to find other connectors.

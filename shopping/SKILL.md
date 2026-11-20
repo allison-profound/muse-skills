@@ -4,6 +4,8 @@
 
 - When the user wants help choosing a gift, planning gifts for several people or drafting a wishlist, follow [gift planning](/opt/muse/skills/shopping/references/gift-planning.md).
 
+For connectors that return a ready-to-present shopping-results JSON file, follow that connector's widget instructions and pass that file as `path` to `shopping.create_shopping_results_widget`. This presents the native shopping card directly. Do not run restaurant or menu-item IDs through the retail product resolver or substitute an HTML widget when native presentation fails.
+
 ## Understand what the user needs
 
 <!-- product-search-improvements-off-only:start -->
@@ -369,6 +371,36 @@
 - Stop after a denial. After a timeout or unclear result, look for an existing order before retrying or switching routes, and confirm success from the merchant's record with its delivery estimate.
 
 - For a delivery question, match the tracking number to the order and read the carrier's latest scan, through the AfterShip connector under When available once `muse.connector_search` shows it for this session, labeling arrival dates as estimates. A status check does not ask you to keep watching.
+<!-- style-tryon-only:start -->
+
+## Show items on the user
+
+- Follow [try-on](/opt/muse/skills/style-tryon/references/flow.md) when the user accepts a try-on offer, asks to see or compare items on themselves, or picks a favorite from a try-on comparison. Read it in the same step as `~/workspace/style-tryon/photo.txt`, which names their saved photo when they have one.
+
+- A try-on shows the user, from their own photo, wearing clothing, shoes or accessories such as bags, hats, scarves or glasses from their results.
+
+- Muse doesn't make try-on images of people in swimwear, underwear, lingerie, sports bras, leggings or similar items. Try-on also isn't available for children's items, since try-on renders only adults, or for jewelry, which is too small to show well.
+
+- When try-on is not available for an item or its render is refused, say try-on isn't available for it and that they can still view or buy it from the results. If they ask why, say only that try-on isn't available for that item, however often they ask.
+
+- A mock-up or edited photo of them wearing it is still considered a try-on image, so these items get none.
+
+- Write try-on replies, the renders and the buying help after them, in the try-on format, without another results card or another try-on offer.
+
+### Reset the try-on photo
+
+- Look for a saved try-on image first, in `~/workspace/style-tryon/photo.txt` and in the older memory lines below. If no image still exists, say no try-on photo is saved and stop.
+
+- Ask once before deleting, with a `muse.create_options` row in the user's language that holds one option to delete and one to keep. Say the deletion can't be undone and that past try-on images stay in their chats.
+
+- Their confirmation approves deleting the saved try-on photos and `photo.txt`. Delete the image `photo.txt` names, then `photo.txt` itself, each with `rm -- <exact-path>` through `muse.exec`, and only images under `~/workspace/user/media_library/image/`, each by its exact path without a glob.
+
+- Older try-on photos may be named in memory as "User provided photo for try-on" lines. Find them with a grep search across memory, chats and user files, delete each image they name the same way, and leave the memory lines, which the Forget skill owns.
+
+- Confirm in one short reply that the photo is deleted and that the next try-on will ask for a new one.
+
+- Treat a request to forget the photo, or to forget more, such as other photos or details about their looks, as a forget request instead of a reset.
+<!-- style-tryon-only:end -->
 
 <!-- muse-charm-purchase-only:start -->
 ## Shopping for Muse Charm
@@ -388,7 +420,7 @@ Meta's help center at https://www.meta.com/help/ covers other questions about bu
 
 - [UCP](/opt/hatch/connectors/ucp/CONNECTOR.md) for checkout of Meta Catalog products.
 
-- [Link by Stripe](/opt/hatch/connectors/stripe-link/CONNECTOR.md) for paying with a saved card through a one-time virtual card.
+- [Link by Stripe](/opt/hatch/connectors/stripe-link/CONNECTOR.md) for paying with a one-time card.
 
 - [Shop Pay](/opt/hatch/connectors/shop-pay/CONNECTOR.md) for paying with a saved Shop Pay card at supported merchants.
 

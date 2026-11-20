@@ -376,7 +376,11 @@ webhooks:
       guidance:
         - id: hold_only
           when: ready
-          text: Mailbox change hints are retained for testing. This does not read email or notify the assistant.
+          text: Mailbox change hints prompt Gmail sync to check for new mail sooner. They do not notify the assistant.
+      # Renew the 24-hour relay lease two hours early; retry a failure after five minutes.
+      renewal:
+        lead_seconds: 7200
+        retry_seconds: 300
 
 consent_screen:
   bullets:

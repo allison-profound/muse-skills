@@ -12,6 +12,13 @@ features:
   poppy-ucp:
     gk: hatch_poppy_ucp
     methods: []
+  # A Poppy agent putting a purchase into a UCP cart at the store it read
+  # (ucp.cart) and the browser.pay handoff back to Poppy for it. Needs
+  # poppy-ucp too; off, Poppy only reads the catalog and Muse handles the
+  # purchase as before.
+  poppy-cart:
+    gk: hatch_poppy_cart
+    methods: []
 require_auth: false
 availability:
   confidential_vm: true

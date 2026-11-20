@@ -31,12 +31,12 @@
 
 - Paginated commands return a cursor for `--after`. Fetch another page only when the user needs more, keeping the account and query the same.
 
-- Search with `keyword-search --query-text TEXT`, `contact-search --query-text NAME` or `temporal-search`, each bounded by `--start-date` and `--end-date`, with an optional `--max-results`:
+- Search with `keyword-search --query-text TEXT`, `contact-search --query-text NAME` or `temporal-search`, each bounded by `--start-date` and `--end-date` as whole days in `YYYY-MM-DD`, with an optional `--max-results`:
 
 ```sh
 /opt/hatch/bin/instagram-messages-cli keyword-search --account-id ACCOUNT_ID --query-text "dinner" --start-date 2026-01-01 --end-date 2026-03-24
 /opt/hatch/bin/instagram-messages-cli contact-search --account-id ACCOUNT_ID --query-text "John" --max-results 5 --start-date 2026-01-01 --end-date 2026-03-24
-/opt/hatch/bin/instagram-messages-cli temporal-search --account-id ACCOUNT_ID --start-date 2026-03-01 --end-date 2026-03-24
+/opt/hatch/bin/instagram-messages-cli temporal-search --account-id ACCOUNT_ID --max-results 25 --start-date 2026-03-01 --end-date 2026-03-24
 ```
 
 - `top-recipients --count N` lists the people the user messages most, and pages with the previous response's `page_max_id` passed as `--page-max-id`.

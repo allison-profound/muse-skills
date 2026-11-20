@@ -132,6 +132,10 @@ User goals, their descriptions and lifecycle state.
 
 - `research_output_through` uses `timestamp with time zone` and is nullable.
 
+- `settled_input_hash` uses `text` and is nullable.
+
+- `settled_at` uses `timestamp with time zone` and is nullable.
+
 ## Keys and relationships
 
 - FOREIGN KEY `goals_parent_goal_id_fkey` covers `parent_goal_id`. References [goals.goals](/opt/muse/skills/muse_db/references/tables/goals.goals.md), columns `goal_id`.

@@ -12,9 +12,9 @@
 
 - Create the same buyer-and-currency input described below, using the currency read from checkout (ask if it is unknown), replacing the entire `items` field with `"browser_task_id": "<shopify_cart.browser_task_id>"`. Never add `items` to a captured cart's checkout. One CLI invocation converts the captured cart and applies the prepared buyer and delivery details before returning its quote.
 
-- Never recapture. Retry captured-cart creation only when the CLI reports `buyer.email must contain @`, `buyer.country_code must be a two-letter ISO country code`, or `unsupported Shopify checkout currency`, with no `create_outcome` or checkout reference. These errors occur before the cart is claimed. Correct the draft from confirmed details, asking the user if needed, and run `checkout create` once more with the same `browser_task_id`. Missing `create_outcome` alone does not permit a retry. For any other failure with neither `create_outcome` nor a checkout reference, including a corrected attempt that still fails or cannot claim the cart, do not run `checkout create` again. Continue website checkout in the original browser task: call `browser.browse` with `shopify_cart.browser_task_id`, reopen the merchant checkout page it was on, and tell it to continue website checkout without capturing again. If `browser.browse` cannot resume that task, start a browser task with `task_id: "new"` at that checkout page. Catalog-token refresh instructions below do not apply to a captured cart.
+- Never recapture. Retry captured-cart creation only when the CLI reports `buyer.email must contain @`, `buyer.country_code must be a two-letter ISO country code`, `unsupported Shopify checkout currency`, or an error from parsing the input file, such as an unknown, missing or duplicate field or a wrong type, with no `create_outcome` or checkout reference. These errors occur before the cart is claimed. Correct the draft from confirmed details, asking the user if needed, and run `checkout create` once more with the same `browser_task_id`. Missing `create_outcome` alone does not permit a retry. For any other failure with neither `create_outcome` nor a checkout reference, including a corrected attempt that still fails or cannot claim the cart, do not run `checkout create` again. Continue website checkout in the original browser task: call `browser.browse` with `shopify_cart.browser_task_id`, reopen the merchant checkout page it was on, and tell it to continue website checkout without capturing again. If `browser.browse` cannot resume that task, start a browser task with `task_id: "new"` at that checkout page. Catalog-token refresh instructions below do not apply to a captured cart.
 
-- When `create_outcome` is `rejected`, stop and report the rejection; if the user chooses website checkout, continue the original browser task without another capture. When `create_outcome` is `created` but `ok` is false and there is no `escalation.continue_url`, read `agent_state.checkout_id` with `checkout get` and address the reported issue, using `checkout update` for buyer corrections before reviewing the quote. Keep that checkout instead of reopening the original cart. With an `escalation.continue_url`, follow **Read the creation result**.
+- When `create_outcome` is `rejected`, stop and report the rejection; if the user chooses website checkout, continue the original browser task without another capture. A rejection with the merchant code `redirect_to_checkout_required` needs no question: continue website checkout in that task right away, as **Read the creation result** describes. When `create_outcome` is `created` but `ok` is false and there is no `escalation.continue_url`, read `agent_state.checkout_id` with `checkout get` and address the reported issue, using `checkout update` for buyer corrections before reviewing the quote. Keep that checkout instead of reopening the original cart. With an `escalation.continue_url`, follow **Read the creation result**.
 
 ## Buy from a store the browser read
 
@@ -62,8 +62,9 @@
 
 - Otherwise, use a connected wallet without asking the user:
   - For a `ucp_direct` (Nike) checkout, create the checkout before offering or starting any wallet setup: a user outside Nike checkout is refused at creation with "Nike checkout is not enabled for this user", and then gets browser checkout without being asked to set up a wallet. Skip Shop Pay: Nike takes card credentials only, so use Link.
-  - Call `wallet.list_payment_methods` with `provider: "shop-pay"`. Use Shop Pay when its `status` is `connected`.
-  - When Shop Pay is not connected, do not share its `next_action.markdown` yet. Call `wallet.list_payment_methods` with `provider: "stripe-link"`, and use Link when its `status` is `connected`.
+  - Call `wallet.list_payment_methods` with `provider: "shop-pay"`. Use Shop Pay when its `status` is `connected` and it lists a usable card.
+  - Otherwise, do not share Shop Pay's `next_action.markdown` or send its card page yet. Call `wallet.list_payment_methods` with `provider: "stripe-link"`, and use Link when its `status` is `connected` and it lists a usable payment method.
+  - When neither lists a usable method but one is connected, choose that wallet, Shop Pay when both are connected, and add a card as its connector docs describe.
 <!-- shop-pay-wallet-setup-off-only:start -->
   - When neither wallet is connected, ask with `muse.create_options` and wait, offering to set up Shop Pay or Link. Then share only the chosen wallet's `next_action.markdown`, as its connector docs describe.
 <!-- shop-pay-wallet-setup-off-only:end -->
@@ -159,6 +160,10 @@
 
 - An error containing `no_ucp_descriptor` means an item's `checkout_token` was missing, named another product than its `item_id`, or did not verify and Meta's catalog did not confirm the item by its `item_id`. Run product-details for that product once more and retry with that response's `product.id` and `checkout_token`. If it fails again, offer browser checkout from the product URL.
 
+- An error about the input file itself (an unknown, missing or duplicate field, a wrong type, `unsupported Shopify checkout currency` or a malformed item ID) created no checkout and claimed no cart. Correct the draft from confirmed details and run `checkout create` once more. When nothing in the draft can be corrected, such as products priced in a currency the CLI does not accept, or the corrected draft fails too, treat it as any other failure below.
+
+- When `create_outcome` is `rejected` and a merchant message in `result` has the `code` `redirect_to_checkout_required`, the store needs the buyer to check out on its website, and no checkout was created. Tell the user so and continue in the browser right away without asking, as **Continue in the browser** describes. Open the checkout URL when the output has one, otherwise the product page. For a captured cart, continue the original browser task without another capture.
+
 - If catalog creation fails or rejects an item for any other reason and there is no `escalation.continue_url`, explain the result and offer browser checkout from the original product URL without retrying. If the user accepts, follow `/opt/muse/skills/shopping/references/browser-checkout.md`.
 
 ## Choose direct or browser completion
@@ -171,9 +176,9 @@
 
 - Take the first branch that matches the selected wallet:
 
-  - Shop Pay completes directly when creation did not report `requires_escalation` and the checkout has the recipient's name and address. Otherwise continue in the browser with Shop Pay.
+  - Shop Pay completes directly when the latest `checkout create`, `checkout update` or `checkout get` output reported neither `requires_escalation` nor a message requiring buyer input or review, and the checkout has the recipient's name and address. Otherwise continue in the browser with Shop Pay.
 
-  - Link continues in the browser when creation reported `requires_escalation` or a message requiring buyer input or review.
+  - Link continues in the browser when the latest `checkout create`, `checkout update` or `checkout get` output reported `requires_escalation` or a message requiring buyer input or review.
 
   - Link continues in the browser when the checkout lacks the recipient's name and address.
 
@@ -264,7 +269,7 @@
 - Write the completion input with only the checkout ID, the wallet provider, the exact payment-method ID from `wallet.list_payment_methods` and the selected delivery option when there is one. `wallet_provider` is `stripe_link` or `shop_pay`, spelled with an underscore here.
 <!-- purchase-preapproval-on-only:start -->
 - For a checkout with `payment.preapproved: true` that keeps the card shown in `payment`, leave out `wallet_provider` and `payment_method_id`. When the user picks another card or the other wallet, include them as usual.
-- `error_code: payment_method_required` from `checkout complete` means the purchase approval no longer covers this checkout. Follow the ordinary steps above and run `checkout complete` again with the wallet fields.
+- `error_code: payment_method_required` from `checkout complete` means the purchase approval no longer covers this checkout, and its `reason` names why. Follow the ordinary steps above and run `checkout complete` again with the wallet fields.
 <!-- purchase-preapproval-on-only:end -->
 
 ```json
@@ -287,17 +292,25 @@
 - `ok: true` from `checkout complete` confirms the order.
 
 - When a `checkout complete` or `order get` output carries `next_action`, follow its `kind`:
-  - `done`: the order is placed.
-  - `pay_again`: the merchant placed no order and the unused payment was released. Keep the checkout. Name the merchant's `error`, such as a declined card, and offer to pay again with another saved card or the other wallet. After the user chooses, run `checkout complete` on the same checkout.
+  - `done`: the order is placed. When `checkout complete` prints it with `ok: false`, as with `error_code: already_completed`, that run paid nothing because the checkout already had its order, so say so and read the order with `order get`.
+  - `pay_again`: no order was placed. Keep the checkout. When the output carries a merchant `error`, such as a declined card, name it and offer to pay again with another saved card or the other wallet. When that error is about the wallet itself, such as Shop Pay not being available for this checkout, offer the store's website, as **Continue in the browser** describes, or the other wallet, and not another card of that wallet. After a refused card, run `checkout get` before paying again, and show the quote again if its total changed. After the user chooses, run `checkout complete` on the same checkout. When there is no merchant `error`, ask the user whether to try again, and keep the same wallet and card. After a service restart interrupted `checkout complete`, follow the restart rule in the Safety rules of `/opt/hatch/connectors/ucp/CONNECTOR.md` instead of the steps above: ask first, and on a yes run the same input again.
   - `continue_in_browser`: the merchant placed no order and needs the buyer to finish in the browser. Tell the user the store needs them to finish there, then continue in the browser right away as **Continue in the browser** describes. Open the exact `escalation.continue_url` when the output has one, and name the merchant's message from `result.checkout.messages` in the brief as the step to resolve. The direct payment does not carry over to that page, so when the page asks for payment the browser task pays with that wallet and card through its own payment approval. Never tell it a payment was already submitted or to avoid entering payment. Do not retry `checkout complete`.
-  - `check_order`: the outcome is not known yet. Run `order get` before saying whether an order was placed, and follow its `next_action`. Do not run `checkout complete` again until `order get` returns a different `next_action`.
+  - `check_order`: the outcome is not known yet. Run `order get` before saying whether an order was placed, and follow its `next_action`. Do not run `checkout complete` again until `order get` returns a different `next_action`. If `order get` returns `check_order` again, tell the user the store has not confirmed the order yet, and run `order get` again after the seconds in its `check_again_in_seconds`, after about five minutes when it has none, or when the user asks. Do not pay again, cancel the checkout or switch to the browser meanwhile.
   - `stop`: this checkout cannot be paid. For `reason: merchant_canceled`, tell the user the store cancelled the checkout and offer a fresh checkout. For `purchase_in_progress`, another checkout or browser task is already paying for this purchase, so do not start another. For `purchase_closed`, the purchase approval was used or changed, so offer a fresh checkout with the ordinary approval. For `checkout_unpayable`, the merchant reported an error this checkout cannot recover from, so name its `error` and offer a fresh checkout.
 
 - `error_code: requires_escalation` or an `escalation.continue_url` from `checkout complete` means the merchant placed no order and needs the buyer to finish in the browser. Follow the `continue_in_browser` step above, also when the output has no `next_action`.
 
 - `order_placed: false` from `checkout complete` means the merchant placed no order.
 
-- Any other failure after the wallet approval, or an unknown outcome, does not prove that no order was placed, so check `order get` before saying so, and never retry or switch to the browser automatically.
+- `error_code: link_requires_action` from `checkout complete` means Link needs the user to finish a secure step before it pays, and no order was placed. Share the output's `user_action.url`, labelled with its `user_action.label`, and end the reply. When the output has no `user_action`, Link gave no link: tell the user so, pass on what the `error` says Link asks for, and never make up a link.
+
+- When the user says that Link step is done, run the same `checkout complete` again on the same checkout with the same wallet and card. With `resolution: auto_resume` or no `resolution`, that run resumes the payment the user already approved, so do not run `checkout get` or `checkout update` first, and do not offer another card or the other wallet meanwhile. With `resolution: replacement_required`, Link closed that payment request, so tell the user the next run asks for a new approval.
+
+- An error that contains `shop_pay_approval_outcome_unknown` means that run paid nothing, and neither wallet can pay this checkout until ten minutes after that Shop Pay approval, even when `order get` answers `pay_again`. Tell the user so, and follow `pay_again` only after those ten minutes, when `checkout complete` asks for a new approval.
+
+- An error that says this checkout's payment approval is for another Shop Pay card means that run paid nothing, and an earlier approval for the card its stderr names is still open. Run `checkout complete` with that card only when the user asks for it. Another Shop Pay card can pay only once that approval has lapsed, ten minutes after it was given, even when `order get` answers `pay_again`. Do not run `checkout complete` with the other wallet meanwhile: it pays with the approved wallet and card.
+
+- Any other failure after the wallet approval, or an unknown outcome, does not prove that no order was placed, so check `order get` before saying so, and never retry or switch to the browser automatically. After a run that a service restart interrupted, check `order get`, then follow the restart rule in the Safety rules of `/opt/hatch/connectors/ucp/CONNECTOR.md`.
 
 ```text
 /opt/hatch/bin/ucp-cli order get --checkout-id '<checkout_id>'
@@ -321,10 +334,10 @@
 /opt/hatch/bin/ucp-cli order get --checkout-id '<checkout_id>'
 ```
 
-- Read the top-level `ok` before describing the order. On success, summarize `.order.status`, the merchant's order number in `label`, `line_items`, `totals` and available fulfillment or tracking details.
+- Read the top-level `ok` before describing the order. On success, summarize the merchant's order number in `label`, `line_items`, `totals`, and available fulfillment or tracking details. Use the reported `status` if present, otherwise describe the fulfillment events. Do not infer that every item shipped from one package's event.
 
 - Include one clickable `[View order](<order_url>)` link by default when a merchant order, confirmation, or status URL is available from a successful native checkout result or order read for that same confirmed purchase, even when the user asked only for status. Prefer the merchant's permanent order page when available; otherwise use its confirmation URL, then its status URL. Copy the complete URL verbatim. Never invent or shorten a link or expose a checkout or order ID.
 
 - Prefer `fulfillment.events[].tracking_url` for a shipped package's tracking link. Relay important `messages` and relevant `adjustments`, such as refunds, returns, credits, disputes or cancellations. Reads add UTC and user-local forms of provider times; an order-status message time is not a delivery time.
 
-- If the read fails, explain the failure and keep any order link already returned for that same confirmed purchase. Never run checkout again or place another order to recover details or a link.
+- If the read fails, explain that current details could not be read. `order_placed: true` still confirms the purchase even when `ok` is false. Keep any order link already returned for that confirmed purchase. Never run checkout again or place another order to recover details or a link.

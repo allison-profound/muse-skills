@@ -22,6 +22,8 @@
 
 - `car-booking-status` and `car-cancel` check and cancel rental-car reservations made here. Read [rental cars](references/cars.md) before any rental-car command; the flight sections below do not apply to cars.
 
+- `stay-cancel --booking-id bok_...` cancels a hotel booking made here, with the `booking_id` from `book`. Read [cancelling a hotel stay](references/stay-cancel.md) before using it.
+
 - Before a user-facing search, read [Flight Booking](/opt/muse/skills/flight-booking/SKILL.md), which compares flight sources and builds the flight list. Read [checkout](/opt/muse/assets/booking/references/checkout.md) once the user picks a flight to book, not before searching. [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md) uses Duffel only for the fare check on a booked trip. Duffel does not report live flight status.
 
 ## Search a complete trip
@@ -56,7 +58,7 @@
 
 - Narrow with `--airlines` (comma-separated names or IATA codes), `--max-price` and `--refundable` only when the user set that limit. `--refundable` keeps only offers marked refundable before departure without a penalty, which is not the same as cancel anytime, and it counts offers with unstated refund terms in `refundable_unknown_excluded`. Those offers are unknown, not non-refundable.
 
-- Report the actual cabin and fare brand on each leg. Domestic First does not promise a lie-flat seat, and economy is a different product the user decides on.
+- Report the actual cabin and fare brand on each leg. Domestic First does not promise a lie-flat seat, and economy is a different product the user decides on. Fare brand names come from the airline's distribution feed and can differ from the names on its website. When the traveler asks for a fare by the airline's name, match it by what it includes, such as bags, seat selection, changes and refunds, and name the brand the offer uses.
 
 - Duffel's results leave out the airlines it can't sell, even on routes they fly. When an airline missing from the results could change the choice, such as one flying the route nonstop, and no browser search covered it, tell the user which airlines the results don't include.
 

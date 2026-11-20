@@ -1,6 +1,6 @@
 # Duffel hotel stays
 
-- These commands are for hotel stays. They're hidden from `--help`, so use them as shown here.
+- `stay-search`, `stay-rates` and `stay-quote` are hidden from `--help`, so use them as shown here.
 
 - Duffel books rates paid by card, in US dollars, and only for US accounts. Each hotel a search returns comes with its cheapest such rate, and the quote says when it's paid: now or at the hotel.
 
@@ -38,7 +38,7 @@
 
 - The quote has the current price and terms: what's charged now, any amount due at the property, the total, the cancellation terms and the rate's `conditions`. The user needs to see these before booking, including anything that changed since the search.
 
-- A fee paid at the hotel, such as a resort fee, can appear only in `conditions` while `due_at_property` is zero, so the total may not include it.
+- A fee paid at the hotel, such as a resort fee, can appear only in `conditions` while the quote's hotel fees are zero (`due_at_property` for a pay-now rate, `fees_at_property` for a guarantee), so the total may not include it.
 
 - `ok: false` with a `code` means the rate can't be booked here, and `error` says why.
 
@@ -69,4 +69,4 @@
 
 - `booking_rejected` and `booking_not_sent` mean nothing was booked. Their `next_action` says what can happen next.
 
-- These commands can't look up, change or cancel a stay yet. If the user asks to, say so and share the cancellation terms they approved.
+- To cancel a stay, read [cancelling a hotel stay](stay-cancel.md). These commands can't look up or change a stay yet.
