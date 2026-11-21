@@ -1,0 +1,10 @@
+id: krea
+title: "Krea"
+description: "Generate images and video with a choice of models and run node apps with Krea."
+aliases: [krea-connector-cli]
+include_in_prompt: false
+require_auth: false
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

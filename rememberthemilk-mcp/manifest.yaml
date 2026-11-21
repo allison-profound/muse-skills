@@ -1,0 +1,133 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: rememberthemilk
+category: productivity
+display_name: Remember The Milk
+icon: rememberthemilk
+description: Manage your Remember The Milk tasks, lists and reminders
+cli:
+  binary: rememberthemilk-connector-cli
+  skill: rememberthemilk
+auth:
+  provider: rememberthemilk
+  required: true
+  mcp:
+    endpoint: https://www.rememberthemilk.com/mcp
+    oauth:
+      type: oauth
+      authorization_url: https://www.rememberthemilk.com/oauth/authorize.rtm
+      token_url: https://www.rememberthemilk.com/oauth/token.rtm
+      registration_url: https://www.rememberthemilk.com/oauth/register.rtm
+      resource: https://www.rememberthemilk.com/mcp
+      token_endpoint_auth_method: none
+      scope: delete
+    tool_names:
+      tasks.read:
+      - rtm_get_task
+      - rtm_list_tasks
+      - rtm_get_list
+      - rtm_list_lists
+      - rtm_list_permissions
+      - rtm_list_tags
+      - rtm_list_notes
+      - rtm_list_locations
+      - rtm_get_reminder
+      - rtm_list_reminders
+      - rtm_list_contacts
+      - rtm_get_script
+      - rtm_list_scripts
+      - rtm_get_settings
+      - rtm_get_timezone
+      - rtm_get_language
+      tasks.modify:
+      - rtm_add_task
+      - rtm_update_task
+      - rtm_complete_task
+      - rtm_uncomplete_task
+      - rtm_postpone_task
+      - rtm_untrash_task
+      - rtm_batch_complete
+      - rtm_batch_move
+      - rtm_batch_tag
+      - rtm_batch_update
+      - rtm_add_list
+      - rtm_update_list
+      - rtm_create_tag
+      - rtm_update_tag
+      - rtm_add_tag_to_task
+      - rtm_remove_tag_from_task
+      - rtm_add_note
+      - rtm_update_note
+      - rtm_create_location
+      - rtm_update_location
+      - rtm_assign_location
+      - rtm_create_reminder
+      - rtm_update_reminder
+      - rtm_update_settings
+      - rtm_undo_transaction
+      - rtm_trash_task
+      - rtm_batch_delete
+      - rtm_delete_list
+      - rtm_delete_tag
+      - rtm_delete_note
+      - rtm_delete_location
+      - rtm_delete_reminder
+      automation.modify:
+      - rtm_add_contact
+      - rtm_assign_task
+      - rtm_unassign_task
+      - rtm_share_list
+      - rtm_unshare_list
+      - rtm_create_script
+      - rtm_update_script
+      - rtm_run_script
+      - rtm_run_script_ephemeral
+      - rtm_delete_script
+surrogation:
+  name: rememberthemilk
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+    - www.rememberthemilk.com
+  token_proxy:
+    - field: credentials.access_token
+      placement: bearer_header
+  stripped:
+    - credentials.refresh_token
+  token_refresh:
+    - path: /oauth/token.rtm
+actions:
+  read:
+    default: ask
+    label: Read permissions
+    methods:
+      tasks.read:
+        label: Read tasks, lists, notes and settings
+  write:
+    default: ask
+    label: Write permissions
+    methods:
+      tasks.modify:
+        label: Manage tasks, lists, reminders and settings
+        approval_policy: fresh_consent_only
+      automation.modify:
+        label: Manage scripts, sharing and task assignments
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+  - icon: data_types
+    title: Level up with Remember The Milk
+    text: Muse will access things like tasks, lists, tags and due dates.
+  - icon: info
+    title: You choose what Muse can do
+    text: Muse can read information for your tasks. It will ask each time before making changes or running
+      other actions. Disconnect at any time in Settings.
+  - icon: caution
+    title: Keep an eye on things
+    text: Muse may take unexpected actions. Monitor it carefully.
+  footer_paragraphs:
+  - The info used for your tasks is part of your interactions with Muse, which we may use to improve AI
+    at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)
+  - Muse will exchange info with Remember The Milk. To learn more, view their [terms](https://www.rememberthemilk.com/terms) and [privacy policy](https://www.RememberTheMilk.com/help/privacy.rtm).

@@ -1,0 +1,91 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: studocu
+category: productivity
+display_name: Studocu
+icon: studocu
+description: Find study materials and manage your Studocu study projects
+cli:
+  binary: studocu-connector-cli
+  skill: studocu
+auth:
+  provider: studocu
+  required: true
+  mcp:
+    endpoint: https://agent-os-mcp.alpha.studocu.com/mcp
+    oauth:
+      type: oauth
+      authorization_url: https://www.studocu.com/oauth/authorize
+      token_url: https://www.studocu.com/oauth/mcp/token
+      registration_url: https://www.studocu.com/oauth/register
+      resource: https://agent-os-mcp.alpha.studocu.com/mcp
+      token_endpoint_auth_method: none
+      scope: mcp:use
+    tool_names:
+      study.read:
+      - search-documents
+      - search-institutions
+      - search-courses
+      - list-course-recordings
+      - get-course-syllabus
+      - agent-os-session
+      - read-artifact
+      - read-detached-document
+      - get-context
+      - get-project-state
+      - get-course-mastery
+      - read-memory
+      study.modify:
+      - write-artifact
+      - add-document-sources
+      - create-project
+      - update-project
+      - request-creation
+      - write-memory
+      - delete-memory
+surrogation:
+  name: studocu
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+  - agent-os-mcp.alpha.studocu.com
+  - www.studocu.com
+  token_proxy:
+  - field: credentials.access_token
+    placement: bearer_header
+  stripped:
+  - credentials.refresh_token
+  token_refresh:
+  - path: /oauth/mcp/token
+actions:
+  read:
+    default: ask
+    label: Read permissions
+    methods:
+      study.read:
+        label: Find study materials and read study progress
+  write:
+    default: ask
+    label: Write permissions
+    methods:
+      study.modify:
+        label: Manage study projects, materials and memory
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+  - icon: data_types
+    title: Level up with Studocu
+    text: Muse will access things like study documents, projects and learning progress.
+  - icon: info
+    title: You choose what Muse can do
+    text: By default, Muse will ask before taking actions it thinks need review. Disconnect at any time
+      in Settings.
+  - icon: caution
+    title: Keep an eye on things
+    text: Muse may take unexpected actions. Monitor it carefully.
+  footer_paragraphs:
+  - The info used for your tasks is part of your interactions with Muse, which we may use to improve AI
+    at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)
+  - Muse will exchange info with Studocu. To learn more, view their [terms](https://www.studocu.com/en-us/terms) and [privacy policy](https://www.studocu.com/en-us/privacy-policy).

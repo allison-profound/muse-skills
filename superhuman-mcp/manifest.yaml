@@ -1,0 +1,129 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: superhuman
+category: productivity
+display_name: Superhuman Mail
+icon: superhuman_mail
+description: Read, draft and organize email with Superhuman Mail
+cli:
+  binary: superhuman
+  skill: superhuman
+auth:
+  provider: superhuman
+  required: true
+  mcp:
+    endpoint: https://mcp.mail.superhuman.com/mcp
+    oauth:
+      type: oauth
+      authorization_url: https://mcp.auth.mail.superhuman.com/oauth2/authorize
+      token_url: https://mcp.auth.mail.superhuman.com/oauth2/token
+      cimd: true
+      resource: https://mcp.mail.superhuman.com/mcp
+      token_endpoint_auth_method: none
+      scope: openid email profile offline_access
+    tool_names:
+      mail.read:
+      - get_availability
+      - get_draft
+      - get_draft_send_status
+      - get_message
+      - get_thread
+      - list_accounts
+      - list_drafts
+      - list_labels
+      - list_reminders
+      - list_splits
+      - list_threads
+      - query_email_and_calendar
+      - get_read_status_feed
+      - get_shared_thread_link
+      - get_snippet
+      - list_shared_thread_comments
+      - list_shared_thread_participants
+      - list_snippets
+      - preview_comment
+      - preview_share_thread
+      mail.attachments:
+      - get_attachment
+      mail.modify:
+      - add_account
+      - create_or_update_draft
+      - create_or_update_reminder
+      - set_default_account
+      - unsubscribe
+      - update_personalization
+      - update_thread
+      - discard_draft
+      - discard_reminder
+      - remove_account
+      - trash_thread
+      - create_or_update_snippet
+      - discard_snippet
+      - delete_shared_thread_comment
+      - react_shared_thread_comment
+      - unreact_shared_thread_comment
+      - mark_spam
+      - unshare_thread
+      mail.send:
+      - send_draft
+      - undo_send
+      - create_or_update_event
+      - create_shared_thread_comment
+      - share_thread
+      - invite_teammate
+surrogation:
+  name: superhuman
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+    - mcp.mail.superhuman.com
+    - mcp.auth.mail.superhuman.com
+  token_proxy:
+    - field: credentials.access_token
+      placement: bearer_header
+  stripped:
+    - credentials.refresh_token
+  token_refresh:
+    - path: /oauth2/token
+actions:
+  read:
+    default: ask
+    label: Read permissions
+    response_guard: verification_codes
+    methods:
+      mail.read:
+        label: Read email, accounts, calendar, snippets and shared threads
+      mail.attachments:
+        label: Download email attachments
+        approval_policy: fresh_consent_only
+  write:
+    default: ask
+    label: Write permissions
+    methods:
+      mail.modify:
+        label: Manage drafts, threads, snippets, comments, reminders and accounts
+        approval_policy: fresh_consent_only
+      mail.send:
+        label: Send email and calendar invitations, and share threads
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+    - icon: data_types
+      title: Level up with Superhuman Mail
+      text: Muse will access things like emails, attachments, contact info and email metadata.
+    - icon: info
+      title: You choose what Muse can do
+      text: By default, Muse will ask before taking actions it thinks need review. Disconnect at any time in Settings.
+    - icon: caution
+      title: Keep an eye on things
+      text: Muse may take unexpected actions. Monitor it carefully.
+  footer_paragraphs:
+    - text: "The info used for your tasks is part of your interactions with Muse, which we may use to improve AI at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)"
+      variants:
+        european_region:
+          omit: true
+        united_kingdom:
+          omit: true
+    - Muse will exchange info with Superhuman Mail. To learn more, view their [terms](https://superhuman.com/legal/terms) and [privacy policy](https://www.grammarly.com/privacy-policy).

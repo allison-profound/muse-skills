@@ -7,6 +7,16 @@ include_in_prompt: true
 non_confidential: true
 availability:
   confidential_vm: true
+features:
+  data-connections:
+    gk: shopify_sma_setup_on_muse_abra
+    files:
+      - references/signals-connections.md
+      - references/signals-connections-diagnosis.md
+      - references/signals-connections-web.md
+      - references/signals-connections-app.md
+      - references/signals-connections-crm.md
+      - references/signals-connections-offline.md
 auth:
   connect: professional_consent
   disconnect: cli

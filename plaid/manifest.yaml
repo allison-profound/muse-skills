@@ -47,6 +47,13 @@ commands:
   liabilities: liabilities.read
   transactions-recurring: transactions.read
 
+webhooks:
+  version: 2
+  sources:
+    link:
+      label: Plaid Link completion
+      guidance: []
+
 consent_screen:
   bullets:
     - icon: data_types

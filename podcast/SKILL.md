@@ -72,7 +72,7 @@
 
 - These connectors depend on the user's channel or devices. `muse.connector_search` shows which ones this session has.
 
-- [Descript](/opt/hatch/connectors/descript_mcp/CONNECTOR.md) for editing, exporting or publishing an existing Descript audio or video project.
+- [Descript](/opt/hatch/connectors/descript/CONNECTOR.md) for editing, exporting or publishing an existing Descript audio or video project.
 
 - [Jellypod](/opt/hatch/connectors/jellypod/CONNECTOR.md) for producing episodes in the user's Jellypod account with its voices and characters.
 

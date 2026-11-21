@@ -1,0 +1,10 @@
+id: wix
+title: "Wix"
+description: "Manage and publish the user's Wix websites, work with their store products, orders, bookings and contacts through site APIs, and search the Wix developer docs."
+aliases: [wix-connector-cli]
+include_in_prompt: false
+require_auth: true
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

@@ -1,0 +1,92 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: circleback
+category: productivity
+display_name: Circleback
+icon: circleback
+description: Work with your Circleback meeting notes and action items
+cli:
+  binary: circleback-connector-cli
+  skill: circleback
+auth:
+  provider: circleback
+  required: true
+  mcp:
+    endpoint: https://circleback.ai/api/mcp
+    oauth:
+      type: oauth
+      authorization_url: https://circleback.ai/api/oauth/authorize
+      token_url: https://circleback.ai/api/oauth/access-token
+      registration_url: https://circleback.ai/api/oauth/register
+      resource: https://circleback.ai/api/mcp
+      token_endpoint_auth_method: none
+      scope: user user:write
+    tool_names:
+      workspace.read:
+      - SearchMeetings
+      - ReadMeetings
+      - GetTranscriptsForMeetings
+      - SearchActionItems
+      - SearchCalendarEvents
+      - SearchEmails
+      - FindProfiles
+      - FindCompanies
+      - ListTeams
+      - ListTags
+      - SearchSupportArticles
+      workspace.modify:
+      - UpdateMeeting
+      - UpdateCalendarEvent
+      - ShareMeeting
+      - CreateActionItem
+      - UpdateActionItem
+      - DeleteActionItem
+      - CreateTag
+      - UpdateTag
+      - DeleteTag
+surrogation:
+  name: circleback
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+  - circleback.ai
+  token_proxy:
+  - field: credentials.access_token
+    placement: bearer_header
+  stripped:
+  - credentials.refresh_token
+  token_refresh:
+  - path: /api/oauth/access-token
+actions:
+  read:
+    default: ask
+    label: Read permissions
+    methods:
+      workspace.read:
+        label: Read meetings, contacts and work updates
+        response_guard: verification_codes
+  write:
+    default: ask
+    label: Write permissions
+    methods:
+      workspace.modify:
+        label: Manage meetings, action items and sharing
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+  - icon: data_types
+    title: Connect to Circleback
+    text: Work with your Circleback meeting notes and action items.
+  - icon: info
+    title: You choose what Muse can do
+    text: Muse can read information for your tasks. It will ask each time before making changes or running
+      other actions. Disconnect at any time in Settings.
+  - icon: caution
+    title: Keep an eye on things
+    text: Muse may take unexpected actions. Monitor it carefully.
+  footer_paragraphs:
+  - The info used for your tasks is part of your interactions with Muse, which we may use to improve AI
+    at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)
+  - Muse will exchange info with Circleback. To learn more, view their [terms](https://circleback.ai/terms) and [privacy policy](https://circleback.ai/privacy).

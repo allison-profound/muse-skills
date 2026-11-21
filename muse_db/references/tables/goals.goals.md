@@ -136,6 +136,10 @@ User goals, their descriptions and lifecycle state.
 
 - `settled_at` uses `timestamp with time zone` and is nullable.
 
+- `watch` uses `jsonb` and is nullable.
+
+  What the tracked item waits for: one target in one connected source, matched by id, with a note, whether the user asked for it and when it was set. Null when it waits for nothing.
+
 ## Keys and relationships
 
 - FOREIGN KEY `goals_parent_goal_id_fkey` covers `parent_goal_id`. References [goals.goals](/opt/muse/skills/muse_db/references/tables/goals.goals.md), columns `goal_id`.

@@ -1,0 +1,10 @@
+id: otter
+title: "Otter"
+description: "Search and read Otter.ai meeting conversations and transcripts."
+aliases: [otter-connector-cli]
+include_in_prompt: false
+require_auth: false
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

@@ -1,0 +1,741 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: beehiiv
+category: productivity
+display_name: "beehiiv"
+icon: beehiiv
+description: "Manage your beehiiv newsletters, posts, subscribers and analytics"
+cli:
+  binary: beehiiv-connector-cli
+  skill: beehiiv
+auth:
+  provider: beehiiv
+  required: true
+  mcp:
+    endpoint: "https://mcp.beehiiv.com/mcp"
+    oauth:
+      type: "oauth"
+      authorization_url: "https://mcp.beehiiv.com/authorize"
+      token_url: "https://mcp.beehiiv.com/token"
+      registration_url: "https://mcp.beehiiv.com/register"
+      scope: "read write"
+      resource: "https://mcp.beehiiv.com/mcp"
+      token_endpoint_auth_method: "none"
+surrogation:
+  name: beehiiv
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+    - mcp.beehiiv.com
+  token_proxy:
+    - field: credentials.access_token
+      placement: bearer_header
+  stripped:
+    - credentials.refresh_token
+  token_refresh:
+    - path: /token
+actions:
+  read:
+    default: ask
+    label: "Read permissions"
+    response_guard: verification_codes
+    methods:
+      derive_brand_spec:
+        label: "Derive brand spec"
+      discover_publications:
+        label: "Discover publications"
+      get_ad_report:
+        label: "Get ad report"
+      get_asset:
+        label: "Get asset"
+      get_author:
+        label: "Get author"
+      get_automation:
+        label: "Get automation"
+      get_automation_email_content:
+        label: "Get automation email content"
+      get_automation_journey:
+        label: "Get automation journey"
+      get_automation_schema:
+        label: "Get automation schema"
+      get_automation_stats:
+        label: "Get automation stats"
+      get_automation_workspace_diff:
+        label: "Get automation workspace diff"
+      get_community:
+        label: "Get community"
+      get_community_channel:
+        label: "Get community channel"
+      get_community_member:
+        label: "Get community member"
+      get_community_metrics:
+        label: "Get community metrics"
+      get_community_post:
+        label: "Get community post"
+      get_community_scheduled_post:
+        label: "Get community scheduled post"
+      get_condition_set:
+        label: "Get condition set"
+      get_condition_set_schema:
+        label: "Get condition set schema"
+      get_content_gate:
+        label: "Get content gate"
+      get_crawler_analytics:
+        label: "Get crawler analytics"
+      get_current_user:
+        label: "Get current user"
+      get_earnings:
+        label: "Get earnings"
+      get_engagements:
+        label: "Get engagements"
+      get_group_subscription:
+        label: "Get group subscription"
+      get_group_subscription_deal:
+        label: "Get group subscription deal"
+      get_image_generation_status:
+        label: "Get image generation status"
+      get_opt_in_email:
+        label: "Get opt in email"
+      get_order:
+        label: "Get order"
+      get_page:
+        label: "Get page"
+      get_page_content:
+        label: "Get page content"
+      get_podcast_episode:
+        label: "Get podcast episode"
+      get_podcast_episode_stats:
+        label: "Get podcast episode stats"
+      get_podcast_episode_transcript:
+        label: "Get podcast episode transcript"
+      get_podcast_show:
+        label: "Get podcast show"
+      get_podcast_show_stats:
+        label: "Get podcast show stats"
+      get_poll:
+        label: "Get poll"
+      get_post:
+        label: "Get post"
+      get_post_content:
+        label: "Get post content"
+      get_post_footer:
+        label: "Get post footer"
+      get_post_stats:
+        label: "Get post stats"
+      get_post_stats_batch:
+        label: "Get post stats batch"
+      get_post_template_content:
+        label: "Get post template content"
+      get_post_theme:
+        label: "Get post theme"
+      get_premium_offer:
+        label: "Get premium offer"
+      get_product:
+        label: "Get product"
+      get_product_review_settings:
+        label: "Get product review settings"
+      get_publication:
+        label: "Get publication"
+      get_publication_settings:
+        label: "Get publication settings"
+      get_publication_stats:
+        label: "Get publication stats"
+      get_recommendation_partner_insights:
+        label: "Get recommendation partner insights"
+      get_referral_program:
+        label: "Get referral program"
+      get_segment:
+        label: "Get segment"
+      get_segment_schema:
+        label: "Get segment schema"
+      get_site:
+        label: "Get site"
+      get_site_global:
+        label: "Get site global"
+      get_skill:
+        label: "Get skill"
+      get_sponsorship_agreement_item:
+        label: "Get sponsorship agreement item"
+      get_sponsorship_product:
+        label: "Get sponsorship product"
+      get_subscribe_form:
+        label: "Get subscribe form"
+      get_subscribe_form_diff:
+        label: "Get subscribe form diff"
+      get_subscriber_growth:
+        label: "Get subscriber growth"
+      get_subscriber_history:
+        label: "Get subscriber history"
+      get_subscription:
+        label: "Get subscription"
+      get_subscription_batch:
+        label: "Get subscription batch"
+      get_survey:
+        label: "Get survey"
+      get_tier:
+        label: "Get tier"
+      get_website_analytics:
+        label: "Get website analytics"
+      get_website_analytics_breakdown:
+        label: "Get website analytics breakdown"
+      get_website_analytics_conditions_schema:
+        label: "Get website analytics conditions schema"
+      get_workspace:
+        label: "Get workspace"
+      learn_community_authoring:
+        label: "Learn community authoring"
+      learn_page_authoring:
+        label: "Learn page authoring"
+      learn_page_metadata:
+        label: "Learn page metadata"
+      learn_post_authoring:
+        label: "Learn post authoring"
+      learn_post_metadata:
+        label: "Learn post metadata"
+      learn_site_design:
+        label: "Learn site design"
+      learn_subscribe_form_authoring:
+        label: "Learn subscribe form authoring"
+      list_ad_offers:
+        label: "List ad offers"
+      list_ad_opportunities:
+        label: "List ad opportunities"
+      list_ad_reports:
+        label: "List ad reports"
+      list_assets:
+        label: "List assets"
+      list_authors:
+        label: "List authors"
+      list_automation_emails:
+        label: "List automation emails"
+      list_automation_journeys:
+        label: "List automation journeys"
+      list_automations:
+        label: "List automations"
+      list_community_channels:
+        label: "List community channels"
+      list_community_dm_messages:
+        label: "List community dm messages"
+      list_community_dms:
+        label: "List community dms"
+      list_community_invites:
+        label: "List community invites"
+      list_community_members:
+        label: "List community members"
+      list_community_post_comments:
+        label: "List community post comments"
+      list_community_posts:
+        label: "List community posts"
+      list_community_reports:
+        label: "List community reports"
+      list_community_scheduled_posts:
+        label: "List community scheduled posts"
+      list_condition_sets:
+        label: "List condition sets"
+      list_content_tags:
+        label: "List content tags"
+      list_custom_fields:
+        label: "List custom fields"
+      list_external_rss_feeds:
+        label: "List external rss feeds"
+      list_group_subscription_deals:
+        label: "List group subscription deals"
+      list_group_subscription_seats:
+        label: "List group subscription seats"
+      list_group_subscriptions:
+        label: "List group subscriptions"
+      list_orders:
+        label: "List orders"
+      list_page_versions:
+        label: "List page versions"
+      list_pages:
+        label: "List pages"
+      list_paywalls:
+        label: "List paywalls"
+      list_podcast_categories:
+        label: "List podcast categories"
+      list_podcast_episodes:
+        label: "List podcast episodes"
+      list_podcast_shows:
+        label: "List podcast shows"
+      list_poll_responses:
+        label: "List poll responses"
+      list_polls:
+        label: "List polls"
+      list_post_click_subscribers:
+        label: "List post click subscribers"
+      list_post_clicks:
+        label: "List post clicks"
+      list_post_comments:
+        label: "List post comments"
+      list_post_editor_comments:
+        label: "List post editor comments"
+      list_post_subscriber_engagement:
+        label: "List post subscriber engagement"
+      list_post_templates:
+        label: "List post templates"
+      list_posts:
+        label: "List posts"
+      list_premium_offers:
+        label: "List premium offers"
+      list_product_coupons:
+        label: "List product coupons"
+      list_product_promotion_codes:
+        label: "List product promotion codes"
+      list_product_reviews:
+        label: "List product reviews"
+      list_product_tags:
+        label: "List product tags"
+      list_products:
+        label: "List products"
+      list_publication_tags:
+        label: "List publication tags"
+      list_publications:
+        label: "List publications"
+      list_recommendation_suggestions:
+        label: "List recommendation suggestions"
+      list_recommendations:
+        label: "List recommendations"
+      list_recommended_community_subscribers:
+        label: "List recommended community subscribers"
+      list_referral_rewards:
+        label: "List referral rewards"
+      list_segments:
+        label: "List segments"
+      list_signup_flows:
+        label: "List signup flows"
+      list_site_redirects:
+        label: "List site redirects"
+      list_site_templates:
+        label: "List site templates"
+      list_site_versions:
+        label: "List site versions"
+      list_sites:
+        label: "List sites"
+      list_skills:
+        label: "List skills"
+      list_sponsorship_agreement_items:
+        label: "List sponsorship agreement items"
+      list_sponsorship_products:
+        label: "List sponsorship products"
+      list_subscribe_forms:
+        label: "List subscribe forms"
+      list_subscriber_activity:
+        label: "List subscriber activity"
+      list_subscriptions:
+        label: "List subscriptions"
+      list_survey_responses:
+        label: "List survey responses"
+      list_surveys:
+        label: "List surveys"
+      list_tags:
+        label: "List tags"
+      list_tiers:
+        label: "List tiers"
+      open_beehiiv:
+        label: "Open beehiiv"
+      read_documentation:
+        label: "Read documentation"
+      search_cashtags:
+        label: "Search cashtags"
+      search_documentation:
+        label: "Search documentation"
+      search_mentions:
+        label: "Search mentions"
+  write:
+    default: ask
+    label: "Write permissions"
+    response_guard: verification_codes
+    methods:
+      add_automation_step:
+        label: "Add automation step"
+        approval_phrase: "add automation step in beehiiv"
+        approval_policy: fresh_consent_only
+      add_segment_to_newsletter_list:
+        label: "Add segment to newsletter list"
+        approval_phrase: "add segment to newsletter list in beehiiv"
+        approval_policy: fresh_consent_only
+      create_community_invite:
+        label: "Create community invite"
+        approval_phrase: "create community invite in beehiiv"
+        approval_policy: fresh_consent_only
+      duplicate_post:
+        label: "Duplicate post"
+        approval_phrase: "duplicate post in beehiiv"
+        approval_policy: fresh_consent_only
+      duplicate_post_template:
+        label: "Duplicate post template"
+        approval_phrase: "duplicate post template in beehiiv"
+        approval_policy: fresh_consent_only
+      duplicate_product:
+        label: "Duplicate product"
+        approval_phrase: "duplicate product in beehiiv"
+        approval_policy: fresh_consent_only
+      edit_automation_email_content:
+        label: "Edit automation email content"
+        approval_phrase: "edit automation email content in beehiiv"
+        approval_policy: fresh_consent_only
+      edit_page:
+        label: "Edit page"
+        approval_phrase: "edit page in beehiiv"
+        approval_policy: fresh_consent_only
+      edit_post:
+        label: "Edit post"
+        approval_phrase: "edit post in beehiiv"
+        approval_policy: fresh_consent_only
+      edit_post_content:
+        label: "Edit post content"
+        approval_phrase: "edit post content in beehiiv"
+        approval_policy: fresh_consent_only
+      edit_post_template:
+        label: "Edit post template"
+        approval_phrase: "edit post template in beehiiv"
+        approval_policy: fresh_consent_only
+      edit_post_template_content:
+        label: "Edit post template content"
+        approval_phrase: "edit post template content in beehiiv"
+        approval_policy: fresh_consent_only
+      generate_image:
+        label: "Generate image"
+        approval_phrase: "generate image in beehiiv"
+        approval_policy: fresh_consent_only
+      pin_community_post:
+        label: "Pin community post"
+        approval_phrase: "pin community post in beehiiv"
+        approval_policy: fresh_consent_only
+      recalculate_segment:
+        label: "Recalculate segment"
+        approval_phrase: "recalculate segment in beehiiv"
+        approval_policy: fresh_consent_only
+      reorder_automation_steps:
+        label: "Reorder automation steps"
+        approval_phrase: "reorder automation steps in beehiiv"
+        approval_policy: fresh_consent_only
+      resolve_community_report:
+        label: "Resolve community report"
+        approval_phrase: "resolve community report in beehiiv"
+        approval_policy: fresh_consent_only
+      save_audio:
+        label: "Save audio"
+        approval_phrase: "save audio in beehiiv"
+        approval_policy: fresh_consent_only
+      save_automation:
+        label: "Save automation"
+        approval_phrase: "save automation in beehiiv"
+        approval_policy: fresh_consent_only
+      save_automation_email:
+        label: "Save automation email"
+        approval_phrase: "save automation email in beehiiv"
+        approval_policy: fresh_consent_only
+      save_automation_trigger:
+        label: "Save automation trigger"
+        approval_phrase: "save automation trigger in beehiiv"
+        approval_policy: fresh_consent_only
+      save_community:
+        label: "Save community"
+        approval_phrase: "save community in beehiiv"
+        approval_policy: fresh_consent_only
+      save_community_channel:
+        label: "Save community channel"
+        approval_phrase: "save community channel in beehiiv"
+        approval_policy: fresh_consent_only
+      save_community_post:
+        label: "Save community post"
+        approval_phrase: "save community post in beehiiv"
+        approval_policy: fresh_consent_only
+      save_community_post_comment:
+        label: "Save community post comment"
+        approval_phrase: "save community post comment in beehiiv"
+        approval_policy: fresh_consent_only
+      save_condition_set:
+        label: "Save condition set"
+        approval_phrase: "save condition set in beehiiv"
+        approval_policy: fresh_consent_only
+      save_content_tag:
+        label: "Save content tag"
+        approval_phrase: "save content tag in beehiiv"
+        approval_policy: fresh_consent_only
+      save_current_user:
+        label: "Save current user"
+        approval_phrase: "save current user in beehiiv"
+        approval_policy: fresh_consent_only
+      save_custom_field:
+        label: "Save custom field"
+        approval_phrase: "save custom field in beehiiv"
+        approval_policy: fresh_consent_only
+      save_external_rss_feed:
+        label: "Save external rss feed"
+        approval_phrase: "save external rss feed in beehiiv"
+        approval_policy: fresh_consent_only
+      save_file:
+        label: "Save file"
+        approval_phrase: "save file in beehiiv"
+        approval_policy: fresh_consent_only
+      save_guest_author:
+        label: "Save guest author"
+        approval_phrase: "save guest author in beehiiv"
+        approval_policy: fresh_consent_only
+      save_image:
+        label: "Save image"
+        approval_phrase: "save image in beehiiv"
+        approval_policy: fresh_consent_only
+      save_newsletter_list_preference:
+        label: "Save newsletter list preference"
+        approval_phrase: "save newsletter list preference in beehiiv"
+        approval_policy: fresh_consent_only
+      save_podcast_episode:
+        label: "Save podcast episode"
+        approval_phrase: "save podcast episode in beehiiv"
+        approval_policy: fresh_consent_only
+      save_podcast_show:
+        label: "Save podcast show"
+        approval_phrase: "save podcast show in beehiiv"
+        approval_policy: fresh_consent_only
+      save_poll:
+        label: "Save poll"
+        approval_phrase: "save poll in beehiiv"
+        approval_policy: fresh_consent_only
+      save_post:
+        label: "Save post"
+        approval_phrase: "save post in beehiiv"
+        approval_policy: fresh_consent_only
+      save_post_footer:
+        label: "Save post footer"
+        approval_phrase: "save post footer in beehiiv"
+        approval_policy: fresh_consent_only
+      save_post_template:
+        label: "Save post template"
+        approval_phrase: "save post template in beehiiv"
+        approval_policy: fresh_consent_only
+      save_post_template_theme:
+        label: "Save post template theme"
+        approval_phrase: "save post template theme in beehiiv"
+        approval_policy: fresh_consent_only
+      save_post_theme:
+        label: "Save post theme"
+        approval_phrase: "save post theme in beehiiv"
+        approval_policy: fresh_consent_only
+      save_product:
+        label: "Save product"
+        approval_phrase: "save product in beehiiv"
+        approval_policy: fresh_consent_only
+      save_publication_settings:
+        label: "Save publication settings"
+        approval_phrase: "save publication settings in beehiiv"
+        approval_policy: fresh_consent_only
+      save_recommendation:
+        label: "Save recommendation"
+        approval_phrase: "save recommendation in beehiiv"
+        approval_policy: fresh_consent_only
+      save_referral_milestone:
+        label: "Save referral milestone"
+        approval_phrase: "save referral milestone in beehiiv"
+        approval_policy: fresh_consent_only
+      save_referral_program:
+        label: "Save referral program"
+        approval_phrase: "save referral program in beehiiv"
+        approval_policy: fresh_consent_only
+      save_referral_reward:
+        label: "Save referral reward"
+        approval_phrase: "save referral reward in beehiiv"
+        approval_policy: fresh_consent_only
+      save_segment:
+        label: "Save segment"
+        approval_phrase: "save segment in beehiiv"
+        approval_policy: fresh_consent_only
+      save_signup_flow:
+        label: "Save signup flow"
+        approval_phrase: "save signup flow in beehiiv"
+        approval_policy: fresh_consent_only
+      save_site_redirect:
+        label: "Save site redirect"
+        approval_phrase: "save site redirect in beehiiv"
+        approval_policy: fresh_consent_only
+      save_split_test:
+        label: "Save split test"
+        approval_phrase: "save split test in beehiiv"
+        approval_policy: fresh_consent_only
+      save_sponsorship_product:
+        label: "Save sponsorship product"
+        approval_phrase: "save sponsorship product in beehiiv"
+        approval_policy: fresh_consent_only
+      save_subscribe_form:
+        label: "Save subscribe form"
+        approval_phrase: "save subscribe form in beehiiv"
+        approval_policy: fresh_consent_only
+      save_subscribe_form_theme:
+        label: "Save subscribe form theme"
+        approval_phrase: "save subscribe form theme in beehiiv"
+        approval_policy: fresh_consent_only
+      save_subscriber_tag:
+        label: "Save subscriber tag"
+        approval_phrase: "save subscriber tag in beehiiv"
+        approval_policy: fresh_consent_only
+      save_survey:
+        label: "Save survey"
+        approval_phrase: "save survey in beehiiv"
+        approval_policy: fresh_consent_only
+      save_survey_question:
+        label: "Save survey question"
+        approval_phrase: "save survey question in beehiiv"
+        approval_policy: fresh_consent_only
+      save_tier:
+        label: "Save tier"
+        approval_phrase: "save tier in beehiiv"
+        approval_policy: fresh_consent_only
+      send_community_dm:
+        label: "Send community dm"
+        approval_phrase: "send community dm in beehiiv"
+        approval_policy: fresh_consent_only
+      update_asset:
+        label: "Update asset"
+        approval_phrase: "update asset in beehiiv"
+        approval_policy: fresh_consent_only
+      update_automation_step:
+        label: "Update automation step"
+        approval_phrase: "update automation step in beehiiv"
+        approval_policy: fresh_consent_only
+      update_community_member_roles:
+        label: "Update community member roles"
+        approval_phrase: "update community member roles in beehiiv"
+        approval_policy: fresh_consent_only
+      ban_community_member:
+        label: "Ban community member"
+        approval_phrase: "ban community member in beehiiv"
+        approval_policy: fresh_consent_only
+      delete_automation_step:
+        label: "Delete automation step"
+        approval_phrase: "delete automation step in beehiiv"
+        approval_policy: fresh_consent_only
+      delete_automation_trigger:
+        label: "Delete automation trigger"
+        approval_phrase: "delete automation trigger in beehiiv"
+        approval_policy: fresh_consent_only
+      delete_podcast_episode:
+        label: "Delete podcast episode"
+        approval_phrase: "delete podcast episode in beehiiv"
+        approval_policy: fresh_consent_only
+      delete_podcast_show:
+        label: "Delete podcast show"
+        approval_phrase: "delete podcast show in beehiiv"
+        approval_policy: fresh_consent_only
+      apply_to_paid_recommendation:
+        label: "Apply to paid recommendation"
+        approval_phrase: "apply to paid recommendation in beehiiv"
+        approval_policy: fresh_consent_only
+      assign_product_tags_to_product:
+        label: "Assign product tags to product"
+        approval_phrase: "assign product tags to product in beehiiv"
+        approval_policy: fresh_consent_only
+      build_site_page:
+        label: "Build site page"
+        approval_phrase: "build site page in beehiiv"
+        approval_policy: fresh_consent_only
+      cancel_community_scheduled_post:
+        label: "Cancel community scheduled post"
+        approval_phrase: "cancel community scheduled post in beehiiv"
+        approval_policy: fresh_consent_only
+      delete_content_tag:
+        label: "Delete content tag"
+        approval_phrase: "delete content tag in beehiiv"
+        approval_policy: fresh_consent_only
+      moderate_product_review:
+        label: "Moderate product review"
+        approval_phrase: "moderate product review in beehiiv"
+        approval_policy: fresh_consent_only
+      publish_site:
+        label: "Publish site"
+        approval_phrase: "publish site in beehiiv"
+        approval_policy: fresh_consent_only
+      restore_version:
+        label: "Restore version"
+        approval_phrase: "restore version in beehiiv"
+        approval_policy: fresh_consent_only
+      save_community_notification_emails:
+        label: "Save community notification emails"
+        approval_phrase: "save community notification emails in beehiiv"
+        approval_policy: fresh_consent_only
+      save_content_gate:
+        label: "Save content gate"
+        approval_phrase: "save content gate in beehiiv"
+        approval_policy: fresh_consent_only
+      save_incoming_paid_recommendation:
+        label: "Save incoming paid recommendation"
+        approval_phrase: "save incoming paid recommendation in beehiiv"
+        approval_policy: fresh_consent_only
+      save_opt_in_email:
+        label: "Save opt in email"
+        approval_phrase: "save opt in email in beehiiv"
+        approval_policy: fresh_consent_only
+      save_page:
+        label: "Save page"
+        approval_phrase: "save page in beehiiv"
+        approval_policy: fresh_consent_only
+      save_page_content:
+        label: "Save page content"
+        approval_phrase: "save page content in beehiiv"
+        approval_policy: fresh_consent_only
+      save_paid_recommendation:
+        label: "Save paid recommendation"
+        approval_phrase: "save paid recommendation in beehiiv"
+        approval_policy: fresh_consent_only
+      save_product_coupon:
+        label: "Save product coupon"
+        approval_phrase: "save product coupon in beehiiv"
+        approval_policy: fresh_consent_only
+      save_product_promotion_code:
+        label: "Save product promotion code"
+        approval_phrase: "save product promotion code in beehiiv"
+        approval_policy: fresh_consent_only
+      save_product_review_settings:
+        label: "Save product review settings"
+        approval_phrase: "save product review settings in beehiiv"
+        approval_policy: fresh_consent_only
+      save_product_tag:
+        label: "Save product tag"
+        approval_phrase: "save product tag in beehiiv"
+        approval_policy: fresh_consent_only
+      save_site_global:
+        label: "Save site global"
+        approval_phrase: "save site global in beehiiv"
+        approval_policy: fresh_consent_only
+      save_site_settings:
+        label: "Save site settings"
+        approval_phrase: "save site settings in beehiiv"
+        approval_policy: fresh_consent_only
+      save_site_theme:
+        label: "Save site theme"
+        approval_phrase: "save site theme in beehiiv"
+        approval_policy: fresh_consent_only
+      save_skill:
+        label: "Save skill"
+        approval_phrase: "save skill in beehiiv"
+        approval_policy: fresh_consent_only
+      schedule_community_post:
+        label: "Schedule community post"
+        approval_phrase: "schedule community post in beehiiv"
+        approval_policy: fresh_consent_only
+      schedule_post:
+        label: "Schedule post"
+        approval_phrase: "schedule post in beehiiv"
+        approval_policy: fresh_consent_only
+      send_test_email:
+        label: "Send test email"
+        approval_phrase: "send test email in beehiiv"
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+    - icon: data_types
+      title: "Level up with beehiiv"
+      text: "Muse will access things like posts, subscribers and performance stats."
+    - icon: info
+      title: "You choose what Muse can do"
+      text: "By default, Muse will ask before taking actions it thinks need review. Disconnect at any time in Settings."
+    - icon: caution
+      title: "Keep an eye on things"
+      text: "Muse may take unexpected actions. Monitor it carefully."
+  footer_paragraphs:
+    - "The info used for your tasks is part of your interactions with Muse, which we may use to improve AI at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)"
+    - "Muse will exchange info with beehiiv. To learn more, view their [terms](https://www.beehiiv.com/tou) and [privacy policy](https://www.beehiiv.com/privacy)."

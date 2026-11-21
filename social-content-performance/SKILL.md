@@ -58,7 +58,9 @@
 
 - These connectors depend on the user's channel or devices. `muse.connector_search` shows which ones this session has.
 
-- [Upload-Post](/opt/hatch/connectors/upload_post_mcp/CONNECTOR.md) for post and platform analytics across the networks connected to Upload-Post.
+- [Upload-Post](/opt/hatch/connectors/upload_post/CONNECTOR.md) for post and platform analytics across the networks connected to Upload-Post.
+
+- [Hootsuite](/opt/hatch/connectors/hootsuite/CONNECTOR.md) for analytics across connected social accounts.
 
 - [vidIQ](/opt/hatch/connectors/vidiq_mcp/CONNECTOR.md) for YouTube channel, video and subscriber analytics.
 

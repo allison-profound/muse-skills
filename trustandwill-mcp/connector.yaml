@@ -1,0 +1,10 @@
+id: trustandwill
+title: "Trust & Will"
+description: "Check the connection and estate-plan status of the user's Trust & Will account."
+aliases: [trustandwill-connector-cli]
+include_in_prompt: false
+require_auth: true
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

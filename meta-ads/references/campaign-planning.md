@@ -6,7 +6,15 @@ Planning turns the request into a strategy the advertiser approves.
 
 - A plan-only request still gets the full research; it just doesn't create anything.
 
+<!-- shopify-sma-only:start -->
+- A sales goal that optimizes for purchases on a website or app depends on purchase events reaching Meta, which can change the objective and optimization. When this conversation has not confirmed the data connection, check it first, as [data connections](signals-connections.md) describes, before asking the product brief, and when it is missing or broken, say that setting it up comes before planning the sales campaign. Sales through messaging or calls are measured on Meta and need no data connection.
+<!-- shopify-sma-only:end -->
+
 - Facts about the offering come from the advertiser or a verified source, not from the business category, an account name, an old campaign or memory. When some are missing, you should ask for them together before recommending a strategy.
+
+<!-- shopify-sma-only:start -->
+- When this conversation already confirmed a data connection, such as a connected catalog and dataset after a store setup, the catalog's products are what is being advertised, and the confirmed business, ad account, catalog, dataset and sales goal carry forward. Do not ask for them again, and ask only for facts that are still unknown and could change a delivery decision. When the conversation already confirmed the setup, open the plan by restating it in one line, naming the business, the ad account, the catalog, the dataset that tracks purchases and the sales goal, before asking for anything else. Carrying the setup forward never skips the ad account read: when this conversation has not read the ad account yet, read it with `ads_get_ad_accounts` before restating the setup, and when it is listed with `is_ads_mcp_write_disabled: true`, follow [manual setup](campaign-manual-setup.md) before asking for anything else. When you offer the catalog's products to feature, read them with `ads_catalog_list_products` for the connected catalog first, and quote only the names and prices it returns; never work a product's price out from order totals. The confirmed ad account is already the account choice for identity, even when the account listing shows other accounts or marks this one write-disabled, so name it and use it rather than asking which account to use; switch only when the merchant asks for a different one. When you restate the confirmed dataset and no Purchase event has arrived yet, say purchases are still pending rather than describing it as tracking purchases. In that restatement the ad account is where the ad runs, not part of the store connection, so never list it among what the store is connected to.
+<!-- shopify-sma-only:end -->
 
 - The strategy rests on what the Ads tools return. Before you recommend it, these results come back:
   1. the ad account, the Page and the Instagram account

@@ -59,9 +59,9 @@
 /opt/hatch/bin/flightaware compensation check UA90@2026-03-14:SFO-EWR UA1144@2026-03-14:EWR-BOS --flown UA90@2026-03-14:SFO-EWR --flown UA1520@2026-03-14:EWR-BOS
 ```
 
-- It reads each leg's record, airports and operating airline, and measures lateness at the final destination's gate against FlightAware's current schedule. Pass `--booked-departure` and `--booked-arrival` with the ticket's times when the schedule changed after booking, `--flown` once per leg the traveler actually took, booked ones included, when a cancellation, a missed connection or a rebooking changed their flights, `--actual-arrival` when the traveler reached the destination another way, and `--carrier-size` for a Canadian flight when the airline's APPR size is known.
+- It reads each leg's record, airports and operating airline, and measures lateness at the final destination's gate against FlightAware's current schedule. Pass `--booked-departure` and `--booked-arrival` with the ticket's times when the schedule changed after booking, each as the airport's local time with its date, such as `2026-03-14T18:05`, `--flown` once per leg the traveler actually took, booked ones included, when a cancellation, a missed connection or a rebooking changed their flights, `--actual-arrival` in the same form when the traveler reached the destination another way, and `--carrier-size` for a Canadian flight when the airline's APPR size is known.
 
-- One flight number can fly several sectors in a day, and the leg's airports pick the traveler's. Without them, or when more than one flight could be that sector, the error lists the flights' `fa_flight_id` values. Run it again with the traveler's.
+- One flight number can fly several sectors in a day, and the leg's airports pick the traveler's. A flight that stops on the way is one leg for each sector. Without them, or when more than one flight could be that sector, the error lists the flights' `fa_flight_id` values and what the record shows of each: flew, cancelled, diverted or no flight recorded. Run it again with the traveler's.
 
 - It reads FlightAware's record of each flight, which starts about two days before departure. A flight dated further ahead is refused without a lookup. Check a flight the airline retimed or cancelled once it is within those two days.
 

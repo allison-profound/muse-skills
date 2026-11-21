@@ -50,9 +50,9 @@
 
 - These connectors depend on the user's channel or devices. `muse.connector_search` shows which ones this session has.
 
-- [Descript](/opt/hatch/connectors/descript_mcp/CONNECTOR.md) for editing or exporting an existing audio project.
+- [Descript](/opt/hatch/connectors/descript/CONNECTOR.md) for editing or exporting an existing audio project.
 
-- [Speak AI](/opt/hatch/connectors/speak_ai_mcp/CONNECTOR.md) for transcribing or analyzing existing recordings.
+- [Speak AI](/opt/hatch/connectors/speak_ai/CONNECTOR.md) for transcribing or analyzing existing recordings.
 
 ## Alternatives for better results
 

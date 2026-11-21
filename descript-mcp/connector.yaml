@@ -1,0 +1,10 @@
+id: descript
+title: "Descript"
+description: "Find, edit and publish Descript audio, video and podcast projects, import media into them and export their transcripts and timelines."
+aliases: [descript-connector-cli]
+include_in_prompt: false
+require_auth: true
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

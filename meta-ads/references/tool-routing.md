@@ -154,7 +154,11 @@
 
 - `ads_pixel_event_read` and `ads_pixel_parameter_read` take `items`, a list in which each entry names an `event_rule_id` or `parameter_id`, or a `pixel_id` to list from. To read one pixel, pass one item carrying its `pixel_id`, never a bare `pixel_id` or `ad_account_id` at the top level.
 
-- No tool creates a pixel or dataset or generates a Conversions API token, so follow the pixel section of [write operations](writes.md) rather than calling pixels unsupported. Conversions API setup and documentation go through `ads_get_help_article`.
+- Create a dataset with `ads_dataset_create`. It is still rolling out, so when it says it is not available yet, say so and offer creating the dataset in [Events Manager](https://business.facebook.com/events_manager2) instead. Event rules on an existing pixel follow the pixel section of [write operations](writes.md). No tool generates a Conversions API token; Conversions API setup and documentation go through `ads_get_help_article`.
+
+<!-- data-connections-only:start -->
+- Setting up, monitoring, fixing or improving a dataset or catalog connection follows [data connections](signals-connections.md).
+<!-- data-connections-only:end -->
 
 ## Audiences and Pages
 

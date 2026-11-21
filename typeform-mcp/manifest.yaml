@@ -1,0 +1,132 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: typeform
+category: productivity
+display_name: Typeform
+icon: typeform
+description: Build Typeform forms and review responses and insights
+cli:
+  binary: typeform-connector-cli
+  skill: typeform
+auth:
+  provider: typeform
+  required: true
+  mcp:
+    endpoint: https://api.typeform.com/mcp
+    oauth:
+      type: oauth
+      authorization_url: https://admin.typeform.com/oauth/authorize
+      token_url: https://api.typeform.com/oauth/token
+      cimd: true
+      scope: accounts:read automations:read automations:write contacts:read contacts:write forms:read forms:write pages:read pages:write responses:read responses:write insights:read packages:read subscriptions:read webhooks:read webhooks:write workspaces:read workspaces:write offline_access
+      resource: https://api.typeform.com/mcp
+      token_endpoint_auth_method: none
+    tool_names:
+      workspace.read:
+      - accounts-list_accounts
+      - workspaces-list_workspaces
+      - forms-public_get_capabilities
+      - forms-public_get_form
+      - forms-public_list_forms
+      - responses-public_list_responses
+      - themes-public_list_themes
+      - themes-get_theme
+      - insights-public_discover
+      - insights-public_aggregate
+      - insights-public_timeseries
+      - insights-public_toplist
+      - insights-public_list
+      - automations-public_get_authorized_email_domains
+      - automations-public_get_automation
+      - automations-public_get_email_notification
+      - automations-public_get_trigger
+      - automations-public_list_automations
+      - automations-public_list_referenceable_fields
+      - contacts-public_get_contact
+      - contacts-public_get_contacts_database_properties
+      - contacts-public_get_form_property_compatibility
+      - contacts-public_get_form_property_mappings
+      - contacts-public_list_contacts
+      - contacts-public_list_contacts_database_properties
+      - contacts-public_list_contacts_lists
+      - contacts-public_list_form_property_mappings
+      workspace.modify:
+      - forms-public_create_form
+      - forms-public_validate_patch
+      - forms-public_patch_form
+      - forms-public_publish_form
+      - forms-public_duplicate_form
+      - forms-public_update_form_metadata
+      - themes-create_theme
+      - themes-update_theme
+      - automations-public_add_delay_step
+      - automations-public_add_email_step
+      - automations-public_create_automation
+      - automations-public_patch_trigger
+      - automations-public_pause_automation
+      - automations-public_publish_automation
+      - automations-public_reorder_step
+      - automations-public_update_delay_step
+      - automations-public_update_email_step
+      - contacts-public_bulk_create_contacts_lists
+      - contacts-public_bulk_create_custom_contacts_database_properties
+      - contacts-public_bulk_upsert_contacts
+      - contacts-public_create_contact
+      - contacts-public_create_form_property_mappings
+      - contacts-public_enable_standard_contacts_database_properties
+      - contacts-public_import_form_responses_by_mapping
+      - contacts-public_update_contact
+      - contacts-public_update_contacts_list
+      - contacts-public_update_form_property_mappings
+      - forms-public_delete_form
+      - automations-public_remove_steps
+      - contacts-public_delete_contact
+      - contacts-public_delete_contacts_database_properties
+      - contacts-public_delete_contacts_database_property
+      - contacts-public_delete_contacts_list
+      - contacts-public_delete_form_property_mappings
+surrogation:
+  name: typeform
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+  - api.typeform.com
+  token_proxy:
+  - field: credentials.access_token
+    placement: bearer_header
+  stripped:
+  - credentials.refresh_token
+  token_refresh:
+  - path: /oauth/token
+actions:
+  read:
+    default: ask
+    label: Read permissions
+    methods:
+      workspace.read:
+        label: Read forms, responses, contacts and workflows
+  write:
+    default: ask
+    label: Write permissions
+    methods:
+      workspace.modify:
+        label: Manage forms, contacts, automations and sharing
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+  - icon: data_types
+    title: Level up with Typeform
+    text: Muse will access things like forms, questions, responses and respondent data.
+  - icon: info
+    title: You choose what Muse can do
+    text: By default, Muse will ask before taking actions it thinks need review. Disconnect at any time
+      in Settings.
+  - icon: caution
+    title: Keep an eye on things
+    text: Muse may take unexpected actions. Monitor it carefully.
+  footer_paragraphs:
+  - The info used for your tasks is part of your interactions with Muse, which we may use to improve AI
+    at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)
+  - Muse will exchange info with Typeform. To learn more, view their [terms](https://www.typeform.com/legal/service-terms-and-conditions) and [privacy policy](https://www.typeform.com/legal/privacy-policy).

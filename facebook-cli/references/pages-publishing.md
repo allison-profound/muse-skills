@@ -54,12 +54,28 @@
 
 - `posts cancel-schedule` unschedules the post and turns it back into a draft, though a publisher already running may still publish it.
 
+<!-- facebook-post-editing-only:start -->
+## Edit a published post
+
+```sh
+/opt/hatch/bin/facebook-cli pages posts edit --page-id '<page_id>' --post-id '<post_id>' --text '<complete replacement text, 1–1024 characters>'
+```
+
+- `posts edit` replaces the whole message of a published post. For a partial correction, combine the requested change with the rest of the original message. A Page analytics `caption_excerpt` may be shortened, so ask for the complete replacement text when that is all the available text.
+
+- Attachments and individual media captions stay unchanged. The existing post remains in place.
+
+- An edit receipt returns `page_id`, `post_id` and `post_url`. Show the returned post link and confirm the edit.
+
+- A timeout, malformed receipt or unknown outcome may mean the edit succeeded. Read the same post and compare its text with the requested replacement. If readback leaves the outcome unclear, report it as unconfirmed and ask the user to check Facebook before deciding on another edit.
+
+<!-- facebook-post-editing-only:end -->
 ## Confirm the outcome
 
 - Only `state: published` confirms publication, `scheduled` means publication is pending, and only `state: deleted` confirms deletion. Show a returned `post_url` as a clickable link.
 
 - A post ID returned with an unknown outcome helps reconcile the attempt but proves neither publication nor a schedule.
 
-- Each write gets a fresh request ID in its receipt or error. Use it to investigate that attempt, but it does not make a retry safe.
+- The draft, publish and schedule commands get a fresh request ID in their receipt or error. Use it to investigate that attempt, but it does not make a retry safe.
 
 - After an unknown outcome, a timeout, a disconnect, a malformed receipt or a refusal, ask the user to check the Page, post or draft in Facebook. Don't attempt another write unless the user asks.

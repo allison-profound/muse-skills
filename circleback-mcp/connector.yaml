@@ -1,0 +1,10 @@
+id: circleback
+title: "Circleback"
+description: "Search Circleback meeting notes, transcripts and action items, and update meetings, action items, tags and sharing with approval."
+aliases: [circleback-connector-cli]
+include_in_prompt: false
+require_auth: true
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

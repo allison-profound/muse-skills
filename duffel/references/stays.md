@@ -2,7 +2,7 @@
 
 - `stay-search`, `stay-rates` and `stay-quote` are hidden from `--help`, so use them as shown here.
 
-- Duffel books rates paid by card, in US dollars, and only for US accounts. Each hotel a search returns comes with its cheapest such rate, and the quote says when it's paid: now or at the hotel.
+- Duffel books rates paid by card, in US or Canadian dollars. Each hotel a search returns comes with its cheapest such rate, and the quote says when it's paid: now or at the hotel.
 
 ## Search
 
@@ -57,9 +57,22 @@
 
 - `email` and `phone_number` are the lead guest's. The phone needs its `+` country code.
 
+<!-- traveler-profiles-only:start -->
+- A saved traveler's guest is `{"traveler_id": "ID"}` with the `id` from `/opt/hatch/bin/duffel travelers`, in place of their names. With a saved traveler as the lead guest, leave out `email` and `phone_number`: the CLI fills them from that traveler's saved details without showing them to you, and the approval says they come from saved traveler details. A value you put in `--booking-json` replaces the saved one, so add only what the user asks to change.
+
+- The lead guest's details go in the secure traveler form, so values you don't already have stay out of this conversation and its transcript. When `missing_for_booking.hotel` lists fields for the lead guest, run `/opt/hatch/bin/duffel traveler-request --purpose hotel --traveler ID` with one `--field` per listed field before booking. For a lead guest who is not saved yet, run it without `--traveler`, with `--field email --field phone` and one `--prefill FIELD=VALUE` for each detail the user already gave you, `relationship` included. Other guests need only their names.
+
+- Each run asks for a secure card in this chat, and a note after the result says whether the card is on screen. When it is, tell the user to add the details in the card and end your reply: the chat continues when they save. When it is not, the command's `next` says what to ask in chat instead. `traveler_details_unavailable` means saved details couldn't be read or used: its `error` names the cause, and its `next` says what to do.
+<!-- traveler-profiles-only:end -->
+
 - If the quote names a `loyalty_programme` and the user has a number for it, add it as `loyalty_programme_account_number` in `--booking-json`.
 
+<!-- traveler-profiles-off-only:start -->
 - If the quote's `next_step` asks for the account holder's details, add `--customer-email`, `--customer-given-name` and `--customer-family-name`.
+<!-- traveler-profiles-off-only:end -->
+<!-- traveler-profiles-only:start -->
+- When the quote's `next_step` says the account has no Duffel traveler profile yet, follow it. `book` takes the account holder's details from the user's own saved traveler (`relationship: self`), and the `next_step` says which `--customer-*` flags or `traveler-request` to use when that traveler lacks one.
+<!-- traveler-profiles-only:end -->
 
 - `book` asks the user to approve, then books with their Link card. A pay-now rate is charged at booking. A guarantee rate charges nothing at booking. The guest pays at the hotel, and the card guarantees the booking, so the hotel can charge it as the rate's terms allow. The approval shows the hotel, dates, rooms, guests, room, amounts and cancellation terms.
 

@@ -1,0 +1,10 @@
+id: beehiiv
+title: "Beehiiv"
+description: "Manage Beehiiv newsletters, posts, subscribers, automations and communities, and read publication analytics."
+aliases: [beehiiv-connector-cli]
+include_in_prompt: false
+require_auth: false
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

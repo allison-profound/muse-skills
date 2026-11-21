@@ -58,7 +58,7 @@
 
 - `list-tools` returns GitHub's live tools and schemas, each marked with the command to use in `hatch_command`.
 
-- `call-read-tool` runs only the reviewed read-only tools under the connector's read permission: `get_file_contents`, `get_issue`, `get_me`, `get_pull_request`, `get_pull_request_files`, `get_pull_request_status`, `list_commits`, `list_issues`, `list_pull_requests`, `search_code`, `search_issues`, `search_repositories` and `search_users`. It rejects any other name.
+- `call-read-tool` runs only the reviewed read-only tools under the connector's read permission: `get_file_contents`, `get_me`, `issue_read`, `list_commits`, `list_issues`, `list_pull_requests`, `pull_request_read`, `search_code`, `search_issues`, `search_repositories` and `search_users`. It runs `issue_read` and `pull_request_read` only with a `method` listed in their `hatch_read_methods`, and rejects any other name or method; use `call-tool` for those.
 
 - `call-tool` runs writes and every new or unknown tool, and each call asks for fresh approval. Never infer that a tool is safe to read from GitHub's live catalog.
 

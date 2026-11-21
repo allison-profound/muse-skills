@@ -19,6 +19,10 @@
   - Ad ideas start from the account's current creatives and their ad-level results for the advertiser's goal. [Advertising Campaigns](/opt/muse/skills/advertising-campaigns/SKILL.md) covers how to shape and present them.
   - Any other change uses [write operations](references/writes.md). This includes editing a campaign, ad set or ad, and creating or changing an audience, catalog or pixel rule.
 
+<!-- shopify-sma-only:start -->
+- When an advertiser wants ads that depend on a data connection, such as sales ads that optimize for purchases or ads that show a catalog's products, never assume the connection exists or works, even when the advertiser believes it is set up. When an advertiser says their site or store is already connected to Meta, they mean this data connection, not that they have an ad account, so check the connection first, before asking which ad account to use. Data connections rely on external sources and can break or degrade without notice, and an ad account, catalog, dataset or installed app existing does not prove that products or events are arriving. Check the connection before asking for campaign details or planning, with [data connections](references/signals-connections.md). For a website, first find out what runs it, which needs no ad account: a connected Shopify connector, or the Facebook & Instagram app status for that website in [Shopify store setup](/opt/hatch/connectors/shopify/references/meta-ads-shopify-sma.md), shows whether a Shopify store sends its data.
+<!-- shopify-sma-only:end -->
+
 - Catalog, feed, product and audience are shared words. Treat a request as Meta Ads only when the user names Meta advertising, the object is Ads-specific, such as a pixel or Custom Audience, or a read-only Ads lookup finds exactly one match for the object the user named.
 
 - A named catalog or product feed, including a request to change its refresh schedule, gets that read-only Ads lookup before any search of cron jobs, hooks, tracking items, reminders or local scripts, which are not evidence either way. With no match or several, ask one short question and change nothing, and remember that a word like "Shopify" in a name does not prove which system owns it.
@@ -70,7 +74,7 @@
 
 - `status` lists the tool catalogue for connection diagnostics only. It does not check consent, so a successful status never proves access, and it is not a discovery command.
 
-- Ads operations are unavailable on confidential VMs, even with consent. The connection there still controls consent for Facebook Pages, so say Ads is unavailable rather than suggesting a reconnect.
+- Ads operations are unavailable on confidential VMs, even with consent. The connection there still controls consent for Facebook Pages, so say Ads is unavailable rather than suggesting a reconnect. A confidential VM is one whose runtime facts say `vm=Confidential`; `vm=Secure` is not confidential, and these tools work there.
 
 - To disconnect, run `disconnect-url` and share exactly `[Disconnect Meta Business Manager](<disconnect_url>)` without the raw URL. The link opens the standard confirmation, so never say access was removed until the user confirms there.
 
@@ -187,6 +191,26 @@
 - An upload returns `image_hash` or `video_id` for later creative calls. Any approval it needs happens before the transfer, the Ads upload is never retried, and a failure after staging returns a `staged_media_handle` and marks the operation not retryable.
 
 - `call-tool --output-dir <dir>` works only with `ads_creative_create_image_variations`, which then saves each variation and returns its `local_path`.
+
+<!-- data-connections-only:start -->
+## Use data connections
+
+- Ads can rely on data connections to perform better. Advertisers connect conversion events, CRM data, catalogs and other signals from their website, CRM, Mobile Measurement Partner, data warehouse or other technologies.
+
+- Data connections can benefit from ongoing monitoring and improvement to keep the setup high quality.
+
+- High-quality connected data can enable advertisers to optimize for specific goals, such as running sales ads rather than traffic ads or specific lead generation outcomes. Data connections can also improve measurement capabilities.
+
+- Read [data connections](references/signals-connections.md) to explain a connection, or to set one up, monitor, fix or improve it.
+
+- A request to connect a website or online store to Meta, such as "connect example.com to Meta so I can advertise", asks for a data connection, not for an ad account. Read [data connections](references/signals-connections.md) before choosing or asking about an ad account.
+<!-- data-connections-only:end -->
+
+<!-- shopify-sma-only:start -->
+- After a Shopify store setup, when the merchant declines the delivery check, restate app authorization and each confirmed connection in one line, then say product sync and events stay unverified and they can ask you to check any time, and do not call the store ready or working.
+
+- After a Shopify store setup, when the merchant asks for an ad, read the ad account with `ads_get_ad_accounts` before asking for the brief; when it is listed with `is_ads_mcp_write_disabled: true`, say so and follow [manual setup](references/campaign-manual-setup.md), and carry the setup forward as [campaign planning](references/campaign-planning.md) describes.
+<!-- shopify-sma-only:end -->
 
 ## Check policy
 

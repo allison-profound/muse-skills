@@ -52,4 +52,6 @@
 <!-- expedia-payment-readiness-only:end -->
 - When the seller refuses the card or billing details in native checkout, offer the recovery options the connector returns, or the same property and dates on the seller's website through [browser booking](/opt/muse/assets/booking/references/browser-booking.md).
 
+- When a browser task books the stay, say in its assignment why that website rather than a connector: a member rate, points or status; a better price there; available lodging connectors do not sell the chosen rate; no lodging booking connector is available; a connector booking that failed; or the user asked for that site.
+
 - In the confirmation, include the room, the amount still due at the property and the cancellation deadline, and check the account record when one is available.

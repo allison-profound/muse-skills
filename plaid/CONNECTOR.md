@@ -14,7 +14,9 @@
 
 - If a read returns `reauthentication.needs_reauth: true`, post its exact `reauthentication.reconnect_url` as `[Log in again](<reconnect_url>)` for the affected institution. Wait for the user to finish before retrying that read. If verification is unavailable, report the read failure without inventing a reconnect link.
 
-- To link another institution, run `status` and post its exact `add_account_url` as `[Add financial account](<add_account_url>)`. Each link session connects one institution. If `add_account_url` is absent, say adding another institution is unavailable, and never reuse `connect_url` for it.
+- To link another institution, run `status` and post its exact `add_account_url` as `[Add financial account](<add_account_url>)`. If `add_account_url` is absent, say adding another institution is unavailable, and never reuse `connect_url` for it.
+
+- Link may offer several banks in one session. Run `status` after linking before claiming success or reusing a saved institution ID. Selecting different accounts at an already linked bank can add another connection. Use the institution's `reconnect_url` to repair a login.
 
 - To disconnect every institution, run `disconnect` and post its `disconnect_url` as `[Disconnect Plaid](<disconnect_url>)`. Claim the disconnection only after the user confirms through that link, and if no URL comes back, say Plaid is already disconnected.
 

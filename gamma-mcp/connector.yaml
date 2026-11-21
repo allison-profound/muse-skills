@@ -1,0 +1,10 @@
+id: gamma
+title: "Gamma"
+description: "Create, edit and export Gamma presentations, slide decks and documents, and read their comments and viewer analytics."
+aliases: [gamma-connector-cli]
+include_in_prompt: false
+require_auth: true
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

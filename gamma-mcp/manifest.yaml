@@ -1,0 +1,97 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: gamma
+category: productivity
+display_name: Gamma
+icon: gamma
+description: Create and review presentations and documents in Gamma
+cli:
+  binary: gamma-connector-cli
+  skill: gamma
+auth:
+  provider: gamma
+  required: true
+  mcp:
+    endpoint: https://mcp.gamma.app/mcp
+    oauth:
+      type: oauth
+      authorization_url: https://auth.gamma.app/oauth/authorize
+      token_url: https://auth.gamma.app/oauth/token
+      registration_url: https://auth.gamma.app/oauth/register
+      resource: https://mcp.gamma.app
+      token_endpoint_auth_method: none
+      scope: generate gamma:read
+    tool_names:
+      presentations.read:
+      - get_generation_status
+      - get_image_generation_status
+      - get_export_status
+      - get_edit_status
+      - get_gammas
+      - search_gammas
+      - search_templates
+      - read_gamma
+      - get_themes
+      - get_folders
+      - get_gamma_comments
+      - get_gamma_analytics
+      - get_gamma_card_analytics
+      - get_gamma_viewer_analytics
+      - get_gamma_viewer_detail_analytics
+      - get_gamma_outline
+      presentations.modify:
+      - generate
+      - generate_from_template
+      - generate_multi_page_gamma
+      - generate_image
+      - export_gamma
+      - edit_gamma
+      - duplicate_gamma
+      - move_gamma
+      - feedback
+surrogation:
+  name: gamma
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+  - auth.gamma.app
+  - mcp.gamma.app
+  token_proxy:
+  - field: credentials.access_token
+    placement: bearer_header
+  stripped:
+  - credentials.refresh_token
+  token_refresh:
+  - path: /oauth/token
+actions:
+  read:
+    default: ask
+    label: Read permissions
+    methods:
+      presentations.read:
+        label: Read presentations, assets and generation status
+  write:
+    default: ask
+    label: Write permissions
+    methods:
+      presentations.modify:
+        label: Create and edit presentations
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+  - icon: data_types
+    title: Connect to Gamma
+    text: Create and review presentations and documents in Gamma.
+  - icon: info
+    title: You choose what Muse can do
+    text: Muse can read information for your tasks. It will ask each time before making changes or running
+      other actions. Disconnect at any time in Settings.
+  - icon: caution
+    title: Keep an eye on things
+    text: Muse may take unexpected actions. Monitor it carefully.
+  footer_paragraphs:
+  - The info used for your tasks is part of your interactions with Muse, which we may use to improve AI
+    at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)
+  - Muse will exchange info with Gamma. To learn more, view their [terms](https://gamma.app/terms) and [privacy policy](https://gamma.app/privacy).

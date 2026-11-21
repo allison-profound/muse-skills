@@ -5,6 +5,9 @@ aliases: [facebook-cli, facebook_cli, facebook-marketplace, facebook_marketplace
 wire_id: facebook
 include_in_prompt: true
 features:
+  facebook-post-editing:
+    gk: hatch_fb_connector_post_editing_test
+    files: [references/editing-posts.md]
   facebook-group-moderation:
     gk: hatch_fb_connector_group_moderation_test
     description_phrase: ", approve or decline pending posts, membership requests and participation requests, and approve or delete spam in Groups they administer or moderate"
@@ -39,6 +42,13 @@ features:
     gk: hatch_fb_connector_pages_tranche2
   facebook-pages-tranche2-monetization:
     gk: hatch_fb_connector_pages_tranche2_monetization
+    description_phrase: "earnings and payouts,"
+    files: [references/pages-monetization.md]
+    methods: [pages.monetization.read]
+  facebook-pages-tranche2-story-delete:
+    gk: hatch_fb_connector_pages_tranche2_story_delete
+  marketplace-needs-attention:
+    gk: hatch_fb_connector_marketplace_test
 onboarding: true
 non_confidential: true
 availability:

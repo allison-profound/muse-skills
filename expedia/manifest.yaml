@@ -41,6 +41,9 @@ actions:
       lodging.booking.read:
         label: Access bookings
         approval_phrase: access your Expedia bookings
+      traveler.read:
+        label: See the names of your saved travelers and which details each has saved
+        approval_phrase: see your saved travelers
 cli_subcommands:
   - profile
   - search
@@ -49,6 +52,8 @@ cli_subcommands:
   - validate-booking
   - book
   - booking-status
+  - traveler-request
+  - travelers
 consent_screen:
   bullets:
     - icon: data_types

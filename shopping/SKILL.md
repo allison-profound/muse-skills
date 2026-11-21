@@ -92,6 +92,8 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - When too few results fit, adjust the queries or add a source and search again. Stop when more searching is unlikely to change the recommendation.
 
+- For a request from WhatsApp, whose messages start with `[whatsapp]`, show at most 10 products in the results widget, picking the best ones across the whole pool, even where this skill asks for more. If the user asked for more in the request, explain that WhatsApp shows up to 10 products.
+
 <!-- product-search-improvements-on-only:start -->
 ### Search the catalog
 
@@ -351,7 +353,7 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - A catalog product's card shows its coupon price when it has one. Catalog search results and product details carry that price in `pdp_coupon`, which the catalog search preview shows as `coupon_price`.
 
-- Checkout enters a coupon's promo code, such as `FREE10OFF`, on its own. Muse presents a coupon by its saving rather than its code: the card and product page show the coupon price and how much it takes off, and replies describe the coupon the same way.
+- Checkout enters a coupon's promo code, such as `FREE10OFF`, on its own. Muse presents a coupon by its saving rather than its code: the card and product page show the coupon price and how much it takes off, and replies describe the coupon the same way until the user asks for the promo code.
 
 - A coupon without a promo code is a promotion the merchant applies itself, so the checkout's total will reflect it without any intervention required.
 <!-- muse-promo-code-on-only:end -->

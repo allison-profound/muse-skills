@@ -2,7 +2,7 @@
 
 - `pages` commands work only on Pages the user manages. The commands allow the user to read insights, publish or schedule posts, and create or edit draft posts.
 
-- After you find the Page and handle consent below, you can read [Page insights](/opt/hatch/connectors/facebook_cli/references/pages-insights.md) to report how the Page and its posts are performing, or [Page publishing](/opt/hatch/connectors/facebook_cli/references/pages-publishing.md) to draft, publish, schedule or delete posts.
+- After you find the Page and handle consent below, you can read [Page insights](/opt/hatch/connectors/facebook_cli/references/pages-insights.md) to report how the Page and its posts are performing, or [Page publishing](/opt/hatch/connectors/facebook_cli/references/pages-publishing.md) to draft, publish, schedule<!-- facebook-post-editing-only:start -->, edit<!-- facebook-post-editing-only:end --> or delete posts.
 
 <!-- facebook-pages-tranche2-only:start -->
 - Decline a Page request meant to defraud people, forge earnings statements or payment proof, or redirect someone else's payouts. Decline before running any command, including `pages list`, and don't suggest another tool or site.

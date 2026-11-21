@@ -16,7 +16,12 @@
 
 - When the user or memory names a preferred rental company or loyalty program, include that company's best rate, using the connector's company filter when it has one.
 
+<!-- traveler-profiles-off-only:start -->
 - Ask for the driver's legal name, birth date, email and phone only after the user picks a live rate, and ask for a card only when the chosen rate is paid now.
+<!-- traveler-profiles-off-only:end -->
+<!-- traveler-profiles-only:start -->
+- The driver's legal name, birth date, email and phone come up only after the user picks a live rate, and the way the connector's doc describes: a connector that uses the user's saved traveler details takes them from there, or asks for them in a secure form in place of chat. Ask for a card only when the chosen rate is paid now.
+<!-- traveler-profiles-only:end -->
 
 ## Compare sources
 

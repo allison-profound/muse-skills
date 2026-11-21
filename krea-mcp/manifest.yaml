@@ -1,0 +1,83 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: krea
+category: productivity
+display_name: "Krea"
+icon: krea
+description: "Generate images and video with Krea AI models"
+cli:
+  binary: krea-connector-cli
+  skill: krea
+auth:
+  provider: krea
+  required: true
+  mcp:
+    endpoint: "https://api.krea.ai/mcp"
+    oauth:
+      type: "oauth"
+      authorization_url: "https://www.krea.ai/auth/v1/oauth/authorize"
+      token_url: "https://www.krea.ai/auth/v1/oauth/token"
+      registration_url: "https://www.krea.ai/auth/v1/oauth/clients/register"
+      resource: "https://api.krea.ai/mcp"
+      token_endpoint_auth_method: "none"
+    tool_names:
+      get_model_schema: [get_model_schema, get_prompting_guide]
+      generate: [generate_image, generate_video, enhance_image, generate_3d, generate_audio]
+surrogation:
+  name: krea
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+    - api.krea.ai
+    - www.krea.ai
+  token_proxy:
+    - field: credentials.access_token
+      placement: bearer_header
+  stripped:
+    - credentials.refresh_token
+  token_refresh:
+    - path: /auth/v1/oauth/token
+actions:
+  read:
+    default: ask
+    label: "Read permissions"
+    response_guard: verification_codes
+    methods:
+      list_models:
+        label: "List models"
+      get_model_schema:
+        label: "Get model schema"
+      get_job:
+        label: "Get job"
+  write:
+    default: ask
+    label: "Write permissions"
+    response_guard: verification_codes
+    methods:
+      generate:
+        label: "Generate"
+        approval_phrase: "generate in Krea"
+        approval_policy: fresh_consent_only
+      execute_node_app:
+        label: "Execute node app"
+        approval_phrase: "execute node app in Krea"
+        approval_policy: fresh_consent_only
+      cancel_job:
+        label: "Cancel job"
+        approval_phrase: "cancel job in Krea"
+consent_screen:
+  bullets:
+    - icon: data_types
+      title: "Level up with Krea"
+      text: "Muse will access things like prompts, generated images and videos, and uploaded assets."
+    - icon: info
+      title: "You choose what Muse can do"
+      text: "By default, Muse will ask before taking actions it thinks need review. Disconnect at any time in Settings."
+    - icon: caution
+      title: "Keep an eye on things"
+      text: "Muse may take unexpected actions. Monitor it carefully."
+  footer_paragraphs:
+    - "The info used for your tasks is part of your interactions with Muse, which we may use to improve AI at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)"
+    - "Muse will exchange info with Krea. To learn more, view their [terms](https://www.krea.ai/terms) and [privacy policy](https://www.krea.ai/privacy)."

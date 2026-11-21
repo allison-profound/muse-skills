@@ -1,0 +1,173 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: deepl
+category: productivity
+display_name: "DeepL"
+icon: deepl
+description: "Translate text and documents and manage glossaries with DeepL"
+cli:
+  binary: deepl-connector-cli
+  skill: deepl
+auth:
+  provider: deepl
+  required: true
+  mcp:
+    endpoint: "https://mcp.deepl.com/v1/mcp"
+    oauth:
+      type: "oauth"
+      authorization_url: "https://mcp.deepl.com/.idp/auth"
+      token_url: "https://mcp.deepl.com/.idp/token"
+      registration_url: "https://mcp.deepl.com/.idp/register"
+      revoke_url: "https://mcp.deepl.com/.idp/revoke"
+      resource: "https://mcp.deepl.com/v1/mcp"
+      token_endpoint_auth_method: "none"
+    tool_names:
+      translate_text: "translate-text"
+      rephrase_text: "rephrase-text"
+      correct_text: "correct-text"
+      get_source_languages: "get-source-languages"
+      get_target_languages: "get-target-languages"
+      upload_document: "upload-document"
+      get_document_status: "get-document-status"
+      download_document: "download-document"
+      list_glossaries: "list-glossaries"
+      get_glossary_info: "get-glossary-info"
+      get_glossary_dictionary_entries: "get-glossary-dictionary-entries"
+      create_glossary: "create-glossary"
+      rename_glossary: "rename-glossary"
+      update_glossary_entries: "update-glossary-entries"
+      remove_glossary_entries: "remove-glossary-entries"
+      replace_glossary_dictionary: "replace-glossary-dictionary"
+      delete_glossary_dictionary: "delete-glossary-dictionary"
+      delete_glossary: "delete-glossary"
+      list_predefined_style_rules: "list-predefined-style-rules"
+      list_style_rule_sets: "list-style-rule-sets"
+      get_style_rule_set: "get-style-rule-set"
+      create_style_rule_set: "create-style-rule-set"
+      update_style_rule_set: "update-style-rule-set"
+      delete_style_rule_set: "delete-style-rule-set"
+      get_custom_instruction: "get-custom-instruction"
+      create_custom_instruction: "create-custom-instruction"
+      update_custom_instruction: "update-custom-instruction"
+      delete_custom_instruction: "delete-custom-instruction"
+surrogation:
+  name: deepl
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+    - mcp.deepl.com
+  token_proxy:
+    - field: credentials.access_token
+      placement: bearer_header
+  stripped:
+    - credentials.refresh_token
+  token_refresh:
+    - path: /.idp/token
+actions:
+  read:
+    default: ask
+    label: "Read permissions"
+    response_guard: verification_codes
+    methods:
+      get_source_languages:
+        label: "Get source languages"
+      get_target_languages:
+        label: "Get target languages"
+      get_document_status:
+        label: "Get document status"
+      list_glossaries:
+        label: "List glossaries"
+      get_glossary_info:
+        label: "Get glossary info"
+      get_glossary_dictionary_entries:
+        label: "Get glossary dictionary entries"
+      list_predefined_style_rules:
+        label: "List predefined style rules"
+      list_style_rule_sets:
+        label: "List style rule sets"
+      get_style_rule_set:
+        label: "Get style rule set"
+      get_custom_instruction:
+        label: "Get custom instruction"
+  write:
+    default: ask
+    label: "Write permissions"
+    response_guard: verification_codes
+    methods:
+      translate_text:
+        label: "Translate text"
+        approval_phrase: "translate text in DeepL"
+      rephrase_text:
+        label: "Rephrase text"
+        approval_phrase: "rephrase text in DeepL"
+      correct_text:
+        label: "Correct text"
+        approval_phrase: "correct text in DeepL"
+      upload_document:
+        label: "Upload document"
+        approval_phrase: "upload document in DeepL"
+        approval_policy: fresh_consent_only
+      download_document:
+        label: "Download document"
+        approval_phrase: "download document in DeepL"
+      create_glossary:
+        label: "Create glossary"
+        approval_phrase: "create glossary in DeepL"
+      rename_glossary:
+        label: "Rename glossary"
+        approval_phrase: "rename glossary in DeepL"
+      update_glossary_entries:
+        label: "Update glossary entries"
+        approval_phrase: "update glossary entries in DeepL"
+      replace_glossary_dictionary:
+        label: "Replace glossary dictionary"
+        approval_phrase: "replace glossary dictionary in DeepL"
+        approval_policy: fresh_consent_only
+      create_style_rule_set:
+        label: "Create style rule set"
+        approval_phrase: "create style rule set in DeepL"
+      update_style_rule_set:
+        label: "Update style rule set"
+        approval_phrase: "update style rule set in DeepL"
+      create_custom_instruction:
+        label: "Create custom instruction"
+        approval_phrase: "create custom instruction in DeepL"
+      update_custom_instruction:
+        label: "Update custom instruction"
+        approval_phrase: "update custom instruction in DeepL"
+      remove_glossary_entries:
+        label: "Remove glossary entries"
+        approval_phrase: "remove glossary entries in DeepL"
+        approval_policy: fresh_consent_only
+      delete_glossary_dictionary:
+        label: "Delete glossary dictionary"
+        approval_phrase: "delete glossary dictionary in DeepL"
+        approval_policy: fresh_consent_only
+      delete_glossary:
+        label: "Delete glossary"
+        approval_phrase: "delete glossary in DeepL"
+        approval_policy: fresh_consent_only
+      delete_style_rule_set:
+        label: "Delete style rule set"
+        approval_phrase: "delete style rule set in DeepL"
+        approval_policy: fresh_consent_only
+      delete_custom_instruction:
+        label: "Delete custom instruction"
+        approval_phrase: "delete custom instruction in DeepL"
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+    - icon: data_types
+      title: "Level up with DeepL"
+      text: "Muse will access things like documents and translations."
+    - icon: info
+      title: "You choose what Muse can do"
+      text: "By default, Muse will ask before taking actions it thinks need review. Disconnect at any time in Settings."
+    - icon: caution
+      title: "Keep an eye on things"
+      text: "Muse may take unexpected actions. Monitor it carefully."
+  footer_paragraphs:
+    - "The info used for your tasks is part of your interactions with Muse, which we may use to improve AI at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)"
+    - "Muse will exchange info with DeepL. To learn more, view their [terms](https://www.deepl.com/en/pro-license) and [privacy policy](https://www.deepl.com/en/privacy)."

@@ -22,6 +22,13 @@ cli:
   binary: shopify
   skill: shopify
   service: shopify
+# Each listed path gets its own telemetry tool variant (`shopify/meta-app/status`).
+# Only the Meta app setup commands are listed, so the Shopify MCP commands keep
+# the bare `shopify` identity that their privacy policy is keyed on.
+cli_subcommands:
+  - meta-app status
+  - meta-app install
+  - meta-app onboard
 actions:
   read:
     default: allow
@@ -47,6 +54,9 @@ actions:
         label: Read analytics and other Shopify Admin data
         approval_phrase: read analytics or other Shopify Admin data
         response_guard: verification_codes
+      shopify_sma.read:
+        label: Check the Facebook & Instagram app connection
+        approval_phrase: check whether your Shopify store is connected to Facebook and Instagram
   write:
     default: ask
     label: Create or change Shopify store data
@@ -66,6 +76,22 @@ actions:
       admin.manage:
         label: Change other Shopify Admin data with GraphQL
         approval_phrase: change other Shopify Admin data with GraphQL
+  shopify_sma_write:
+    default: ask
+    label: Connect to Facebook and Instagram
+    methods:
+      shopify_sma.write:
+        default: allow
+        label: Install the Facebook & Instagram app
+        approval_phrase: create a link to install the Facebook & Instagram app on your Shopify store
+      shopify_sma.onboard:
+        approval_policy: fresh_consent_always
+        label: Connect your business portfolio to Shopify
+        approval_phrase: connect your business portfolio to Shopify
+        approval_buttons:
+          allow_once: "Confirm"
+          deny: "Not now"
+          deny.task: "Not now"
 commands:
   status: null
   authorize-url: null
@@ -75,6 +101,9 @@ commands:
   # The CLI classifies every reviewed Shopify tool at runtime. Unknown or
   # newly advertised tools remain unavailable until explicitly mapped.
   call-tool: null
+  "meta-app status": shopify_sma.read
+  "meta-app install": shopify_sma.write
+  "meta-app onboard": shopify_sma.onboard
 consent_screen:
   bullets:
     - icon: data_types

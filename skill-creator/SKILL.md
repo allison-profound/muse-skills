@@ -87,7 +87,7 @@ with urllib.request.build_opener(NoRedirect()).open(request, timeout=30) as resp
 
 - These connectors depend on the user's channel or devices. `muse.connector_search` shows which ones this session has.
 
-- [Composio](/opt/hatch/connectors/composio_mcp/CONNECTOR.md) for running actions in apps the user connected to Composio.
+- [Composio](/opt/hatch/connectors/composio/CONNECTOR.md) for running actions in apps the user connected to Composio.
 
 ## Alternatives for better results
 

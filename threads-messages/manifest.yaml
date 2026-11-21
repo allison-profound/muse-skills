@@ -9,6 +9,7 @@ cli:
   skill: threads_messages
 connector: threads_messages
 category: social
+restricted_clients: [whatsapp]
 display_name: Threads Messages
 description: Catch up on your Threads messages
 icon: threads

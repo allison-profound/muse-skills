@@ -35,6 +35,7 @@ cli_subcommands:
   - "post audiences"
   - "post crossposting"
   - "post create"
+  - "post edit"
   - "post comments add"
   - "pages list"
   - "pages info"
@@ -70,6 +71,7 @@ cli_subcommands:
   - "pages drafts edit"
   - "pages drafts delete"
   - "pages posts create"
+  - "pages posts edit"
   - "pages posts reschedule"
   - "pages posts cancel-schedule"
   - "link-sharing decode-url"
@@ -163,6 +165,7 @@ cli_subcommand_aliases:
   "posts audiences": "post audiences"
   "posts crossposting": "post crossposting"
   "posts create": "post create"
+  "posts edit": "post edit"
   "posts comments": "post comments read"
   "posts comments read": "post comments read"
   "posts comments list": "post comments read"
@@ -243,8 +246,8 @@ actions:
     methods:
       post.create:
         approval_policy: fresh_consent_only
-        label: Publish posts to your profile
-        approval_phrase: post to your Facebook profile
+        label: Post and edit content on your Profile
+        approval_phrase: post and edit content on your Profile
       groups.posts.create_and_edit:
         approval_policy: fresh_consent_only
         label: Post and edit Groups content
@@ -259,7 +262,7 @@ actions:
         approval_phrase: add, change, or remove your reaction on this Facebook post or comment
       pages.posts.write:
         approval_policy: fresh_consent_only
-        label: Draft, publish, or schedule page posts
+        label: Draft, publish, edit, or schedule page posts
         approval_phrase: create, edit, schedule, publish, and delete posts and drafts on your Facebook Pages
       pages.stories.write:
         approval_policy: fresh_consent_only
@@ -306,6 +309,8 @@ commands:
   "post crossposting": post.crossposting.read
   # With --group-id, post create uses groups.posts.create_and_edit.
   "post create": post.create
+  # Group targets use groups.posts.create_and_edit.
+  "post edit": post.create
   "post comments add": comment.add
   "post comments read": facebook.search
   "post reactions read": facebook.search
@@ -340,6 +345,7 @@ commands:
   "pages posts list": pages.read
   "pages posts get": pages.read
   "pages posts create": pages.posts.write
+  "pages posts edit": pages.posts.write
   "pages posts reschedule": pages.posts.write
   "pages posts cancel-schedule": pages.posts.write
   "pages drafts create": pages.posts.write

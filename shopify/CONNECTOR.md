@@ -29,6 +29,14 @@
 - Authenticated commands refresh an expired token automatically, so do not ask the user to reconnect for ordinary expiry. If a result reports a revoked grant or needs reauthorization, run `authorize-url`, and ask for a disconnect only when the result says it is necessary.
 
 - Run `disconnect` only when the user asks. Never run `exchange-code`, which belongs to the sign-in flow.
+<!-- shopify-sma-only:start -->
+
+- When the merchant wants more sales or customers, [Advertising Campaigns](/opt/muse/skills/advertising-campaigns/SKILL.md) can bring more shoppers to the store. For Meta ads, a high-quality data connection of the store's Purchase events and catalog lets sales ads optimize for purchases instead of clicks. Connecting the store to Facebook and Instagram, its catalog or its Purchase events uses Meta's Facebook & Instagram app: set it up with `shopify meta-app`, following [Shopify store setup](references/meta-ads-shopify-sma.md). A connected Shopify store here says nothing about that app.
+
+- When the merchant says they installed or authorized Meta's Facebook & Instagram app, or asks whether the store is connected to Meta, Facebook or Instagram or whether that setup is working or healthy, or how they would know if it stops working, read [Shopify store setup](references/meta-ads-shopify-sma.md) and check the app status there before anything else.
+
+- Syncing the store's products to a Meta catalog, switching that catalog, sending the store's purchases or other events to a Meta dataset, and Meta's Facebook & Instagram app are the setup `shopify meta-app` runs: read [Shopify store setup](references/meta-ads-shopify-sma.md) and check the app status there first. A catalog name the store does not have does not prove it is a Meta catalog: treat it as one only when the merchant names Meta, Facebook or Instagram, or a read-only Meta Ads lookup finds exactly one catalog with that name, and otherwise ask which catalog they mean.
+<!-- shopify-sma-only:end -->
 
 ## Find the right tool
 
@@ -56,6 +64,11 @@
 
 - Confirm with the merchant before any write, including creating, updating or bulk-changing products and collections, setting inventory, creating discounts, importing a catalog and running `graphql_mutation`. A request to create a product does not approve unrelated promotions or catalog changes.
 
+<!-- shopify-sma-only:start -->
+
+- Never call a write tool to find out whether it is available; read `list-tools` instead.
+<!-- shopify-sma-only:end -->
+
 - Inspect the returned result as well as the command status, because Shopify can report a tool failure inside a successful response.
 
 - After a timeout or lost response to a write, check the affected record with a read tool, such as `search_products`, before repeating it. If the outcome cannot be confirmed, report that and stop. Fix and retry only a request that Shopify rejected before applying it.
@@ -65,6 +78,11 @@
 - For a first store, go one step at a time. Read `get-shop-info`, import the chosen sample catalog or create the merchant's own products with title, description, price and image URLs, group them with `create-collection` and `add-to-collection`, set inventory if they track stock and add a launch discount only if they want one.
 
 ## Import a sample catalog
+
+<!-- shopify-sma-only:start -->
+
+- This section is for building a store's products from a sample. A request to switch an existing store to a named catalog it does not have is a Meta catalog switch only with the Meta evidence the line above asks for: then read [Shopify store setup](references/meta-ads-shopify-sma.md), not a sample import. Without that evidence, ask which catalog they mean before importing anything.
+<!-- shopify-sma-only:end -->
 
 - Call `find-mock-shop-catalogs` with what the merchant sells, in their words, and ask that one question first if they have not said. Present the best matches with their descriptions, product and collection counts, currency and `storefrontUrl`, labeling each link as the source sample storefront.
 

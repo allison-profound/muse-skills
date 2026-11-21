@@ -12,6 +12,13 @@
 
 - Create the same buyer-and-currency input described below, using the currency read from checkout (ask if it is unknown), replacing the entire `items` field with `"browser_task_id": "<shopify_cart.browser_task_id>"`. Never add `items` to a captured cart's checkout. One CLI invocation converts the captured cart and applies the prepared buyer and delivery details before returning its quote.
 
+- A promo code the store applied to a captured cart carries into its checkout, and later updates keep it. When the user or the browser task's report names a code the checkout's `discounts` don't show, pass the complete set in `discount_codes` with a `checkout update` after the captured cart's `checkout create`, which takes no codes.
+
+<!-- poppy-cart-only:start -->
+
+- When the capture report says the task's Poppy agent made the cart from the store's catalog, you can change what it holds before its checkout is created (add or remove an item, or change a quantity or option): continue the original browser task with `shopify_cart.browser_task_id`, list every item the cart should hold, tell it to update the cart for direct checkout, and continue from the new `cart_captured` handoff it returns.
+<!-- poppy-cart-only:end -->
+
 - Never recapture. Retry captured-cart creation only when the CLI reports `buyer.email must contain @`, `buyer.country_code must be a two-letter ISO country code`, `unsupported Shopify checkout currency`, or an error from parsing the input file, such as an unknown, missing or duplicate field or a wrong type, with no `create_outcome` or checkout reference. These errors occur before the cart is claimed. Correct the draft from confirmed details, asking the user if needed, and run `checkout create` once more with the same `browser_task_id`. Missing `create_outcome` alone does not permit a retry. For any other failure with neither `create_outcome` nor a checkout reference, including a corrected attempt that still fails or cannot claim the cart, do not run `checkout create` again. Continue website checkout in the original browser task: call `browser.browse` with `shopify_cart.browser_task_id`, reopen the merchant checkout page it was on, and tell it to continue website checkout without capturing again. If `browser.browse` cannot resume that task, start a browser task with `task_id: "new"` at that checkout page. Catalog-token refresh instructions below do not apply to a captured cart.
 
 - When `create_outcome` is `rejected`, stop and report the rejection; if the user chooses website checkout, continue the original browser task without another capture. A rejection with the merchant code `redirect_to_checkout_required` needs no question: continue website checkout in that task right away, as **Read the creation result** describes. When `create_outcome` is `created` but `ok` is false and there is no `escalation.continue_url`, read `agent_state.checkout_id` with `checkout get` and address the reported issue, using `checkout update` for buyer corrections before reviewing the quote. Keep that checkout instead of reopening the original cart. With an `escalation.continue_url`, follow **Read the creation result**.
@@ -62,8 +69,8 @@
 
 - Otherwise, use a connected wallet without asking the user:
   - For a `ucp_direct` (Nike) checkout, create the checkout before offering or starting any wallet setup: a user outside Nike checkout is refused at creation with "Nike checkout is not enabled for this user", and then gets browser checkout without being asked to set up a wallet. Skip Shop Pay: Nike takes card credentials only, so use Link.
-  - Call `wallet.list_payment_methods` with `provider: "shop-pay"`. Use Shop Pay when its `status` is `connected` and it lists a usable card.
-  - Otherwise, do not share Shop Pay's `next_action.markdown` or send its card page yet. Call `wallet.list_payment_methods` with `provider: "stripe-link"`, and use Link when its `status` is `connected` and it lists a usable payment method.
+  - Call `wallet.list_payment_methods` with `provider: "shop-pay"` and `purchase: true`. Use Shop Pay when its `status` is `connected` and it lists a usable card.
+  - Otherwise, do not share Shop Pay's `next_action.markdown` or send its card page yet. Call `wallet.list_payment_methods` with `provider: "stripe-link"` and `purchase: true`, and use Link when its `status` is `connected` and it lists a usable payment method.
   - When neither lists a usable method but one is connected, choose that wallet, Shop Pay when both are connected, and add a card as its connector docs describe.
 <!-- shop-pay-wallet-setup-off-only:start -->
   - When neither wallet is connected, ask with `muse.create_options` and wait, offering to set up Shop Pay or Link. Then share only the chosen wallet's `next_action.markdown`, as its connector docs describe.
@@ -84,7 +91,7 @@
 
 - After applying known, sole or default values, ask one grouped question for every required detail still missing or ambiguous. Never guess or fill in a buyer email, recipient name or address field. Do not tell the user details are needed before these lookups finish.
 
-- Direct completion needs the buyer email, the recipient's first and last name and a complete shipping address with street, city, state or region, postal code and two-letter country code. Direct checkout ships only to the United States, Canada, Japan, Singapore and the United Kingdom (country code `GB`), so use the browser route for another destination. Include a phone number when known, and ask for one only when the user or merchant requires it.
+- Direct completion needs the buyer email, the recipient's first and last name and a complete shipping address with street, city, state or region, postal code and two-letter country code. Direct checkout ships only to the United States, Canada, Japan, Singapore, the United Kingdom (country code `GB`), Australia (`AU`) and New Zealand (`NZ`), so use the browser route for another destination. Include a phone number when known, and ask for one only when the user or merchant requires it.
 
 - Wait for those details before creating the checkout. If the user does not want to give them, use the browser route with the selected wallet from the original product URLs.
 
@@ -259,11 +266,11 @@
 - Show the completed quote with the masked card, items, final total and delivery choice, as the checkout review in `~/docs/chat/payments-and-purchases.md` describes. A wallet connection or an earlier request to buy does not approve this quote.
 
 <!-- purchase-preapproval-off-only:start -->
-- For Link, ask for the user's explicit approval and wait. For Shop Pay, do not ask in chat, because `checkout complete` requests the wallet approval that serves as final confirmation.
+- After showing the quote, run `checkout complete`. The wallet approval it requests is where the user confirms the payment.
 <!-- purchase-preapproval-off-only:end -->
 <!-- purchase-preapproval-on-only:start -->
 - When the latest `checkout create`, `checkout update` or `checkout get` output shows `payment.preapproved: true`, the user's purchase approval covers this quote. Show the quote with the card from `payment` and complete without asking again.
-- When `payment.preapproved` is false or missing, follow the ordinary steps. For Link, ask for the user's explicit approval and wait. For Shop Pay, do not ask in chat, because `checkout complete` requests the wallet approval that serves as final confirmation.
+- When `payment.preapproved` is false or missing, show the quote and run `checkout complete`. The wallet approval it requests is where the user confirms the payment.
 <!-- purchase-preapproval-on-only:end -->
 
 - Write the completion input with only the checkout ID, the wallet provider, the exact payment-method ID from `wallet.list_payment_methods` and the selected delivery option when there is one. `wallet_provider` is `stripe_link` or `shop_pay`, spelled with an underscore here.

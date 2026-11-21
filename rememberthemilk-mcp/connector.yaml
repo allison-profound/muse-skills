@@ -1,0 +1,10 @@
+id: rememberthemilk
+title: "Remember The Milk"
+description: "Manage Remember The Milk tasks, lists, tags, notes, locations and reminders."
+aliases: [rememberthemilk-connector-cli]
+include_in_prompt: false
+require_auth: true
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

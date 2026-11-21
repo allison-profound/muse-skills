@@ -153,6 +153,9 @@
 <!-- facebook-pages-tranche2-only:start -->
   - replying to, hiding and deleting comments on posts of Pages the user manages, acting as the Page
 <!-- facebook-pages-tranche2-only:end -->
+<!-- facebook-post-editing-only:start -->
+  - text edits to the user's existing profile<!-- facebook-group-posts-only:start --> and Group<!-- facebook-group-posts-only:end --> posts and to published posts on Pages they manage
+<!-- facebook-post-editing-only:end -->
   - the user's own Marketplace listings
   - saved items and collections
 <!-- facebook-group-moderation-only:start -->
@@ -162,7 +165,7 @@
   - Reactions on posts, comments, and replies, made as the user's linked personal profile.
 <!-- facebook-reactions-only:end -->
 
-- Reactions<!-- facebook-reactions-only:start --> on anything not listed above<!-- facebook-reactions-only:end --> and edits of posts or comments aren't available. Deletions of posts or comments<!-- facebook-group-moderation-only:start --> outside a Group's spam queue<!-- facebook-group-moderation-only:end --> aren't available<!-- facebook-pages-tranche2-only:start -->, except deleting comments on posts of Pages the user manages, listed above<!-- facebook-pages-tranche2-only:end -->, so suggest only the writes above.
+- Reactions<!-- facebook-reactions-only:start --> on anything not listed above<!-- facebook-reactions-only:end --> and edits of <!-- facebook-post-editing-off-only:start -->posts or <!-- facebook-post-editing-off-only:end -->comments aren't available. Deletions of posts or comments<!-- facebook-group-moderation-only:start --> outside a Group's spam queue<!-- facebook-group-moderation-only:end --> aren't available<!-- facebook-pages-tranche2-only:start -->, except deleting comments on posts of Pages the user manages, listed above<!-- facebook-pages-tranche2-only:end -->, so suggest only the writes above.
 
 - Personal<!-- facebook-group-posts-only:start --> and Group<!-- facebook-group-posts-only:end --> posts, comments, Page writes<!-- facebook-group-moderation-only:start -->, Group moderation<!-- facebook-group-moderation-only:end --> and Marketplace publishes, edits and deletes each show the user an approval card. Creating a draft listing uses the normal permission prompt, and saved-item changes are allowed by default.
 
@@ -182,6 +185,10 @@
 - [Group moderation](/opt/hatch/connectors/facebook_cli/references/groups-moderation.md) (`groups pending-posts`, `groups pending-membership-requests`, `groups pending-participation-requests`, `groups spam`). Read it before listing or moderating a Group's queue.
 <!-- facebook-group-moderation-only:end -->
 
+<!-- facebook-post-editing-only:start -->
+- [Editing posts](/opt/hatch/connectors/facebook_cli/references/editing-posts.md) (`post edit`) for changing the text of a post that the user authored and published to a profile<!-- facebook-group-posts-only:start --> or to a Group<!-- facebook-group-posts-only:end -->. To edit the text of a published Page post, read [Facebook Pages](/opt/hatch/connectors/facebook_cli/references/pages.md), then [Page publishing](/opt/hatch/connectors/facebook_cli/references/pages-publishing.md) (`pages posts edit`).
+<!-- facebook-post-editing-only:end -->
+
 - [Saved items](/opt/hatch/connectors/facebook_cli/references/saved.md) (`saved list`, `saved add`, `saved remove`, `saved collections list`, `saved collections create`). Read it before any `saved` command.
 
 - [Facebook Pages](/opt/hatch/connectors/facebook_cli/references/pages.md) (`pages list`<!-- facebook-pages-tranche2-only:start -->, `pages info`<!-- facebook-pages-tranche2-only:end -->) before any `pages` command, then [Page insights](/opt/hatch/connectors/facebook_cli/references/pages-insights.md) (`pages account-insights`, `pages posts list`, `pages posts get`) or [Page publishing](/opt/hatch/connectors/facebook_cli/references/pages-publishing.md) (`pages drafts`, `pages posts create`, `pages posts reschedule`, `pages posts cancel-schedule`) for the task. `pages list` returns the Pages the user manages, not the Pages they follow.
@@ -199,9 +206,11 @@
 
 - [Page content protection and creator guidance](/opt/hatch/connectors/facebook_cli/references/pages-rights-and-guidance.md) (`pages copyright content-protection`, `pages knowledge search`) for a managed Page's Content Protect matches and disputes, and questions about Facebook's policies, guidelines and features for creators and Pages that aren't about ads.
 
+<!-- facebook-pages-tranche2-monetization-only:start -->
 - [Page earnings and payouts](/opt/hatch/connectors/facebook_cli/references/pages-monetization.md) (`pages monetization`) for a managed Page's earnings, monetization programs and payouts.
 
-- [Page stories](/opt/hatch/connectors/facebook_cli/references/pages-stories.md) (`pages stories`) for a managed Page's live stories and their view counts, and for publishing or deleting a story as the Page.
+<!-- facebook-pages-tranche2-monetization-only:end -->
+- [Page stories](/opt/hatch/connectors/facebook_cli/references/pages-stories.md) (`pages stories`) for a managed Page's live stories and their view counts, and for publishing<!-- facebook-pages-tranche2-story-delete-only:start --> or deleting<!-- facebook-pages-tranche2-story-delete-only:end --> a story as the Page.
 
 - [Page comment moderation](/opt/hatch/connectors/facebook_cli/references/pages-comments.md) (`pages comments reply`, `hide`, `delete`) for replying to, hiding and deleting comments on a managed Page's posts.
 

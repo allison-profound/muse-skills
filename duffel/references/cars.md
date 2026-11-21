@@ -66,6 +66,7 @@
 
 - Native reservation supports only a `postpaid` quote, paid at the rental counter. A guarantee or prepaid rate is booked on the rental company's site.
 
+<!-- traveler-profiles-off-only:start -->
 - Use the driver's legal name, birth date, email and international phone number from an authorized secure profile when one exists. Otherwise ask after selection, and use them only for this reservation.
 
 - Check that the birth date gives the searched age on the pickup date, since age can change the price, young-driver fees and eligibility. When it disagrees, say so plainly, such as "You mentioned 35, but that birth date makes you 24 on pickup", and ask which is right. Continue with the same quote when the birth date was mistyped, and search again with the confirmed age when the searched age was wrong.
@@ -78,6 +79,25 @@
 ```
 
 - Add the three `--customer-*` flags only when the quote's `next_step` asks for the account holder's details.
+<!-- traveler-profiles-off-only:end -->
+
+<!-- traveler-profiles-only:start -->
+- The driver's details come from the user's saved traveler details. `/opt/hatch/bin/duffel travelers` lists the saved travelers, each with an `id`, names, `relationship` (`self` is the user) and `missing_for_booking`, without the details themselves. For a saved driver, pass `--driver-traveler ID`: the CLI fills their legal name, birth date, email and phone without showing them to you.
+
+```sh
+/opt/hatch/bin/duffel car-book --quote-id QUOTE_ID --driver-traveler ID
+```
+
+- Driver details go in the secure traveler form, so values you don't already have stay out of this conversation and its transcript. When `missing_for_booking.car` lists fields for the driver, run `/opt/hatch/bin/duffel traveler-request --purpose car --traveler ID` with one `--field` per listed field. For a driver who is not saved yet, run it without `--traveler`, with `--field born_on --field email --field phone` and one `--prefill FIELD=VALUE` for each detail the user already gave you, `relationship` included.
+
+- Each run asks for a secure card in this chat, and a note after the result says whether the card is on screen. When it is, tell the user to add the details in the card and end your reply: the chat continues when they save. When it is not, the command's `next` says what to ask in chat instead.
+
+- The five `--driver-*` flags (`--driver-given-name`, `--driver-family-name`, `--driver-date-of-birth`, `--driver-email` and `--driver-phone-number`) are for a driver whose details came through chat: this chat can show no card, or the saved details can't be read. Beside `--driver-traveler`, one of them replaces the saved value, so add it only for what the user asks to change.
+
+- A saved driver's birth date stays out of your view, so `car-book` makes the age check for you. It refuses with `driver_age_mismatch`, without stating the age, when the saved birth date doesn't give the searched age on the pickup date: confirm with the user how old the driver will be on that date and search again with it.
+
+- When the quote's `next_step` says the account has no Duffel traveler profile yet, follow it. `car-book` takes the account holder's details from the user's own saved traveler (`relationship: self`), and the `next_step` says which `--customer-*` flags or `traveler-request` to use when that traveler lacks one.
+<!-- traveler-profiles-only:end -->
 
 - `car-book` loads the trusted quote, accepts only `postpaid` rates and takes no card. It refuses when the birth date does not give the searched age on the pickup date; nothing is reserved then and the same quote stays usable.
 

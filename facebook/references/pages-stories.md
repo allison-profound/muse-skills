@@ -1,6 +1,6 @@
 # Page stories
 
-- These commands read a managed Page's live stories and their view counts, and publish or delete a story as the Page.
+- These commands read a managed Page's live stories and their view counts, and publish<!-- facebook-pages-tranche2-story-delete-only:start --> or delete<!-- facebook-pages-tranche2-story-delete-only:end --> a story as the Page.
 
 - Decline story text meant to deceive people or to shame or expose a person before running any command, including `pages list`, because it would be published as the Page.
 
@@ -22,7 +22,7 @@
 
 - Repeat `--field` for each metric the user asks about. `viewer_count` and `unique_viewers` come from different sources, so report each under its own name.
 
-## Post or delete a story
+## Post<!-- facebook-pages-tranche2-story-delete-only:start --> or delete<!-- facebook-pages-tranche2-story-delete-only:end --> a story
 
 ```sh
 /opt/hatch/bin/facebook-cli pages stories create --page-id '<page_id>' [--text '<exact story text>'] [--file '<PNG or JPEG photo>']
@@ -30,19 +30,23 @@
 
 - `pages stories create` publishes a story as the Page with text of up to 1,024 characters, one PNG or JPEG photo, or both. Video isn't supported.
 
+<!-- facebook-pages-tranche2-story-delete-only:start -->
 ```sh
 /opt/hatch/bin/facebook-cli pages stories delete --page-id '<page_id>' --story-id '<story_id from pages stories list>'
 ```
 
 - `pages stories delete` removes one of the Page's live stories. A deleted story can't be restored.
 
-- Facebook doesn't let a published story be edited, and no command changes one. When the user asks to change a story, say so and offer to delete it and post the corrected story. Run neither command in that turn, because the user hasn't yet agreed to remove a live story.
+<!-- facebook-pages-tranche2-story-delete-only:end -->
+- Facebook doesn't let a published story be edited, and no command changes one. When the user asks to change a story, say so<!-- facebook-pages-tranche2-story-delete-only:start --> and offer to delete it and post the corrected story. Run neither command in that turn, because the user hasn't yet agreed to remove a live story<!-- facebook-pages-tranche2-story-delete-only:end -->.
 
+<!-- facebook-pages-tranche2-story-delete-only:start -->
 - Run `stories delete` and `stories create` as two separate steps, each only after the user agrees to it, because the user may want to keep the old story or skip the new one.
+<!-- facebook-pages-tranche2-story-delete-only:end -->
 
 ## Posting guidance
 
-- `stories create` and `stories delete` act as the Page after the user approves the exact text, photo and IDs on an approval card. Run each requested write once. Each additional story the user names is a separate write with its own approval.
+- `stories create`<!-- facebook-pages-tranche2-story-delete-only:start --> and `stories delete` act<!-- facebook-pages-tranche2-story-delete-only:end --><!-- facebook-pages-tranche2-story-delete-off-only:start --> acts<!-- facebook-pages-tranche2-story-delete-off-only:end --> as the Page after the user approves the exact text, photo and IDs on an approval card. Run each requested write once. Each additional story the user names is a separate write with its own approval.
 
 - A story appears publicly under the Page's name. Write only what the user asked the Page to say.
 

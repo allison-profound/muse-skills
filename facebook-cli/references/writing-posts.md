@@ -103,6 +103,10 @@
 
 - [Page publishing](/opt/hatch/connectors/facebook_cli/references/pages-publishing.md) for publishing as a Page.
 
+<!-- facebook-post-editing-only:start -->
+- [Editing posts](/opt/hatch/connectors/facebook_cli/references/editing-posts.md) for correcting an existing post's text without publishing another post.
+<!-- facebook-post-editing-only:end -->
+
 <!-- facebook-group-posts-only:start -->
 - [Groups](/opt/hatch/connectors/facebook_cli/references/groups.md) for finding a Group and its `id`.
 <!-- facebook-group-posts-only:end -->

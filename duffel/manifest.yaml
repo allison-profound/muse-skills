@@ -32,6 +32,8 @@ actions:
         label: Search, compare, and quote hotel rates
       flight.route:
         label: Choose where to book the flights a Google Flights search found
+      traveler.read:
+        label: See the names of your saved travelers and which details each has saved
   write:
     default: ask
     label: Create or change Duffel travel bookings
@@ -78,6 +80,10 @@ commands:
   stay-cancel: stay.cancel
   gflights-url: flight.route
   route: flight.route
+  # Shows a secure traveler-details form; touches neither Duffel nor saved traveler data.
+  traveler-request: null
+  # Lists saved travelers' names and saved field ids from authd; touches no Duffel data.
+  travelers: traveler.read
 cli_subcommands:
   - search
   - seat-options
@@ -100,6 +106,8 @@ cli_subcommands:
   - stay-cancel
   - gflights-url
   - route
+  - traveler-request
+  - travelers
 consent_screen:
   bullets:
     - icon: data_types

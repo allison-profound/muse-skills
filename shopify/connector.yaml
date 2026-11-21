@@ -5,5 +5,11 @@ aliases: [shopify]
 include_in_prompt: true
 availability:
   confidential_vm: true
+features:
+  shopify-sma:
+    gk: shopify_sma_setup_on_muse_abra
+    files:
+      - references/meta-ads-shopify-sma.md
+    methods: [shopify_sma.read, shopify_sma.write, shopify_sma.onboard]
 auth:
   authorize: cli

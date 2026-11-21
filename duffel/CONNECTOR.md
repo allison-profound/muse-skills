@@ -20,11 +20,19 @@
 - It also books hotel stays with `stay-search`, `stay-rates`, `stay-quote` and `book --quote-id`. Read [hotel stays](references/stays.md) before any hotel command. The flight sections below don't apply to hotels.
 <!-- duffel-stays-only:end -->
 
+<!-- traveler-profiles-only:start -->
+- It also uses the user's saved traveler details, which they keep in their secure credentials store: each traveler's legal name, birth date, gender, email, phone, Known Traveler and redress numbers, and loyalty account numbers. `travelers` lists the saved travelers with their names, relationship and which details each has saved, without the details themselves, and a booking fills them in from there, as [Booking](references/booking.md) describes. Use a saved traveler in preference to details remembered from an earlier chat.
+
+- When the user asks to see, add or change any of those details, such as adding a frequent flyer number, run `traveler-request --purpose profile`, adding `--traveler ID` for a saved traveler and one `--field` for each detail they named, such as `--field loyalty_accounts` or `--field known_traveler_number`. It asks for that traveler's secure details card in this chat, which is where they view and edit them. The travel profile in memory keeps preferences, such as which programs the user belongs to, and the numbers themselves go in the card.
+
+- How these details are stored and read is internal and stays out of replies: the API, the command, a copy. Talk about them in the user's own terms, as their traveler details and whether they are saved yet.
+<!-- traveler-profiles-only:end -->
+
 - `car-booking-status` and `car-cancel` check and cancel rental-car reservations made here. Read [rental cars](references/cars.md) before any rental-car command; the flight sections below do not apply to cars.
 
 - `stay-cancel --booking-id bok_...` cancels a hotel booking made here, with the `booking_id` from `book`. Read [cancelling a hotel stay](references/stay-cancel.md) before using it.
 
-- Before a user-facing search, read [Flight Booking](/opt/muse/skills/flight-booking/SKILL.md), which compares flight sources and builds the flight list. Read [checkout](/opt/muse/assets/booking/references/checkout.md) once the user picks a flight to book, not before searching. [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md) uses Duffel only for the fare check on a booked trip. Duffel does not report live flight status.
+- Before a user-facing search, read [Flight Booking](/opt/muse/skills/flight-booking/SKILL.md), which compares flight sources and builds the flight list: a Duffel search file joins `flights merge` as `--duffel FILE`, and a trip another source shows that Duffel sells at about the same price books with Muse. Read [checkout](/opt/muse/assets/booking/references/checkout.md) once the user picks a flight to book, not before searching. [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md) uses Duffel only for the fare check on a booked trip. Duffel does not report live flight status.
 
 ## Search a complete trip
 
@@ -133,6 +141,8 @@
 - [Flight Booking](/opt/muse/skills/flight-booking/SKILL.md)
 
 - [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md)
+
+- [Hotel Booking](/opt/muse/skills/hotel-booking/SKILL.md)
 
 - [Trip Transport](/opt/muse/skills/trip-transport/SKILL.md)
 

@@ -58,7 +58,7 @@
 
 - These connectors depend on the user's channel or devices. `muse.connector_search` shows which ones this session has.
 
-- [Remember The Milk](/opt/hatch/connectors/rememberthemilk_mcp/CONNECTOR.md) for tasks, lists, tags and location reminders in a Pro account.
+- [Remember The Milk](/opt/hatch/connectors/rememberthemilk/CONNECTOR.md) for tasks, lists, tags and location reminders in a Pro account.
 
 ## Websites
 

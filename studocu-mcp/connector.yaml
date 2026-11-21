@@ -1,0 +1,10 @@
+id: studocu
+title: "Studocu"
+description: "Find Studocu study documents, courses and syllabuses, manage study projects and sources, generate quizzes and practice exams, and track learning progress."
+aliases: [studocu-connector-cli]
+include_in_prompt: false
+require_auth: true
+availability:
+  confidential_vm: true
+auth:
+  authorize: cli

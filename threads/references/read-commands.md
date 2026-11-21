@@ -20,9 +20,13 @@
 
 ## Insights
 
-- `insights-overview` reads account insights, such as views, likes, quotes, replies, reposts, traffic sources, demographics and clicks on the links in the user's bio. It requires `--start-date` and `--end-date` in YYYY-MM-DD. `--sections` takes a comma-separated subset of `summary`, `views`, `interactions`, `followers`, `demographics`, `profile_links` and `all`.
+- `insights-overview` reads account insights, such as views, likes, quotes, replies, reposts, traffic sources, demographics and clicks on the links in the user's bio. It requires `--start-date` and `--end-date` in YYYY-MM-DD. `--sections` takes a comma-separated subset of `summary`, `views`, `interactions`, `followers`, `demographics`, `profile_links`, `featured_link` and `all`.
+
+- `insights-overview` returns `featured_link_insights`, the clicks on the podcast, podcast episode or newsletter featured on the user's profile. Threads returns it only for a profile that features exactly one of them.
 
 - `post-insights --post-id ID` reads insights for one of the user's posts. Besides its counts, the result has the clicks on each link in the post, its save rate and how that compares with the user's typical post, who saw the post (gender, age, countries and cities) and that audience's top interests and communities. The audience breakdowns stay empty until the post has reached 100 viewers.
+
+- `post-insights` returns `top_outperforming_metric` when the post did better than the user's typical post on follows, profile visits, viewers or views. Its value is `FOLLOWS`, `PROFILE_VISITS`, `VIEWERS` or `VIEWS`: the first of them, in that order, on which the post did better.
 
 - `post-insights --include-ai-summary` adds `ai_summary`, the Meta AI summary of the post's performance that the Threads app shows. It can take around ten seconds. Threads has no summary for some posts, such as those under 100 views, and the result then has no `ai_summary`.
 

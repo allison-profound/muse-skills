@@ -18,16 +18,44 @@
 
 - `refresh` renews a connected account and `disconnect` removes it, leaving guest access. When a command requires an account, offer to connect Expedia.
 
+<!-- expedia-traveler-profiles-only:start -->
+## Use saved travelers
+
+- Guest details come first from the user's saved traveler details, which they keep in their secure credentials store. `travelers` lists the saved travelers, each with an `id`, names, `relationship` (`self` is the user), `saved_fields` and `missing_for_booking`, and leaves their saved details out. Match each room's guest to a saved traveler by name or relationship, and use a saved traveler in preference to details remembered from an earlier chat or read from the Expedia profile or the wallet.
+
+- Traveler details go in the secure traveler form, so values you don't already have stay out of this conversation and its transcript. The exceptions are the cases where a command says to ask in chat: this chat can show no card, or the saved details can't be read.
+
+- The booking takes its email and phone from the first room's guest alone, and `missing_for_booking.hotel` lists what that guest still needs. When the first room's guest is a saved traveler with fields listed there, run `traveler-request --purpose hotel --traveler ID` with one `--field` per listed field. For the first room's guest who is not saved yet, run it without `--traveler`, with `--field email --field phone`. Another room's guest needs only a given and family name, saved or as the user gave them, so skip their email and phone.
+
+- Add what you already know with one `--prefill FIELD=VALUE` per field, such as `--prefill given_name=Dana --prefill email=dana@example.com`, so the card opens filled in for the user to confirm. The Expedia `profile`, when connected, and `wallet.get_user_info` with `provider: "stripe-link"` are sources for these values too, and "Use the linked profile" below says how to read the profile. Prefill `relationship` whenever the user says who the guest is to them: `self` for the user, `partner` for a wife, husband or partner, or `child`, `parent`, `family`, `friend`, `colleague` or `other`.
+
+- Each run asks for a secure card in this chat, and a note after the result says whether the card is on screen. When it is, tell the user to add the details in the card and end your reply: the chat continues when they save, and `travelers` shows the new or updated traveler. When it is not, the command's `next` says what to ask in chat instead.
+
+- Name each saved traveler whose saved details the booking will use, and leave their details out of your reply. Where this chat shows cards, `validate-booking` and `book` put each one's card in it, for the user to check or edit. With a connected account, Expedia still books under the account's email.
+
+- How these details are stored and read is internal and stays out of replies: the API, the command, a copy. Talk about them in the user's own terms, as their traveler details and whether they are saved yet.
+
+- When the user asks to see, add or change their traveler details, run `traveler-request --purpose profile`, adding `--traveler ID` for a saved traveler. It asks for their secure traveler details card in this chat, which is where they view and edit them.
+<!-- expedia-traveler-profiles-only:end -->
+
 ## Use the linked profile
 
+<!-- expedia-traveler-profiles-off-only:start -->
 - Reuse guest details supplied or confirmed for this checkout, including after Link setup. For remaining fields, check `status`, read `profile` if Expedia is connected, and check `wallet.get_user_info` with `provider: "stripe-link"`.
 
+<!-- expedia-traveler-profiles-off-only:end -->
+<!-- expedia-traveler-profiles-only:start -->
+- With saved travelers, the linked profile is a source of values to prefill in a guest's secure card, and the rules here for reading it still hold. Where they say to ask for a value, the card is where the user gives it.
+
+<!-- expedia-traveler-profiles-only:end -->
 - Read `profile_metadata`: `source: userinfo` means current details were fetched; `source: sign_in` means only the dated sign-in snapshot is available. If `reconnect_required` is true and required details are missing, offer reconnection or direct entry. Rerun `profile` after reconnection. Disconnect only at the user's request.
 
 - Missing-field reasons distinguish unknown or ungranted scopes from an absent or empty provider field. If a required value is still unavailable, say you could not retrieve it and ask for it. Never claim the Expedia account has no value on file. `refresh` cannot add profile access or recover a field omitted by Expedia; do not repeat it or promise that reconnecting will supply a missing value.
 
+<!-- expedia-traveler-profiles-off-only:start -->
 - If required details are missing, ask for those fields or offer Expedia connection with the `connect_url` from `authorize-url`. Briefly confirm guest details from a profile or wallet before checkout approval: name, booking email and phone. Ask only about fields the user has not supplied or confirmed for this checkout. With a connected account, Expedia books under the account's email; `validate-booking` returns it as `booking_email`, so confirm that address rather than another.
 
+<!-- expedia-traveler-profiles-off-only:end -->
 - Use the source's separate given and family names for the primary guest. If only a full name is available, ask for its parts. Keep the phone's international prefix.
 
 - Verification flags may be present without a contact value. They do not supply the missing value or guarantee that verification will make Expedia return it. `profile_metadata` describes this connector's checks, not additional statements from Expedia.
@@ -122,6 +150,16 @@
   }
 }'
 ```
+
+<!-- expedia-traveler-profiles-only:start -->
+- A saved traveler's guest is `{"traveler_id": "ID"}` with the `id` from `travelers`, in place of `givenName` and `familyName`. With a saved traveler as the first room's guest, leave `email` and `phone` out of `booking`: the CLI fills them from that traveler's saved details without showing them to you. A value you put in `booking` replaces the saved one, so add only what the user asks to change. Guests who are not saved use the full form above.
+
+```text
+"booking": {"rooms": [{"occupants": [{"traveler_id": "ID"}]}]}
+```
+
+- A booking that used a saved traveler's email returns `booking_email_note` in place of `booking_email`. When saved details can't be read, or lack an email or phone the booking needs, the command fails before anything reaches Expedia, and its error ends with what to do: the `traveler-request` that adds a missing detail, or asking in chat for this booking when the details can't be read. `travelers` shows the current ids.
+<!-- expedia-traveler-profiles-only:end -->
 
 - For booking review, run `validate-booking` after guest details and Link are ready. Compare the fresh rate with `displayed_terms` for the same offer and rate. Explain material changes and follow the checkout guide if the price rises or terms worsen. Continue when `ready_to_book` is true. For other checkouts, this separate call is optional because `book` refreshes the rate.
 

@@ -15,6 +15,12 @@ features:
     # validate-booking's payment_setup_required and book's Link setup resume
     # hint. The readiness read and its logging run whatever the gate says.
     gk: hatch_travel_payment_readiness
+  expedia-traveler-profiles:
+    gk: hatch_traveler_profiles
+    methods: [traveler.read]
+    # Saved traveler details in a booking's guests, `travelers`, and
+    # `traveler-request`, which asks for missing ones in a secure chat form.
+    # The same gate as Duffel's traveler-profiles feature.
 availability:
   scopes: [internal-test, external-connectors-test, alpha, prod, prod-cvm, quail, swarm, swarm-cvm, canary, canary-cvm-2, debug-cvm]
   gk: hatch_connector_exp_enable
