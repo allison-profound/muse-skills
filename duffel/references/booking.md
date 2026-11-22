@@ -4,6 +4,8 @@
 
 ## Prepare passengers and seats
 
+- Read `~/memory/travel/PROFILE.md` first when it exists and this conversation has not read it yet: it holds each traveler's seat and cabin preferences and loyalty programs, which the seat proposal and the loyalty question below use. When it does not exist, the user has no saved preferences yet.
+
 - `seat-options --offer-id OFFER` returns bookable seats for each passenger with their `position` (window, aisle or middle), and the flag repeats for a short list of offers. A zero price means no added fee, and an omitted seat is unavailable. Each seat also carries `exit_row` and `over_wing` when they apply, an upper `deck` when the map states one, the airline's `disclosures`, such as limited recline or no window, and each traveler's price in `available_for`. The flight's `cabin` names the class of its bookable seats, or each seat does when they differ. `flights_summary` counts, per flight and in seats (each seat once, whatever the number of travelers), the bookable, free and paid seats, the free ones by position and in exit rows, and gives the paid seats' per-traveler price range when one currency covers them. Flights Duffel returned no seat map for are listed under `segments_without_seat_map`, and a `seat_map_request_failed` result means the request itself failed and availability is unknown. Adjacent seats share a row and section on the same side of the aisle.
 
 - Choose at most one seat per passenger and segment. Repeat `--seat PASSENGER:SEGMENT:SEAT`, with one-based numbers, once per seat, such as `--seat 1:1:28B --seat 2:1:28C`; the CLI reads each flag as one seat.

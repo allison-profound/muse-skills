@@ -36,9 +36,9 @@
 
 ## Use IDs and limits correctly
 
-- Use numeric Threads FBIDs from actual results for accounts, users and posts. Never derive one from a URL or username, and never pass a URL where an FBID is required. The one exception is `post --url`, which takes the original link and lets the service resolve it.
+- Use numeric Threads FBIDs from actual results for accounts, users and posts. Never derive one from a URL or username, and never pass a URL where an FBID is required. The two exceptions are `post --url`, which takes the original link and lets the service resolve it, and `user-profile --username`, which takes a handle and returns that profile.
 
-- `--user-id`, `--author-id` and `--reactor-id` take a numeric user ID, never a username, @handle or profile URL. Take it from `posts[].author_id` in `feed` or `post` output, or from `author_info.user_id` in other results.
+- `--user-id`, `--author-id` and `--reactor-id` take a numeric user ID, never a username, @handle or profile URL. Take it from `posts[].author_id` in `feed` or `post` output, or from `author_info.user_id` in other results. For a handle, run `user-profile --username` and use its `profiles[].user_id`.
 
 - `--post-id` and `--post-ids` take numeric post IDs, with at most 10 in one `--post-ids` call. For a post link, run `post --url` and use its `posts[].post_id`.
 
@@ -56,7 +56,7 @@
 
 - A 429 is final and is never retried. `Threads Request Rate Limit Reached` means scraping protection is limiting the account, so stop calling Threads for now and tell the user. `Threads Write Rate Limit Reached` is the daily limit for the kind of write that hit it. Publishing, hiding replies, and approving or ignoring replies each have their own limit, so stop only that kind of write until the next day.
 
-- Never set up frequent polling of the same posts, comments or insights. Scheduled work must not fetch unchanged content again on every run, because scraping protection blocks accounts that poll this way.
+- Never set up frequent polling of the same posts, comments or insights. Scheduled work must not fetch unchanged content again on every run, because scraping protection blocks accounts that poll this way. Pass the previous run's time as `--since` on the reads that accept it (see [Read commands](references/read-commands.md)).
 
 ## Read posts and account information
 
@@ -127,7 +127,7 @@
 
 - `hide-reply` gives the two choices the Threads app offers on a reply to one of the user's posts. `--action hide` hides the reply from everyone, like "Hide for everyone", and `--action unhide` shows it again, like "Unhide".
 
-- `--post-id` is the reply's numeric post ID, such as a `post_id` from `fetch-post-comments`. Only the author of the post the reply answers can change it, and never for a reply they wrote themselves or one on an archived post.
+- `--post-id` is the reply's numeric post ID, such as a `comment_id` from `fetch-post-comments`. Only the author of the post the reply answers can change it, and never for a reply they wrote themselves or one on an archived post.
 
 ```sh
 /opt/hatch/bin/threads-cli hide-reply --account-id <account_id> --post-id <reply_post_id> --action hide
@@ -139,6 +139,8 @@
 - Success prints exactly `{"post_id":"<id>","hidden":<bool>,"changed":<bool>}`. `changed: false` means the reply was already in the requested state and nothing was saved.
 
 - An error saying the reply is already hidden because its author is restricted or blocked, or because Threads hid it, means only `--action unhide` changes it. Other refusals explain why nothing changed. Do not retry them.
+
+- `fetch-post-comments --hidden-only` lists the replies hidden for everyone on one of the user's posts, which is where to find one to unhide later.
 
 - `Threads Write Rate Limit Reached` here is the daily limit for hiding and unhiding replies, so do not hide or unhide more replies until the next day. It does not limit publishing or reviewing replies.
 

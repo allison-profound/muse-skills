@@ -84,6 +84,8 @@ commands:
   following: interactions.read
   fetch-post-comments: interactions.read
   fetch-post-likers: interactions.read
+  fetch-post-reposts: interactions.read
+  fetch-post-quotes: interactions.read
   feedback-hub-overview: interactions.read
   feedback-hub-tab: interactions.read
   pending-replies: interactions.read

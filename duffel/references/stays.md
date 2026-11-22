@@ -25,6 +25,10 @@
 ## Hotel cards
 
 - To show the hotels as cards, pass the search file unchanged to `travel.create_hotel_results_widget`, with up to four `hotel_id` values in `hotel_ids`. The cards read the hotels, prices and photos from it.
+<!-- hotel-sources-only:start -->
+
+- The same file is a `hotels compare --shown duffel=FILE` source when the Google Hotels read reports, as Hotel Booking's [Google Hotels read](/opt/muse/skills/hotel-booking/references/google-hotels-read.md) describes.
+<!-- hotel-sources-only:end -->
 
 ## Quote
 
@@ -33,6 +37,8 @@
 ```
 
 - Quote the rate the user picked before asking for guest details, so they confirm the price first.
+
+- Read `~/memory/travel/PROFILE.md` before asking for guest details when it exists and this conversation has not read it yet: it holds each guest's loyalty programs and room and bed preferences, which the booking below uses. When it does not exist, the user has no saved preferences yet.
 
 - When the user presses Book on a card, the selection gives the `search_result_id` and `rate_id` to quote.
 

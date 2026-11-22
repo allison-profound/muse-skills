@@ -19,7 +19,7 @@
 
 - `flight IDENT --date YYYY-MM-DD` reads a flight number, registration or `fa_flight_id` departing within two days. The date is the local departure date. Use `--start` and `--end` with ISO timestamps for another near-term window.
 
-- `schedules DATE_START DATE_END` covers flights more than two days out, with optional `--origin ICAO`, `--destination ICAO`, `--airline ICAO` and `--flight-number N`.
+- `schedules DATE_START DATE_END` covers flights more than two days out, with optional `--origin ICAO`, `--destination ICAO`, `--airline ICAO` and `--flight-number N`. The dates are inclusive local calendar dates, so one day is `schedules 2026-12-01 2026-12-01`. A window of up to three days is read a day wider on each side, because a flight's UTC schedule time can fall outside its local date; `muse_window` says what was read, so match each result's local departure date. An empty page comes with a `muse_note`: it means the query needs checking, not that the flight is gone.
 
 - Prefer the airline's ICAO flight number, such as `UAL123` rather than `UA123`. Resolve an ambiguous number with `canonical-flight IDENT` first.
 
@@ -35,6 +35,8 @@
 
 - When a flight or aircraft is blocked or has no data, say so plainly and do not work around it. `aircraft blocked IDENT` checks whether public tracking is blocked.
 
+- A flight still at the gate 15 minutes after its scheduled departure carries `muse_departure_assessment` with `state: overdue_at_gate` and the minutes past departure. Treat it as a delay of at least that many minutes, whatever the status text says: FlightAware shows a flight on time until the airline posts an estimate.
+
 - FlightAware does not cover baggage, airline policies, terminal maps, booking or customer service. Use the web for those and say that the answer came from the web.
 
 - Reply in plain language about the flight, not about how you looked it up. Keep commands, identifiers such as `fa_flight_id` and raw status codes out of the reply.
@@ -44,6 +46,8 @@
 - `search` finds airborne flights. Return one page by default and ask before pulling more.
 
 - Airport reads are `airport`, `airport-delays`, `airport-flights`, `airport-weather` and `nearby-airports`. Airline reads are `operator` and `operator-flights`. `airport-flights` and `operator-flights` take a kind after the code, such as `arrivals` or `all`.
+
+- `airport-weather` takes `observations`, the default, or `forecast` after the airport code. Use `airport-weather ORIGIN forecast` for weather expected later, such as the trip to the airport before a flight.
 
 - `history` reads past flights, tracks, routes, airport and operator activity and an aircraft's last flight. Give its flight, airport and operator reads an explicit `--start` and `--end` range. `foresight` returns predictions, which you present as predictions, and `disruptions` returns delay and cancellation counts.
 
@@ -86,6 +90,10 @@
 
 - Create the status job through [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md), which sets its owner, name, deduplication, failure handling and stop conditions. Write the rules below into the job's body with the exact command lines each run needs.
 
+- Monitoring rules version: 2. Write `Monitoring rules version: 2` into the job body and the trip state file. At the start of each run, read the current version with `grep -m1 'Monitoring rules version' /opt/hatch/connectors/flightaware/CONNECTOR.md`. When it is newer than the body's, read this section and the skill's **Decide what to tell the user**, rewrite the body from them with `cron.update` before the FlightAware calls, and record the new version in the state file.
+
+- Read a leg more than two days out with `schedules` over its local departure date, with `--airline` and `--flight-number`, and a leg within two days with `flight IDENT --date`. An empty `schedules` page is a query problem: check the codes and the date once, and after three empty runs in a row record degraded coverage as the skill says, instead of reading it as no change.
+
 - Set the schedule by the next active leg's departure. Run daily while it is more than 48 hours away, hourly from 48 hours to 6 hours before departure, and every 10 to 15 minutes from 6 hours before departure through landing. Create the job at the band that applies now.
 
 - At the start of each run, compare the job's schedule with the current band. When they differ, update the same job with `cron.update` before any FlightAware call. Never keep a frequent schedule that relies on the state file to skip calls.
@@ -98,9 +106,17 @@
 
 - Send terminal and airport changes, confirmed cancellations, diversions and connection risks at once.
 
-- The first delay estimate of 30 minutes or more qualifies. A later delay-only change qualifies only when it drops below 30 minutes, enters a worse band (30 to 59, 60 to 119, or 120 or more minutes), or differs by 60 minutes or more from the last notified estimate. Leave the exact minutes out of a delay-only fingerprint.
+- The first delay estimate of 30 minutes or more qualifies, and so does a flight still at the gate 15 minutes after its scheduled departure (`muse_departure_assessment.state` is `overdue_at_gate`), even while the status says on time. A later delay-only change qualifies only when it enters a worse band (30 to 59, 60 to 119, or 120 or more minutes) by 5 minutes or more, when it falls under 25 minutes after a delay was announced, or when it differs by 60 minutes or more from the last notified estimate. An estimate moving back and forth across a band edge is one change, not several. Leave the exact minutes out of a delay-only fingerprint.
 
-- A departure gate change qualifies only from 90 minutes before departure. Send each change on the run that finds it.
+- When a cancellation is confirmed or a connection is at risk, read the airline's next departures on the route in the same run, with `airport-flights ORIGIN scheduled-departures` filtered to the airline or `schedules` for the route, and name up to three alternatives in the notice. Monitoring still books nothing.
+
+- From 6 hours before departure until the leg leaves, read `airport-delays ORIGIN` at most once an hour, and a connection airport's delays from the first leg's departure. Alert at once on a ground stop or a delay program there that the flight's own estimate does not yet show, and name the cause. Read the destination's delays only when the arrival estimate moves or a pickup depends on it.
+
+- A departure gate change qualifies only from 3 hours before departure. Earlier, record the gate in the state file silently, since it often changes again.
+
+- From 3 hours to 90 minutes before departure, send at most one departure gate alert per leg per hour. Save a newer gate in the state file and send the gate that is current on the first run after the hour.
+
+- From 90 minutes before departure, send each qualifying departure gate change on the run that finds it.
 
 - Name only the current gate. Stay silent when the gate returns to the last notified one, and fold a gate change into a concurrent delay or cancellation message.
 

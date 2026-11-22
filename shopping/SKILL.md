@@ -6,6 +6,10 @@
 
 For connectors that return a ready-to-present shopping-results JSON file, follow that connector's widget instructions and pass that file as `path` to `shopping.create_shopping_results_widget`. This presents the native shopping card directly. Do not run restaurant or menu-item IDs through the retail product resolver or substitute an HTML widget when native presentation fails.
 
+## Search with a retailer's connector
+
+- When the user asks to search or shop at a specific retailer, check whether this session has a connector for it, under "When available" or with `muse.connector_search`. When that connector's doc gives its own search steps, follow them in place of this skill's `browser.search` context gathering, its Meta Catalog, Marketplace and browser product searches, and the `browser.open` page checks and review research in its verification section. Still read the shopping profile, resolve the required attributes and ask any clarifying questions as "Understand what the user needs" describes. After the search, filter and rank the results as the verification section describes, then resolve and present them as "Resolve and cite products" and "Present the results" describe.
+
 ## Understand what the user needs
 
 <!-- product-search-improvements-off-only:start -->
@@ -292,6 +296,12 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 ## Find a deal
 
+- When the user shares a store link and asks about its offers, start with that link. If they also share a social post that you can't read, keep checking the store link they shared.
+
+- Open that store link with `browser.open`. If the output shows more lines are available and you haven't found the offer details, read the next lines using the returned page ID and `line_start`.
+
+- If the page text does not show the offer information the user asked for, give `browser.browse` that page's URL and say which details still need checking, such as a discount, code or end date. Tell the user you're checking, then report the offers when the result arrives.
+
 - Establish the product's usual price, then research where deals for it or its category appear, such as Newegg for electronics.
 
 - Search thoroughly with `browser.browse` for listings below the usual price, and separately for current sales and coupon or promo codes at the sellers themselves.
@@ -336,6 +346,8 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 <!-- purchase-preapproval-on-only:start -->
 - Leave other product-search tasks running; they end on their own, and you can ignore their late results.
 <!-- purchase-preapproval-on-only:end -->
+
+- Add items to a cart only when the user asks for it in chat or taps a cart button. Showing results or recommending a pick is not that request.
 
 - Choosing items or building a cart moves no money. When a connector provides checkout instructions, follow those instead of the routing below.
 

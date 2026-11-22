@@ -4,6 +4,8 @@
 
 - Before a user-facing search or booking, read [Hotel Booking](/opt/muse/skills/hotel-booking/SKILL.md), which compares Expedia with other sources, and [checkout](/opt/muse/assets/booking/references/checkout.md).
 
+- Before asking for guest details, read `~/memory/travel/PROFILE.md` when it exists and this conversation has not read it yet. It holds each guest's hotel brands, room and bed preferences and loyalty programs, and Hotel Booking says how to use them. When it does not exist, the user has no saved preferences yet.
+
 - Use this connector, not a browser task on expedia.com, for what it supports: Expedia lodging search, room rates and native-checkout booking. Expedia often blocks Muse's cloud browser, so keep `browser.browse` on expedia.com for what the connector can't do, as this doc and [Hotel Booking](/opt/muse/skills/hotel-booking/SKILL.md) describe.
 
 ## Connect an account
@@ -191,6 +193,10 @@
 ## Present results
 
 - For Expedia-only search results, use native hotel cards by default when the selected search-row offers meet the user's requirements. Preview up to four qualifying properties with `travel.create_hotel_results_widget`; See all opens the original search. More than four matching results alone is not a reason to switch to a table.
+<!-- hotel-sources-only:start -->
+
+- When the Google Hotels read runs beside this search, its cards follow in one more list, as Hotel Booking's [Google Hotels read](/opt/muse/skills/hotel-booking/references/google-hotels-read.md) describes. `hotels compare --shown expedia=FILE` reads this search's unchanged file.
+<!-- hotel-sources-only:end -->
 
 - Follow an explicit ranking request. Otherwise sort budget and lowest-price searches by complete-stay total, and keep the order results come back in for other searches; that order is Muse's ranking, not Expedia's.
 

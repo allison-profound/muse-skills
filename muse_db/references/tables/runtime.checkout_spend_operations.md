@@ -4,6 +4,10 @@ Checkout operation identity, approvals and reconciliation state.
 
 - Return to the [table index](/opt/muse/skills/muse_db/references/schema.md) or [query rules](/opt/muse/skills/muse_db/references/querying.md).
 
+## Read restrictions
+
+Redacted. The original purchase and wallet decision binding is private. Queries against this table run against the security-barrier view `inspection.checkout_spend_operations`, which projects the columns listed below. Withheld columns: `purchase_binding`.
+
 ## Columns
 
 - `operation_id` uses `text` and is required.

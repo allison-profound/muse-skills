@@ -13,3 +13,7 @@ features:
     # The compensation check, history screen and claim log; the Flight
     # Tracking skill's flight-compensation blocks describe the workflow.
     methods: [compensation.read]
+  preflight-brief:
+    gk: hatch_flight_preflight_brief
+    # The check-in notice and the departure brief the status job sends before a
+    # flight; the Flight Tracking skill's preflight-brief blocks describe them.
