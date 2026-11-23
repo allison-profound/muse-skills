@@ -46,7 +46,7 @@
 
 - The tool keeps the local part's case and normalizes the domain. Pass plain `name@domain` addresses with no display name, and never invent provider-specific equivalents such as dot or plus variants.
 
-- `--reply-mode all` adds the source message's visible `To` and `CC` addresses to CC, dropping duplicates and addresses on Muse Mail's own receiving domain. If any remaining address cannot be normalized, the tool rejects the whole reply and names that address.
+- `--reply-mode all` adds the source message's visible `To` and `CC` addresses to CC, dropping duplicates and this mailbox's own addresses. If any remaining address cannot be normalized, the tool rejects the whole reply and names that address.
 
 - `all` mode ignores `Reply-To`, adds no BCC and adds nobody from earlier messages in the thread. Add those people with `--to` in `custom` mode, or with `--cc`, when the user asks for them.
 

@@ -90,11 +90,13 @@
 
 - Create the status job through [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md), which sets its owner, name, deduplication, failure handling and stop conditions. Write the rules below into the job's body with the exact command lines each run needs.
 
-- Monitoring rules version: 2. Write `Monitoring rules version: 2` into the job body and the trip state file. At the start of each run, read the current version with `grep -m1 'Monitoring rules version' /opt/hatch/connectors/flightaware/CONNECTOR.md`. When it is newer than the body's, read this section and the skill's **Decide what to tell the user**, rewrite the body from them with `cron.update` before the FlightAware calls, and record the new version in the state file.
+- Monitoring rules version: 3. Write `Monitoring rules version: 3` into the job body and the trip state file. At the start of each run, read the current version with `grep -m1 'Monitoring rules version' /opt/hatch/connectors/flightaware/CONNECTOR.md`. When it is newer than the body's, read this section and the skill's **Decide what to tell the user**, rewrite the body from them with `cron.update` before the FlightAware calls, and record the new version in the state file.
 
 - Read a leg more than two days out with `schedules` over its local departure date, with `--airline` and `--flight-number`, and a leg within two days with `flight IDENT --date`. An empty `schedules` page is a query problem: check the codes and the date once, and after three empty runs in a row record degraded coverage as the skill says, instead of reading it as no change.
 
-- Set the schedule by the next active leg's departure. Run daily while it is more than 48 hours away, hourly from 48 hours to 6 hours before departure, and every 10 to 15 minutes from 6 hours before departure through landing. Create the job at the band that applies now.
+- Set the schedule by the next active leg's departure. Run daily while it is more than 48 hours away, hourly from 48 hours to 4 hours before departure, and every 15 minutes from 4 hours before departure through landing. Create the job at the band that applies now.
+
+- Give the daily band no time of day of your own, on `cron.add` and on every `cron.update` back to it: let the runtime place the check, the way the cron tool's schedule fields describe. A leg days away needs no time of day, and the runtime spreads the fleet's daily checks over the day instead of starting them together at the top of an hour, which exhausts the shared FlightAware quota. When the user asked for a time or a part of the day, pin an exact time inside it: a flight check's window is treated as your own pick and placed anew.
 
 - At the start of each run, compare the job's schedule with the current band. When they differ, update the same job with `cron.update` before any FlightAware call. Never keep a frequent schedule that relies on the state file to skip calls.
 

@@ -1,6 +1,6 @@
 # `runtime.stripe_link_spend_requests`
 
-Non-secret Stripe Link spend-request state and approved totals.
+Non-secret wallet spend-request state and approved totals for Stripe Link, Shop Pay and PayPal.
 
 - Return to the [table index](/opt/muse/skills/muse_db/references/schema.md) or [query rules](/opt/muse/skills/muse_db/references/querying.md).
 

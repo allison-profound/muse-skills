@@ -6,7 +6,7 @@
 
 - `muse.db` accepts one bounded, read-only `SELECT` for diagnosis. Use the purpose-built chat, goal, artifact and connector tools for ordinary tasks.
 
-Generated from migration set `726180d9c4bbb0eef242c32e63fa2ba221984cb7481b1c359a622e20b82b6b65`.
+Generated from migration set `0a07278de81b1877ddf7fadc3775e7d8381eed0e1f65faf1ed753caef9df8d18`.
 
 ## Tables
 
@@ -330,7 +330,7 @@ Generated from migration set `726180d9c4bbb0eef242c32e63fa2ba221984cb7481b1c359a
 
 - [runtime.skill_invalidation_state](/opt/muse/skills/muse_db/references/tables/runtime.skill_invalidation_state.md). Skill use and pending or delivered instruction-update revisions.
 
-- [runtime.stripe_link_spend_requests](/opt/muse/skills/muse_db/references/tables/runtime.stripe_link_spend_requests.md). Non-secret Stripe Link spend-request state and approved totals.
+- [runtime.stripe_link_spend_requests](/opt/muse/skills/muse_db/references/tables/runtime.stripe_link_spend_requests.md). Non-secret wallet spend-request state and approved totals for Stripe Link, Shop Pay and PayPal.
 
 - [runtime.summaries](/opt/muse/skills/muse_db/references/tables/runtime.summaries.md). Saved runtime summaries keyed by purpose.
 

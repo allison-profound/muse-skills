@@ -29,7 +29,7 @@
 
 ## Change merchant records
 
-- Reads and invoice previews follow the user's connector settings. Other API writes and feedback ask for approval, operation by operation.
+- Reads, invoice previews, routine record changes and feedback follow the user's connector settings. Payments, payouts, refunds and changes that can collect money always require approval of the current operation. Subscription billing, invoice collection, customer payment details, balance adjustments and dispute resolution also require fresh approval.
 
 - Some sensitive operations also need the user to confirm at a URL that Stripe returns. Share that URL, then check the result before reporting completion, because approval in Muse does not show that Stripe completed the action.
 
