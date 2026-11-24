@@ -29,6 +29,11 @@
 
 - Drafting or revising post content does not publish the post. Preserve the user’s final post content unless they ask you to edit it.
 
+<!-- facebook-prosumers-combined-only:start -->
+- Before you post text you wrote, show it in chat and wait for the user's yes, because a request to post doesn't approve wording they haven't seen.
+
+<!-- facebook-prosumers-combined-only:end -->
+
 <!-- facebook-profile-media-only:start -->
 
 - A Reel is a post with one video and no other media. `--message` is its caption.

@@ -46,14 +46,19 @@ partial, and phonetic evidence must pass bounded token revalidation before a
 complete singleton autodials; literal matches never autodial. Nickname
 singletons rely on the explicit locale-selected nickname map. Weak, ambiguous,
 incomplete, or unanchored matches still require confirmation.
+A query that is just a role, such as `dentist` or `my lawyer`, returns `role`
+matches under the English default. A `role` match is a contact whose saved name
+marks them as the occupation or kind of business the caller named, such as
+"Dr. Maya Okafor DDS" for "my dentist". Confirm a `role` match with the user
+before calling or texting.
 
 Ranked results also include `selection_evidence`. Its
-`spoken_name_collision_pairs` identifies differently spelled plausible matches
-whose full names have strong phonetic coverage in both directions; a nonempty
-list sets `requires_spoken_name_clarification`, because spoken input has not
-selected between them. Collision entries carry a comma-separated
-`spoken_spelling` suitable for distinct TTS pronunciation in either a call or
-message clarification.
+`spoken_name_collision_pairs` identifies differently spelled plausible or
+`role` matches whose full names have strong phonetic coverage in both
+directions; a nonempty list sets `requires_spoken_name_clarification`, because
+spoken input has not selected between them. Collision entries carry a
+comma-separated `spoken_spelling` suitable for distinct TTS pronunciation in
+either a call or message clarification.
 Each contact includes `phone_selection`, which groups safely equivalent
 formatting variants into one destination and reports
 `distinct_usable_phone_count` and

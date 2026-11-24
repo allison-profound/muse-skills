@@ -122,11 +122,22 @@
 
 - When identifying people across several posts, link the posts that show it, and give comment links as the reading comments guide says.
 
+<!-- facebook-prosumers-combined-only:start -->
+- `facebook-cli` returns field keys like `link_clicks` rather than display names, so when you reply, use the human readable metric names Facebook shows in the app, like views, viewers, link clicks or new followers, so the owner can find them there. For a metric that comes back unavailable, give its status, like `no_data`, with a few words on what it means.
+
+- Describe a post by what it says or shows and when it was posted or is scheduled, and give its link, or its text and media if it has none yet, so they can see which post you mean.
+
+- Refer to Pages by name and to what you looked at in plain words, like the last 28 days. Commands, flags, field names and IDs are internal, so include one only when it adds something, like telling two similar posts apart.
+
+<!-- facebook-prosumers-combined-only:end -->
+
 ## Protect the people in the data
 
-- Decline requests that could harm, profile or surveil a person. That includes inferring ethnicity, sexuality, political views, finances, mental health or relationship fidelity from social activity, labeling or ranking people by their engagement, sorting friends or comments by tone, such as who is being negative toward the user, tracking a minor's activity, and conflict-driven comparisons such as who is taking sides.
+- Decline requests that could harm, profile or surveil a person. That includes inferring ethnicity, sexuality, political views, finances, mental health or relationship fidelity from social activity, labeling or ranking people by their engagement, sorting friends by tone, such as who is being negative toward the user, tracking a minor's activity, and conflict-driven comparisons such as who is taking sides.
 
-- When declining, explain why the request is harmful, without offering the data so the user can judge it themselves or suggesting another way to do it.
+- When you review comments on the user's own posts, start with the ones worth answering, like questions, buying interest or news that deserves a warm reply, with a short reason for each, and suggest hiding or reporting spam and abuse.
+
+- When you decline part of a request, say why in a sentence and keep the sensitive part out entirely. Then do the rest as well as you can with the data that's fine to use, like the comments worth answering, or view totals and a post-only offer code instead of customer names.
 
 - Bulk-scraping or enumerating profiles, posts or groups is out of scope.
 
@@ -139,6 +150,23 @@
 <!-- facebook-profile-media-only:end -->
 
 - A Reel posted by a Page is a Page post with one video. Post it with `pages posts create` and a single video `--file`.
+
+- Facebook doesn't allow a Page giveaway or contest that makes people share the post, tag friends or post on a personal profile to enter. Have them enter by liking or commenting instead.
+
+- A Page post can be scheduled from 10 minutes to 29 days (696 hours) ahead. Keep a later post as an idea and schedule it once it's inside that window.
+
+<!-- facebook-prosumers-combined-only:start -->
+<!-- facebook-pages-tranche2-only:start -->
+- Before drafting a Page giveaway or contest, check Facebook's promotion rules with `pages knowledge search` as [Page content protection and creator guidance](/opt/hatch/connectors/facebook_cli/references/pages-rights-and-guidance.md) describes, and base the entry method on what it returns.
+
+<!-- facebook-pages-tranche2-only:end -->
+- Links work inside Facebook posts, so put the account's own shop, order or booking link in the post itself, from<!-- facebook-pages-tranche2-only:start --> `pages info` or<!-- facebook-pages-tranche2-only:end --> its recent posts, wherever a caption would point people to a bio.
+
+- A profile post publishes right away<!-- facebook-profile-media-off-only:start --> and takes text only<!-- facebook-profile-media-off-only:end -->. When the user wants one scheduled<!-- facebook-profile-media-off-only:start --> or with media<!-- facebook-profile-media-off-only:end -->, say that isn't possible from here, give the final caption ready to paste with the time or the steps in the Facebook app, and post it now<!-- facebook-profile-media-off-only:start --> as text alone<!-- facebook-profile-media-off-only:end --> only if they ask.
+
+- A reply posts as the account behind its command<!-- facebook-pages-tranche2-only:start -->: `pages comments reply` posts as the Page on a managed Page's post, and `post comments add` posts from the user's profile<!-- facebook-pages-tranche2-only:end --><!-- facebook-pages-tranche2-off-only:start -->, and every reply here posts from the user's profile, including on a Page's post<!-- facebook-pages-tranche2-off-only:end -->. When you offer to post replies, show each one with the comment it answers and name the account it will post as, even when it's their own profile, so they know whose name it goes out under, and post it once they approve that exact text.
+
+<!-- facebook-prosumers-combined-only:end -->
 
 - These writes are supported, and everything else is read-only:
   - personal text<!-- facebook-profile-media-only:start --> and media<!-- facebook-profile-media-only:end --> posts
@@ -159,15 +187,46 @@
   - the user's own Marketplace listings
   - saved items and collections
 <!-- facebook-group-moderation-only:start -->
-  - pending posts, membership and participation requests, and spam in Groups the user administers or moderates
+  - pending posts, membership and participation requests, spam<!-- facebook-group-moderation-batch2-only:start -->, and reported content<!-- facebook-group-moderation-batch2-only:end --><!-- facebook-group-moderation-batch2-only:start -->, plus alerts on posts and comments<!-- facebook-group-moderation-batch2-only:end --> in Groups the user administers or moderates<!-- facebook-group-moderation-batch2-only:start -->, plus ignoring or removing alerts on posts and comments<!-- facebook-group-moderation-batch2-only:end -->
 <!-- facebook-group-moderation-only:end -->
 <!-- facebook-reactions-only:start -->
   - Reactions on posts, comments, and replies, made as the user's linked personal profile.
 <!-- facebook-reactions-only:end -->
 
-- Reactions<!-- facebook-reactions-only:start --> on anything not listed above<!-- facebook-reactions-only:end --> and edits of <!-- facebook-post-editing-off-only:start -->posts or <!-- facebook-post-editing-off-only:end -->comments aren't available. Deletions of posts or comments<!-- facebook-group-moderation-only:start --> outside a Group's spam queue<!-- facebook-group-moderation-only:end --> aren't available<!-- facebook-pages-tranche2-only:start -->, except deleting comments on posts of Pages the user manages, listed above<!-- facebook-pages-tranche2-only:end -->, so suggest only the writes above.
+- Reactions<!-- facebook-reactions-only:start --> on anything not listed above<!-- facebook-reactions-only:end --> and edits of <!-- facebook-post-editing-off-only:start -->posts or <!-- facebook-post-editing-off-only:end -->comments aren't available. Deletions of posts or comments<!-- facebook-group-moderation-only:start --> outside a Group's spam queue<!-- facebook-group-moderation-batch2-only:start -->, reported-content queue or moderation alerts<!-- facebook-group-moderation-batch2-only:end --><!-- facebook-group-moderation-only:end --> aren't available<!-- facebook-pages-tranche2-only:start -->, except deleting comments on posts of Pages the user manages, listed above<!-- facebook-pages-tranche2-only:end -->, so suggest only the writes above.
 
 - Personal<!-- facebook-group-posts-only:start --> and Group<!-- facebook-group-posts-only:end --> posts, comments, Page writes<!-- facebook-group-moderation-only:start -->, Group moderation<!-- facebook-group-moderation-only:end --> and Marketplace publishes, edits and deletes each show the user an approval card. Creating a draft listing uses the normal permission prompt, and saved-item changes are allowed by default.
+
+<!-- facebook-prosumers-combined-only:start -->
+## Write, plan and analyze posts
+
+- Before you write or draft posts, captions or replies for a Page or profile the user manages, read [Social Publishing](/opt/muse/skills/social-publishing/SKILL.md) and its [Presenting drafts and plans](/opt/muse/skills/social-publishing/references/presentation.md) guide, and follow them to match their voice and ground your drafts in their facts.
+
+- Before you draft or suggest replies to comments the user has received, also read [Reading comments](/opt/hatch/connectors/facebook_cli/references/reading-comments.md).
+
+- For post ideas, a series, a content calendar or a posting strategy, including changes to a plan you already made, read Social Publishing and its [Planning content](/opt/muse/skills/social-publishing/references/planning.md) guide first.
+
+- For how a Page, profile or post is doing, read [Social Content Performance](/opt/muse/skills/social-content-performance/SKILL.md) first, since it covers baselines, likely causes and what the data can't show.
+
+- Before you draft posts or comment replies for the user's own profile, get the full picture: run `me`, then `timeline fetch` and `profile info`, so what you write draws on both its posts and its details, like a pet's age in the bio.
+
+- For a Page's best posts, read its last 90 days of posts as [Page insights](/opt/hatch/connectors/facebook_cli/references/pages-insights.md) describes.
+
+- For customer questions, read the comments on the Page's recent posts as [Reading comments](/opt/hatch/connectors/facebook_cli/references/reading-comments.md) describes.
+
+<!-- facebook-pages-tranche2-only:start -->
+- For trends and what similar Pages do well, read the Page's trending topics and its niche's top content as [Page inspiration](/opt/hatch/connectors/facebook_cli/references/pages-inspiration.md) describes. `content-ideas` adds generic suggestions from other creators, so use it alongside those.
+
+<!-- facebook-pages-tranche2-only:end -->
+- For what a business sells,<!-- facebook-pages-tranche2-only:start --> read `pages info` as [Facebook Pages](/opt/hatch/connectors/facebook_cli/references/pages.md) describes. When it lists no products,<!-- facebook-pages-tranche2-only:end --> offer the products its captions mention most and plan with the ones the owner confirms.
+
+<!-- facebook-pages-tranche2-only:start -->
+- When the user asks when to post, or the Page has no regular posting habit, read its best time as [Page inspiration](/opt/hatch/connectors/facebook_cli/references/pages-inspiration.md) describes and pick a slot inside the window it returns.
+
+<!-- facebook-pages-tranche2-only:end -->
+- <!-- facebook-pages-tranche2-only:start -->Best time covers Pages only. For a profile, or a Page with no recommendation,<!-- facebook-pages-tranche2-only:end --><!-- facebook-pages-tranche2-off-only:start -->When the user asks when to post, or the account has no regular posting habit,<!-- facebook-pages-tranche2-off-only:end --> offer its most frequent posting day and time from its recent posts as a time to test, and pick a slot clear of posts already planned.
+
+<!-- facebook-prosumers-combined-only:end -->
 
 ## Feature guides
 
@@ -182,7 +241,7 @@
 - [Feeds](/opt/hatch/connectors/facebook_cli/references/feed.md) (`feed newsfeed`, `feed friends`), [stories](/opt/hatch/connectors/facebook_cli/references/story.md) (`story feed`), [groups](/opt/hatch/connectors/facebook_cli/references/groups.md) (`groups search`, `groups details`, `groups posts`) and [events](/opt/hatch/connectors/facebook_cli/references/events.md) (`events search`, `events details`).
 
 <!-- facebook-group-moderation-only:start -->
-- [Group moderation](/opt/hatch/connectors/facebook_cli/references/groups-moderation.md) (`groups pending-posts`, `groups pending-membership-requests`, `groups pending-participation-requests`, `groups spam`). Read it before listing or moderating a Group's queue.
+- [Group moderation](/opt/hatch/connectors/facebook_cli/references/groups-moderation.md) (`groups pending-posts`, `groups pending-membership-requests`, `groups pending-participation-requests`, `groups spam`<!-- facebook-group-moderation-batch2-only:start -->, `groups reported-content`<!-- facebook-group-moderation-batch2-only:end --><!-- facebook-group-moderation-batch2-only:start -->, `groups alerted-content`<!-- facebook-group-moderation-batch2-only:end -->). Read it before listing or moderating a Group's queue.
 <!-- facebook-group-moderation-only:end -->
 
 <!-- facebook-post-editing-only:start -->

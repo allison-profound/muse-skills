@@ -47,16 +47,20 @@
 <!-- hotel-sources-only:start -->
 
 <!-- google-hotels-beside-connectors-only:start -->
-- Each connector's hotels are their own card list, and the Google Hotels cards follow as one more list when the read finds a lower total or a hotel worth adding, as [Google Hotels read](google-hotels-read.md) describes. A seller's total on those cards is Google's listing until the seller's checkout confirms it.
+- <!-- expedia-hotel-merge-off-only:start -->Expedia's hotels are their own card list and the other connectors' hotels share one<!-- expedia-hotel-merge-off-only:end --><!-- expedia-hotel-merge-only:start -->The connectors' hotels, Expedia's among them, share one card list<!-- expedia-hotel-merge-only:end -->, and the Google Hotels cards follow as one more list when the read finds a lower total or a hotel worth adding, as [Google Hotels read](google-hotels-read.md) describes. A seller's total on those cards is Google's listing until the seller's checkout confirms it.
 <!-- google-hotels-beside-connectors-only:end -->
 <!-- google-hotels-beside-connectors-off-only:start -->
-- Each connector's hotels are their own card list. Where no connector covers the stay, the Google Hotels cards are the list, as [Google Hotels read](google-hotels-read.md) describes, and a seller's total on them is Google's listing until the seller's checkout confirms it.
+- <!-- expedia-hotel-merge-off-only:start -->Expedia's hotels are their own card list and the other connectors' hotels share one<!-- expedia-hotel-merge-off-only:end --><!-- expedia-hotel-merge-only:start -->The connectors' hotels, Expedia's among them, share one card list<!-- expedia-hotel-merge-only:end -->. Where no connector covers the stay, the Google Hotels cards are the list, as [Google Hotels read](google-hotels-read.md) describes, and a seller's total on them is Google's listing until the seller's checkout confirms it.
 <!-- google-hotels-beside-connectors-off-only:end -->
 <!-- hotel-sources-only:end -->
 
 ## Complete the chosen reservation
 
 - Once the user picks a rate, continue with its seller and answer questions from that seller's data.
+<!-- hotel-sources-only:start -->
+
+- Before booking a stay the user chose from a card list, from the card or in chat, run `/opt/hatch/bin/hotels route --file FILE --hotel-id ID` with the file behind the list (the connector's unchanged search file, the merged file or the Google Hotels card file) and the card's hotel id. Whenever you know which rate the user chose, from the hotel's details or named in chat, add that rate's `--offer-id` and `--rate-id`: without them the hotel's offer in the file is routed, and an Expedia hotel's other rates book by their own terms. It reads the file as saved and contacts no seller. Its `route` says where the stay books: `in_chat` continues with the connector's own booking commands as its doc describes, and `expedia_web`, `agoda_site` and `seller_site` book on that site in a browser task that starts from `booking_url`, through [browser booking](/opt/muse/assets/booking/references/browser-booking.md). `hotels route --help` describes the output. When it answers that the file doesn't list the hotel or the rate (a hotel See all added, or a rate quoted since the search), the booking review's own terms decide the same way, as the connector's doc describes. A stay found on a site with no file behind it books through browser booking as the bullets below describe.
+<!-- hotel-sources-only:end -->
 
 - Follow [checkout](/opt/muse/assets/booking/references/checkout.md) for the final refresh. For a stay, look for changes to the room, bed, view, fees, cancellation terms and benefits.
 
@@ -77,3 +81,16 @@
 - When a browser task books the stay, say in its assignment why that website rather than a connector: a member rate, points or status; a better price there; available lodging connectors do not sell the chosen rate; no lodging booking connector is available; a connector booking that failed; or the user asked for that site.
 
 - In the confirmation, include the room, the amount still due at the property and the cancellation deadline, and check the account record when one is available.
+
+<!-- travel-browser-preapproval-only:start -->
+## Book on the seller's website
+
+- When the stay books on the seller's site (an Agoda or Google Hotels card, an `expedia_web` rate, a property or booking site Muse found) and `permissions.preapprove` is available, the user approves the booking before the browser task, and the task books without another card. Follow [approve first](/opt/muse/assets/booking/references/approve-first.md). Without the tool, or for a booking in the user's own browser (`browser` set to `device`), book as **Complete the chosen reservation** describes, with the approval at checkout.
+
+- Signing in carries the guest's status only on the hotel's own site, so the sign-in option comes first there when the profile lists their program with that chain. A stay sold through another site earns the program's benefits only when that site says so, so claim none there.
+
+- A Google Hotels card shows Google's listing of one seller's total, not the seller's room, payment timing or cancellation terms. Before the review, read them from the seller's page in a research task, as browser booking's **Research offers** describes. A connector's rate already carries its terms.
+
+- `intent` reads like "Book <hotel>, <room and rate>, <dates>, <guests>". `requirements` carry the room, the cancellation terms, payment timing and inclusions. `max_total` is the full stay total including taxes and fees, also for a pay-at-property rate, since the card may be charged later. The task starts from the card's booking page or the rate's validated link, and the confirmation names the cancellation deadline.
+<!-- travel-browser-preapproval-only:end -->
+

@@ -4,6 +4,8 @@
 
 - Output is always JSON, and `--compact` prints it on one line. [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md) uses this connector for status questions and for the status job on a booked trip.
 
+- This CLI is the way to read FlightAware. Do not open flightaware.com with `browser.browse`: the site refuses automated visits, and every schedule, status, position and airport fact it shows is in this CLI's output. When a read returns no record, check the query first as **Find the right flight** says: the identifier, the local departure date, the airports, and a `schedules` page's `muse_note`. Only after those checks does an empty read mean FlightAware has no record for the leg; then say so and confirm with the operating airline's or airport's page.
+
 ## Check availability
 
 - `status` reports whether managed FlightAware is set up on this VM, and `status --verify` also makes a safe live read to confirm it works. If it is unavailable, tell the user FlightAware cannot be reached right now and to try again later, without asking for credentials or sending them to Settings.
@@ -90,7 +92,7 @@
 
 - Create the status job through [Flight Tracking](/opt/muse/skills/flight-tracking/SKILL.md), which sets its owner, name, deduplication, failure handling and stop conditions. Write the rules below into the job's body with the exact command lines each run needs.
 
-- Monitoring rules version: 3. Write `Monitoring rules version: 3` into the job body and the trip state file. At the start of each run, read the current version with `grep -m1 'Monitoring rules version' /opt/hatch/connectors/flightaware/CONNECTOR.md`. When it is newer than the body's, read this section and the skill's **Decide what to tell the user**, rewrite the body from them with `cron.update` before the FlightAware calls, and record the new version in the state file.
+- Monitoring rules version: 4. Write `Monitoring rules version: 4` into the job body and the trip state file. At the start of each run, read the current version with `grep -m1 'Monitoring rules version' /opt/hatch/connectors/flightaware/CONNECTOR.md`. When it is newer than the body's, read this section and the skill's **Decide what to tell the user**, rewrite the body from them with `cron.update` before the FlightAware calls, and record the new version in the state file.
 
 - Read a leg more than two days out with `schedules` over its local departure date, with `--airline` and `--flight-number`, and a leg within two days with `flight IDENT --date`. An empty `schedules` page is a query problem: check the codes and the date once, and after three empty runs in a row record degraded coverage as the skill says, instead of reading it as no change.
 
@@ -114,11 +116,13 @@
 
 - From 6 hours before departure until the leg leaves, read `airport-delays ORIGIN` at most once an hour, and a connection airport's delays from the first leg's departure. Alert at once on a ground stop or a delay program there that the flight's own estimate does not yet show, and name the cause. Read the destination's delays only when the arrival estimate moves or a pickup depends on it.
 
-- A departure gate change qualifies only from 3 hours before departure. Earlier, record the gate in the state file silently, since it often changes again.
+- A departure gate change qualifies only from 3 hours before departure. Earlier, record the gate in the state file's current facts silently, since it often changes again. The first gate ever seen for a leg also goes in the leg's `first_observed.departure_gate`, kept apart from `current` and never marked notified, and `last_notified.departure_gate` changes only when a notice or the departure brief names a gate: a gate recorded silently is a change the user has not heard yet.
 
 - From 3 hours to 90 minutes before departure, send at most one departure gate alert per leg per hour. Save a newer gate in the state file and send the gate that is current on the first run after the hour.
 
 - From 90 minutes before departure, send each qualifying departure gate change on the run that finds it.
+
+- On every run inside the gate windows, compare the fresh gate with the leg's baseline: `last_notified.departure_gate`, the last gate a notice or the departure brief told the user, or `first_observed.departure_gate` when nothing has named a gate yet. A gate that differs from the baseline is due even when it has not moved since the previous run, within the hourly throttle above, and once sent it becomes `last_notified.departure_gate`. A first assignment stays silent and only sets `first_observed.departure_gate`. A state file written before these objects existed has neither: build `last_notified` from the gates the recorded `notices` carried, and otherwise start from the first gate this run observes.
 
 - Name only the current gate. Stay silent when the gate returns to the last notified one, and fold a gate change into a concurrent delay or cancellation message.
 

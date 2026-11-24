@@ -68,7 +68,7 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 - Run the request's product searches in parallel, with every requirement in each one:
   - Meta Catalog, adding the flags the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs give for categories, gender, brands, sellers, prices and images.
   - A browser product search with `browser.browse` and `task_id: "new"`, briefed as below. Always run it, especially for home goods, unless the user asked only for Facebook Marketplace.
-  - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup, tight-budget or deal-hunting requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
+  - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup or tight-budget requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
 
 - Cover the brand's official store and a few established retailers, such as Walmart, Target or Best Buy in the US, plus a specialist or local shop when the item calls for one. Leave out Amazon unless the user asks for it.
 <!-- product-search-improvements-off-only:end -->
@@ -105,7 +105,7 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - Search the Meta Catalog first, plus Facebook Marketplace when it applies:
   - Meta Catalog, adding the flags the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs give for intent, brands, sellers, gender, prices and images. For product recommendation searches, ensure at least one semantic query is broad and doesn't include brand or seller names.
-  - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup, tight-budget or deal-hunting requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
+  - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup or tight-budget requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
 
 - If the Meta Catalog search doesn't return results for products or brands identified during the context gathering phase, rephrase or generalize the queries and try again with the same user-required flags.
 
@@ -118,7 +118,7 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 - Run the request's product searches in parallel, with every requirement in each one:
   - Meta Catalog, adding the flags the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs give for intent, brands, sellers, gender, prices and images.
   - A browser product search with `browser.browse` and `task_id: "new"`, briefed as below. Always run it unless the user asked only for Facebook Marketplace.
-  - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup, tight-budget or deal-hunting requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
+  - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup or tight-budget requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
 
 - Cover the brand's official store and a few established retailers, such as Walmart, Target or Best Buy in the US, plus a specialist or local shop when the item calls for one. Leave out Amazon unless the user asks for it. For a deal hunt, also follow "Find a deal".
 
@@ -281,6 +281,10 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - Open with one short takeaway drawn from all the results, not only the search that finished last. Do not list, recap or describe the products the widget shows, and do not mention the skill, instructions, widget, tools or formatting.
 
+- For a deal hunt, use that takeaway to tell the user whether to buy now or wait. Base it on the product's price history and any upcoming sales you found.
+
+- When your research shows that waiting could get the user a better price, such as a sale that hasn't started yet, end the reply with a short offer to watch the price. Add it as one `muse.create_options` option in the same row as any other follow-up options.
+
 - Name at most two products, only for the decisive recommendation or tradeoff, and keep the widget's order. Refer to the others collectively.
 
 - Write each named product as the complete `marker` returned in `product_citations`, without rebuilding it, repeating the name beside it or adding a link. Use the plain name only when no marker was returned.
@@ -419,9 +423,7 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 <!-- muse-charm-purchase-only:start -->
 ## Shopping for Muse Charm
 
-Muse Charm is Meta's own device, sold from a known Meta Catalog listing, so its details come straight from `shopping product-details --product-id=29129320046733968 --out <file>`, which also writes them to a new results file, and a product search isn't needed. Pass that file's path to `shopping.resolve_results` and show the product in the `shopping_results` widget. It supports UCP checkout. The product id is an internal catalog key, so refer to the product by name.
-
-Meta's help center at https://www.meta.com/help/ covers other questions about buying it.
+Follow the instructions in [Muse Charm](~/docs/devices/charm.md) for product look-up and presentation. Purchasing a Muse Charm should follow the "Complete the purchase" instructions above for Meta Catalog products with UCP eligibility.
 
 <!-- muse-charm-purchase-only:end -->
 ## Available connectors

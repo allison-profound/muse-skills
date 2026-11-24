@@ -22,8 +22,9 @@
 ## Performance and diagnosis
 
 - Pick the tool by intent, leading with the one that most directly answers:
-  - a standard delivery readout, or a comparison or ranking of accounts, campaigns, ad sets or ads, however many metrics, uses `ads_get_ad_entities` at the level the question named
+  - a standard delivery readout, or a comparison or ranking of accounts, campaigns, ad sets or ads, uses `ads_get_ad_entities` at the level the question named
   - why a metric moved over time, including a drop or rise called sudden, or a trend of cost per result, CPC, CPM, CTR, conversion rate or ROAS, uses `ads_insights_performance_trend`
+  - for a named campaign's overall performance over a recent period (for example, “How did the [name] campaign perform over the last month?”), include the campaign-scoped ad-set trend card alongside the campaign readout, as described below
   - whether the account has detected anomalies, without one named metric's movement, uses `ads_insights_anomaly_signal`
   - auction competitiveness, quality or bid ranking, under-delivery or audience overlap uses `ads_insights_auction_ranking_benchmarks`
   - comparison with similar advertisers or the industry uses `ads_insights_industry_benchmark`
@@ -42,7 +43,9 @@
 
 ### Make the specialized read the first call
 
-- When one intent above matches, call that tool before any general one. An `ad_account_id` or object ID in the user's request can go straight into the call when the schema accepts it, so never make account, entity, field-context, Opportunity Score, anomaly, trend or scaling reads a prerequisite for gathering context.
+- Follow [Named campaign performance](../CONNECTOR.md#named-campaign-performance) for the campaign readout and its ad-set trend card. The general first-call and stop rules below apply to other requests.
+
+- For other requests, when one intent above matches, call that tool before any general one. An `ad_account_id` or object ID in the user's request can go straight into the call when the schema accepts it, so never make account, entity, field-context, Opportunity Score, anomaly, trend or scaling reads a prerequisite for gathering context.
 
 - The specialized tools are not interchangeable. "Why did this fall over time" is a trend even when the user says "suddenly", "any anomalies" is the anomaly signal, "what would another budget produce" is allocation simulation, current caps are scaling analysis, and fragmented budgets or consolidation are liquidity analysis.
 
@@ -169,6 +172,10 @@
 - Use `ads_get_ad_account_pages` for Pages connected to an ad account, `ads_get_pages_for_business` with `business_id` for a business's Pages, and `ads_get_user_pages`, which takes no ID, for the current user's Pages.
 
 - `ads_get_ig_media` needs an `ig_account_id` resolved with `ads_get_ig_accounts`, and the `ad_account_id` it also accepts is no substitute. These tools cover paid and ad-linked Instagram content, while organic posts, engagement and account management belong to the [Instagram connector](/opt/hatch/connectors/instagram/CONNECTOR.md).
+<!-- meta-ads-ig-boost-only:start -->
+
+- The post for an [Instagram boost](ig-boost.md) comes from `ads_get_ig_media` for an Instagram account `ads_get_ig_accounts` returned for the chosen ad account. This lookup does not need the user's Instagram connector.
+<!-- meta-ads-ig-boost-only:end -->
 
 - Resolve a creation-bound interest, location or language with `ads_targeting_search` before an ad-set write, as [targeting](campaign-targeting.md) describes. Free-form names never go into an ad-set write.
 
@@ -184,9 +191,7 @@
 
 - To read an ad's copy, take its `creative_id` from `ads_get_ad_entities` at `level=ad`, then call `ads_get_creatives` with `creative_ids` and no `fields`, which returns every supported field, with the copy in `body`, `title`, `description` and `link_url`. The tool takes creative IDs, not ad IDs, and has no `object_story_spec` field.
 
-- `ads_get_ad_preview` renders one existing ad from a resolved `ad_id` or `creative_id`, with an optional `ad_format` naming the placement. An account-wide preview is not one call, so name the ad being previewed.
-
-- Formats include `MOBILE_FEED_STANDARD`, the default, `DESKTOP_FEED_STANDARD`, `INSTAGRAM_STANDARD`, `INSTAGRAM_STORY`, `INSTAGRAM_REELS`, `RIGHT_COLUMN_STANDARD`, `MESSENGER_MOBILE_INBOX_MEDIA` and `THREADS_STREAM`. Pass the format the advertiser asked about rather than describing how the default would differ, and name the placement in their words, such as Instagram Stories.
+- `ads_get_ad_preview` previews one existing ad from a resolved `ad_id` or `creative_id`. An account-wide preview is not one call, so name the ad being previewed. Follow **Show ad previews** in the [connector guide](../CONNECTOR.md#show-ad-previews) for placement selection, calling and presentation.
 
 - Creative health, the best creative or why creative performance changed are performance questions for the insights tools, but numbers only rank ads. Read the creatives as well, because they are one of the few explanations the data can support.
 

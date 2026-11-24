@@ -1,20 +1,18 @@
 # OpenTable
 
-- `/opt/hatch/bin/opentable` reads live availability and makes, changes and cancels reservations. It needs a one-time consent in chat before any command returns data.
+- `/opt/hatch/bin/opentable` reads live availability and makes, changes and cancels reservations. It needs no OpenTable account. Run its commands directly: offer a connect link only when a command's result asks for consent, and do not send the user to Settings.
 
 - [Restaurant Reservations](/opt/muse/skills/restaurant-reservations/SKILL.md) compares OpenTable with the restaurant's own route and other platforms.
 
 - Run bookings, changes and cancellations one at a time. Background calls, batches and shell or Python retry loops are not supported.
 
-## Connect
+## Consent and availability
 
-- `status` returns `connect_url` when consent is needed. Share that exact link as `[Connect OpenTable](<connect_url>)`, never one you composed, and check `status` again after the user connects. `disconnect` removes the connection, so do not send the user to Settings.
+- On some devices a command first asks for the user's consent instead of returning data. Follow that result's own instructions, then run the command again once the user consents. There, `disconnect` withdraws that consent; elsewhere there is nothing to disconnect.
 
-- When the request is to reserve a table and OpenTable is not connected, recommend connecting once, briefly explaining that it enables live availability and smoother booking, and share the link, then keep going through the restaurant's own booking page, another platform or a call without waiting. When the request is only to connect, share the link and wait.
+- If `status` reports `unavailable`, OpenTable cannot be used here, so use the restaurant's own booking page, another platform or a call.
 
-- `unavailable` means OpenTable cannot be used here, so skip the connection offer and use the other routes.
-
-- If the user connects after another route started, first resolve any hold or uncertain submission on that route and check any reservation it made. Never book the same restaurant, date, time and party twice.
+- If the user consents after another route started, first resolve any hold or uncertain submission on that route and check any reservation it made. Never book the same restaurant, date, time and party twice.
 
 ## Find a table
 
@@ -46,6 +44,8 @@
 - `get-reservation` and `cancel-reservation` take `--rid` and `--confirmation-id`. A clear cancellation needs no extra confirmation.
 
 - Run the resolved command directly so the connector can show any required approval, and do not add a chat confirmation for it.
+
+- Before running `book-reservation`, write one short line naming the restaurant, local date and time and party size, and end it with this sentence word for word: By booking through OpenTable, you agree to the OpenTable [Terms of Use](https://www.opentable.com/legal/terms-and-conditions) and [Privacy Policy](https://www.opentable.com/legal/privacy-policy). Then run the command in the same turn without waiting for a reply, since the line is not a confirmation request. Do not paraphrase the sentence or ask the user to agree separately. Changes and cancellations do not need it.
 
 - For an experience, find it with `list-experiences --rid RID`, check times with `search-availability --include-experiences true`, and book with `--experience-json` containing the experience `id` and `version`.
 

@@ -1,9 +1,12 @@
 id: zocdoc
 title: "Zocdoc"
-description: "Find US doctors and other healthcare providers, their specialties, accepted insurance plans, visit reasons and open appointment times on Zocdoc, with booking links to complete there."
+description: "Use Zocdoc to find US healthcare providers, check insurance coverage and deductibles, and book available appointments."
 aliases: [zocdoc]
 include_in_prompt: false
 require_auth: false
+auth:
+  authorize: cli
+  disconnect: cli
 availability:
   gk: hatch_connector_zocdoc_enable
   # Off until a CVM launch adds a CVM disclosure with non_confidential, gives

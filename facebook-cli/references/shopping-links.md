@@ -22,25 +22,19 @@
 
 ## Products from the Reel's shopping sheet
 
-- Check the current request's `product_context` attachment. For `data.entrypoint` = `FB__REELS__SHOP_WITH_MUSE_PILL`, `data.params.tagged_product_ids` contains the IDs of the products Facebook recommended in the Reel's shopping sheet. Use this list if it is not empty.
+- Check the current request's `product_context` attachment. For `data.entrypoint` = `FB__REELS__SHOP_WITH_MUSE_PILL`, `data.params.system_recommended_product_ids` lists the products Facebook recommended in the Reel's shopping sheet. Older app versions send the same list as `tagged_product_ids`; despite that name, the creator didn't tag these products. They may not appear in the Reel, so describe them as products Facebook recommended. If neither list has IDs, follow the Reel workflow above.
 
-- If the list is empty or missing, follow the Reel workflow above.
-
-- If the list contains IDs, use those products as the starting recommendations instead of fetching another list with `post read --out`. Use the command below to look up each ID. Use the returned details when describing these products.
+- Use these products instead of the `post read --out` recommendations. Look up each ID, and describe products only from the returned details:
 
 ```sh
 /opt/hatch/bin/shopping product-details --product-id '<id>' --out '<new file>'
 ```
 
-- Skip products if fetching their details fails. For each successful lookup, keep the output file path and the returned `product.id`. When calling `shopping.resolve_results`, put the file paths in `result_paths` and the IDs in `selected_ids`. Keep IDs and lookup errors out of replies.
+- In `shopping.resolve_results`, pass each successful lookup's file in `result_paths` and its `product.id` in `selected_ids`, in list order and before any other results. Keep IDs and lookup errors out of replies.
 
-- If every lookup fails:
+- If none of the products load, say you couldn't load the products Facebook recommended, without error details. If the user asked to choose only from them, stop there. Otherwise, follow the Reel workflow above.
 
-  - If the user asked to use only products from the shopping sheet, say you couldn't verify those products and stop.
-
-  - Otherwise, follow the Reel workflow above.
-
-- When calling `shopping.resolve_results`, put those products' IDs first in `selected_ids`, keeping their order from `tagged_product_ids`. If you also found other matching products through additional searches, add their IDs at the end of `selected_ids`. If the user asks to choose only from the products Facebook recommended, do not search for other products. Otherwise, use [Shopping](/opt/muse/skills/shopping/SKILL.md) to find more options if needed.
+- If the user asks to choose only from the products that loaded, don't search for others. Otherwise, judge from the user's request and requirements whether those products are enough. If not, use [Shopping](/opt/muse/skills/shopping/SKILL.md) to search for more.
 
 ## Find products
 
@@ -50,7 +44,7 @@
 
 ## Use recommendations
 
-- If the user hasn't specified a product, product type, or hard requirement, use the products from `tagged_product_ids` when the list is not empty. If the list is empty or missing, use the recommendations returned by `post read --out`. Do not filter or reorder these recommendations just to match a soft preference.
+- If the user hasn't specified a product, product type, or hard requirement, use the products from `system_recommended_product_ids` or `tagged_product_ids` when the list is not empty. If neither list has IDs, use the recommendations returned by `post read --out`. Do not filter or reorder these recommendations just to match a soft preference.
 
 - For `post read --out` without a hard requirement, `featured_products_status` describes the next step:
 

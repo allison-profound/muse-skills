@@ -1,9 +1,9 @@
 version: 1
 metadata:
+  # An ordinary VM shows the row as connected, with its permissions; a
+  # confidential VM shows Connect (CVM_CONSENT_CONNECTORS in hatch-tool-sdk).
   visible_in_settings: true
-auth:
-  provider: opentable
-  required: true
+auth: none
 cli:
   binary: opentable
   skill: opentable

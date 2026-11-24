@@ -15,6 +15,13 @@ features:
     # validate-booking's payment_setup_required and book's Link setup resume
     # hint. The readiness read and its logging run whatever the gate says.
     gk: hatch_travel_payment_readiness
+  expedia-hotel-merge:
+    gk: hatch_hotel_sources_merge_expedia
+    # Within hotel-sources: whether Expedia's hotels join the other lodging
+    # connectors' in one merged card list (`hotels merge`) instead of
+    # showing as their own list. The runtime checks it when it builds a
+    # merged list, and the skill's blocks of this name carry both wordings.
+    # Off until blending Expedia with Duffel and Agoda is chosen.
   expedia-traveler-profiles:
     gk: hatch_traveler_profiles
     methods: [traveler.read]

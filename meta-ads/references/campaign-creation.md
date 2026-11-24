@@ -2,6 +2,10 @@
 
 Use this guide to create a complete Meta Ads campaign, from planning to the created campaign. The stages below are the usual order, but you can start at whichever stage the request needs, and stages the conversation already settled stay settled. The last three, preview, creation and handoff, almost always happen. A request for a plan only stops once the strategy is approved, and an account that can't be changed goes to [manual setup](campaign-manual-setup.md) instead.
 
+<!-- meta-ads-ig-boost-only:start -->
+- Boosting a published Instagram post follows [boosting an Instagram post](ig-boost.md) instead.
+<!-- meta-ads-ig-boost-only:end -->
+
 ## Stages
 
 Before each stage, you should read its guide.

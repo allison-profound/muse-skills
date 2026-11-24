@@ -114,6 +114,8 @@
 
 - A refused or failed command explains itself in its `error`, `message`, `next_step` or `next_action`: what stopped, whether another try can help, and what still works, such as booking with the airline through `browser.browse`. Those fields describe this result, so they are the guide to the next step.
 
+- A hand-off to the airline's website through `browser.browse` carries the itinerary, the traveler names and the fare, and no passport, traveler-security, redress or loyalty numbers: the traveler enters those in the airline's own form, during a takeover when the site asks.
+
 - `enumeration.incomplete: true` means the booking list may omit bookings. Present readable bookings and state that the list is incomplete; an empty incomplete list does not mean there are no bookings. When `enumeration.failed_team_records` is nonzero, manage affected bookings with the airline using `browser.browse`.
 
 - For other errors, an unchanged failed search fails the same way again, even when its response says `retriable: true`, so a changed query or another source is the next step.

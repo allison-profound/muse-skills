@@ -98,6 +98,8 @@ Paired devices, advertised commands and enabled permissions.
 
 - `location_sharing_mode` uses `text` and is nullable.
 
+- `nickname` uses `text` and is nullable.
+
 ## Keys and relationships
 
 - PRIMARY KEY `nodes_pkey` covers `node_id`.

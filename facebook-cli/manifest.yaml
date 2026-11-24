@@ -108,6 +108,10 @@ cli_subcommands:
   - "groups pending-participation-requests moderate"
   - "groups spam list"
   - "groups spam moderate"
+  - "groups reported-content list"
+  - "groups reported-content moderate"
+  - "groups alerted-content list"
+  - "groups alerted-content moderate"
   - "feed newsfeed"
   - "feed friends"
   - "events search"
@@ -202,6 +206,10 @@ cli_subcommand_aliases:
   "group pending-participation-requests moderate": "groups pending-participation-requests moderate"
   "group spam list": "groups spam list"
   "group spam moderate": "groups spam moderate"
+  "group reported-content list": "groups reported-content list"
+  "group reported-content moderate": "groups reported-content moderate"
+  "group alerted-content list": "groups alerted-content list"
+  "group alerted-content moderate": "groups alerted-content moderate"
   "events get": "events details"
   "events read": "events details"
   "events show": "events details"
@@ -379,6 +387,10 @@ commands:
   "groups pending-participation-requests moderate": groups.moderate
   "groups spam list": facebook.search
   "groups spam moderate": groups.moderate
+  "groups reported-content list": facebook.search
+  "groups reported-content moderate": groups.moderate
+  "groups alerted-content list": facebook.search
+  "groups alerted-content moderate": groups.moderate
   "feed newsfeed": facebook.search
   "feed friends": facebook.search
   "events search": facebook.search

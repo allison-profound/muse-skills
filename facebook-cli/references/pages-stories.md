@@ -46,6 +46,10 @@
 
 ## Posting guidance
 
+<!-- facebook-prosumers-combined-only:start -->
+- Before you publish a story, show the user its exact text and photo and the Page it will post as, then wait for their yes. A request to post it, made before they saw that preview, doesn't approve it.
+
+<!-- facebook-prosumers-combined-only:end -->
 - `stories create`<!-- facebook-pages-tranche2-story-delete-only:start --> and `stories delete` act<!-- facebook-pages-tranche2-story-delete-only:end --><!-- facebook-pages-tranche2-story-delete-off-only:start --> acts<!-- facebook-pages-tranche2-story-delete-off-only:end --> as the Page after the user approves the exact text, photo and IDs on an approval card. Run each requested write once. Each additional story the user names is a separate write with its own approval.
 
 - A story appears publicly under the Page's name. Write only what the user asked the Page to say.

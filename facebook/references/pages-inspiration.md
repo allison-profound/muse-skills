@@ -52,6 +52,11 @@
 
 - Content ideas and niche results come from other creators, not from the Page's own posts.
 
+<!-- facebook-prosumers-combined-only:start -->
+- When an idea comes from a Facebook trend or suggestion, say where it came from and the date you checked, and keep Facebook's numbers separate from theirs, so they can see what the idea is based on.
+
+<!-- facebook-prosumers-combined-only:end -->
+
 - `niche --recommendation-type top_content` returns only `post_ids`, with no post text, creators, counts or links. Report how many posts Facebook recommended and give their IDs. Don't describe the posts or name creators, follower counts or links, because nothing returned says who made them or what they show.
 
 - When the user asks for more ideas, posts or creators than a command's `--limit` allows, run it once at the maximum. Report how many Facebook returned and that it returns no more per request, and don't pad the list with results from other commands or ideas of your own, because the user asked for Facebook's results.

@@ -6,7 +6,12 @@
 
 - When the resolution is `auto_resume`, share the action link once. After the user completes it, rerun the identical `book`.
 
+<!-- duffel-card-retry-off-only:start -->
 - When the resolution is `replacement_required`, share the link and stop. After the user completes it and asks to continue, search again and get a new purchase approval instead of rerunning the old `book`.
+<!-- duffel-card-retry-off-only:end -->
+<!-- duffel-card-retry-only:start -->
+- When the resolution is `replacement_required`, this checkout is closed and nothing was charged. Share the link. When Link asked about the payment method itself (`action_type` `select_payment_method`, `add_payment_method` or `update_payment_method`), ask which other Link card to use after the user's step and rerun the same `book` with `--payment-method-id` set to it; the same `book` without another card returns the same result. For any other step, such as an identity check, rerun the same `book` once the user says it is done; the same card can work. Either way that opens one fresh approval for this offer.
+<!-- duffel-card-retry-only:end -->
 
 - When the resolution is anything else or missing, share the link and stop, without assuming the request can resume.
 
@@ -14,13 +19,25 @@
 
 - `link_card_ineligible` means `book` stopped before the approval card because Link would refuse that card for this purchase: nothing was requested or charged. Tell the user why. When the error says other saved cards can pay, offer the ones from `wallet.list_payment_methods` that the error doesn't rule out; rerun `book` with the chosen card's `--payment-method-id`, or help them pay another way.
 
-- A `failed`, `terminal_status` or `unsupported` Link result ends the attempt; another spend request would start a new purchase, so report it and stop.
+<!-- duffel-card-retry-off-only:start -->
+- A `failed` Link result, or a `terminal_status` of `canceled`, `expired` or `denied`, ends that checkout without a card and nothing was charged; rerunning the same `book` only returns it, so report it, and book the flight again only from a new search and `validate-booking`. A `terminal_status` of `submitted` or `succeeded` means Link reports the request completed without this command using it: whether a payment happened can't be told here, so report it and stop until the user checks their Link or card activity for the amount. An `unsupported` result ends the attempt: report it and stop.
+<!-- duffel-card-retry-off-only:end -->
+<!-- duffel-card-retry-only:start -->
+- A `failed` Link result ends that checkout without a card and nothing was charged. Rerunning the same `book` with another card's `--payment-method-id` opens one fresh approval for this offer; without another card, report it and stop. A `terminal_status` of `canceled`, `expired` or `denied` also ends it without a card and nothing was charged: if the user wants to go ahead, rerun the same `book`, with another card's `--payment-method-id` if they choose one, for one fresh approval on this offer. A `terminal_status` of `submitted` or `succeeded` means Link reports the request completed without this command using it: whether a payment happened can't be told here, so report it and stop until the user checks their Link or card activity for the amount. An `unsupported` result ends the attempt: report it and stop.
+<!-- duffel-card-retry-only:end -->
 
 - `link_request_open` means Stripe Link refused this payment request because a matching one from an earlier attempt (same merchant, amount and card) was created in the last few minutes, and that attempt isn't proven to have ended without a booking. Nothing was created or charged, and this checkout keeps its approval. Resolve the earlier attempt first, with `booking-status` when its outcome is unknown, and don't retry while it is unresolved or may have booked. When the earlier attempt was cancelled before submission or rejected with no order, `book` waits out those minutes itself, so let it finish.
 
 - Before any approval or submission for this purchase, correct validation errors. For `offer_unavailable` or an expired quote from `validate-booking`, search the itinerary again and present fresh terms for approval. `book` refreshes an expired quote itself.
 
 - `next_step: requote` means no order exists and the approved payment is closed. When `book` re-quoted in the same call, `requote` holds the offer's current terms: present `requote.total_amount` beside `requote.approved_total_amount` and `requote.changed_fields`, and run the same `book` again only when `requote.book_again` is true and the user wants the flight at that price; it asks for a fresh approval. Otherwise follow `next_action`.
+
+<!-- duffel-card-retry-only:start -->
+- `next_step: change_payment` means Duffel declined the card and created no order. Ask which other Link card to use and rerun the same `book` with `--payment-method-id` set to it: that opens one fresh approval for this offer, with no new search. The same `book` with the declined card, or with no card, replays the rejection. With no other card, offer the airline's own site. `card_token_rejected` means Duffel could not use Link's payment token and nothing was charged; rerunning the same `book` starts a fresh checkout with a new one-time card and a fresh approval.
+<!-- duffel-card-retry-only:end -->
+<!-- duffel-card-retry-off-only:start -->
+- `next_step: change_payment` means Duffel declined the card and created no order, and the same `book` returns the same rejection even with another card. Offer a new search and booking with a different card after a fresh approval, or the airline's own site. `card_token_rejected` means Duffel could not use Link's payment token and nothing was charged; follow its `next_action`.
+<!-- duffel-card-retry-off-only:end -->
 
 - After approval or submission for this purchase, each outcome carries its own `message` and `next_action` for that state, including whether a booking or payment may already have gone through and whether anything can be retried. Expiry does not resolve booking or funding uncertainty or permit retry or replacement.
 
@@ -34,6 +51,11 @@
 
 - A success with `resource_authorization.persisted: false` is still a booking. Report it and warn that later management may be unavailable; booking again would create a second booking.
 
+<!-- duffel-card-retry-off-only:start -->
 - The same offer with the same booking data is the same checkout and can resume, except after a `requote` result, where the same `book` starts a fresh checkout with its own approval. A new offer starts another checkout and may place another hold, so it is a new purchase for the user to choose, not a retry.
+<!-- duffel-card-retry-off-only:end -->
+<!-- duffel-card-retry-only:start -->
+- The same offer with the same booking data is the same checkout and can resume, except after a `requote` result, a declined card when the command names another card, a Link result that issued no card, or a refused Link token, where the same `book` starts a fresh checkout with its own approval. A new offer starts another checkout and may place another hold, so it is a new purchase for the user to choose, not a retry.
+<!-- duffel-card-retry-only:end -->
 
 - After success, report every carrier booking reference and ticket status from the receipt. A loyalty account marked `not_confirmed_on_order` is unconfirmed, not rejected. Suggest checking with the airline using the booking reference; rebooking would buy a second ticket.

@@ -74,8 +74,14 @@
 - Never swap in a different voice or speech engine to get around a transient failure.
 
 <!-- podcast-designed-voices-only:start -->
-- A `designed voice can't be used for podcasts`, `designed voice can't host this podcast` or `podcast language not supported` error does not clear on retry. It says why: the voice service refused that saved voice, its voice file is unusable, the episode's language isn't supported, the saved voice library couldn't be read, or another host's voice is neither a catalog voice nor a saved design. Tell the user why, offer a catalog voice (or a newly designed one when the voice itself can't be used), and generate again with their choice. When the error lists the supported languages and the script is in one of them, generate again with that `--language`.
+- A `designed voice can't be used for podcasts`, `designed voice can't host this podcast` or `podcast language not supported` error does not clear on retry. It says why: the voice service refused that saved voice, its voice file is unusable, the episode's language isn't supported, the saved voice library couldn't be read, or another host's voice is neither a catalog voice nor a saved design. Tell the user why, offer a catalog voice, and generate again with their choice. When the error lists the supported languages and the script is in one of them, generate again with that `--language`.
 
+<!-- podcast-voice-feature-only:start -->
+<!-- podcast-voice-design-only:start -->
+- When the saved voice itself can't be used, offer a newly designed voice too.
+
+<!-- podcast-voice-design-only:end -->
+<!-- podcast-voice-feature-only:end -->
 <!-- podcast-designed-voices-only:end -->
 - A `not allowed to use voiceID` error does not clear on retry, because that voice is not permitted. For a newly chosen cast, select another permitted voice from [Podcast preferred voices](podcast_preferred_voices.json), avoiding IDs already assigned to other speakers. Consult the full catalog only for a user-requested voice or voice characteristics, or when the shortlist has run out of distinct voices. If the rejected voice was explicitly requested or belongs to an established series' cast, explain the problem and ask before changing it. Fix an authentication failure or an invalid request rather than retrying it. [The speech reference](/opt/muse/skills/spoken-audio/references/speech.md) explains how to check voice IDs after an opaque HTTP 500.
 

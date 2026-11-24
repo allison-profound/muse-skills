@@ -54,6 +54,8 @@
 
 - Read the whole result, including `selection_evidence` and every candidate's `match` and `phone_selection`. Treat `exact_full`, `exact_tokens`, `nickname` and `phonetic` matches all as plausible readings of a spoken name. An exact spelling does not outrank a homophone, because speech recognition chose it. Ask when `requires_spoken_name_clarification` is true or when plausible candidates have different numbers.
 
+- A `role` match is a contact whose saved name marks them as the occupation or kind of business the caller named, such as "Dr. Maya Okafor DDS" for "my dentist". Confirm a `role` match with the caller before calling or texting.
+
 - Settle the line after the person. Ask when `requires_phone_clarification` is true, unless the user already picked a numbered line you read out. If `requested_label_match_count` is zero, say no saved number has that label and offer the lines there are. If `distinct_usable_phone_count` is zero, ask for a number.
 
 - Never pick the first or preferred number yourself, and never act on an incomplete search, a weak match or an unsettled line. Stored forms grouped into one option are one destination. When only one offered line is left, the user's confirmation selects it.

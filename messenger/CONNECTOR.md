@@ -49,9 +49,11 @@
 
 ## Refresh before claiming freshness
 
-- Read commands use retained data, so refresh before claiming a result is current or complete. `sync both` is the normal refresh. It is incremental and fills gaps, and `--since-days N` reaches farther back. Only the last 30 days are supported.
+- Read commands use retained data, so refresh before claiming a result is current or complete. `sync both` is the normal refresh. It is incremental and fills gaps, and `--since-days N` reaches farther back.
 
-- If `_cache.gaps` overlaps the question, repeat `sync both` until those gaps clear. If the period predates `_cache.oldest_cached_ts`, extend it with `sync both --since-days N`. For one thread, use `sync messages --cid 'ID' --older 100` instead.
+- If `_cache.gaps` overlaps the question, repeat `sync both` until those gaps clear. If the period predates `_cache.oldest_cached_ts`, extend it with `sync both --since-days N`; for a large N it can take several runs, so run it again until it no longer answers `sync_not_finished`. For one thread, `sync messages --cid 'ID' --since-days N` is faster, or use `--older 100`.
+
+- A chat with no messages cached needs `sync messages --cid 'ID'`.
 
 - Folder filtering applies only to `threads`, never to `sync`. `--since-days` widens what is available but does not filter a later search.
 
@@ -301,7 +303,7 @@
 
 ## React, edit or unsend
 
-- Resolve the exact target from `messages` or `search`, never guessing its ID. If an older target is missing, fetch more of the thread with `sync messages --cid 'ID' --older 200` or `--since-days N`, up to 30 days, and resolve it again.
+- Resolve the exact target from `messages` or `search`, never guessing its ID. If an older target is missing, fetch more of the thread with `sync messages --cid 'ID' --older 200` or `--since-days N`, and resolve it again.
 
 - Immediately before the preview, run `sync messages --cid 'ID'` and read the target again, refreshing the preview if it changed or is ambiguous. `--cid` is optional for these commands, so omit it rather than guess.
 

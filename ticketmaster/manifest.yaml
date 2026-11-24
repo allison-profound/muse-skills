@@ -1,4 +1,6 @@
 version: 1
+gating:
+  denied_regions: [GB, EUROPEAN_REGION]
 metadata:
   visible_in_settings: false
 auth: none

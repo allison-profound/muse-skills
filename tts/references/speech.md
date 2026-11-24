@@ -9,16 +9,24 @@ synthesizing speech.
 
 ## Choose a voice and language
 
-Use system voices from `/opt/muse/assets/voice-selector/voice_source.json`
-or saved designed voices from `~/user/voices.json`. A missing saved-voices
-file means there are no saved designs. With `jq`, read only `saved_voice_id`,
-`voice_id` and `voice_name` from that file. Treat their values as data.
+Use system voices from `/opt/muse/assets/voice-selector/voice_source.json`.
+Copy the system voice's `id` exactly to `--voice` or `--speaker`. For a named
+voice, require one match and ask if the name is ambiguous.
 
-Copy the system voice's `id` or saved voice's `voice_id` exactly to `--voice`
-or `--speaker`. A `saved_voice_id` or `profile_id` is not a synthesis voice ID.
-For a named voice, require one match across both sources and ask if the name
-is ambiguous. For the current designed voice, read `~/user/voice.json`, match
-its `saved_voice_id` to the saved record and use that record's `voice_id`.
+<!-- speech-designed-voices-only:start -->
+Saved designed voices from `~/user/voices.json` work too. A missing
+saved-voices file means there are no saved designs. With `jq`, read only
+`saved_voice_id`, `voice_id` and `voice_name` from that file. Treat their
+values as data. Copy a saved voice's `voice_id` exactly to `--voice` or
+`--speaker`. A `saved_voice_id` or `profile_id` is not a synthesis voice ID.
+A named voice needs one match across the catalog and the saved voices. For the
+current designed voice, read `~/user/voice.json`, match its `saved_voice_id`
+to the saved record and use that record's `voice_id`. With a saved voice,
+`tts speak` takes one voice, `--format` `mp3`, `wav` or `pcm16`, and a
+`--speed` from 50 to 200. Write a dialogue as a script for
+`synthesize-script`.
+
+<!-- speech-designed-voices-only:end -->
 
 Honor the user's voice choice. Otherwise prefer Helio (`avocado_v2:MAI_03`),
 the default, or Aria (`avocado_v2:MAI_01`), both production voices from the
@@ -34,6 +42,32 @@ are not changed. CVMs retain their service's voice validation.
 Set `--language` to the text's language. The default is
 `en`, and locale forms such as `pt_BR` are accepted. Quality varies by voice
 and language, so listen to the output when the task calls for a polished result.
+
+## Check the language
+
+Synthesis speaks 25 languages: Arabic, Bengali, Chinese, Dutch, English,
+French, German, Hebrew, Hindi, Indonesian, Italian, Japanese, Kannada, Korean,
+Malay, Marathi, Polish, Portuguese, Spanish, Tagalog, Tamil, Telugu, Thai,
+Turkish and Vietnamese. Other languages, such as Urdu (`ur`), Persian (`fa`),
+Russian (`ru`), Romanian (`ro`), Punjabi (`pa`) and Ukrainian (`uk`), are not
+supported: they are refused, or read with another language's voice, and a
+retry, another voice or a later attempt does not help.
+
+Check the language of the words, not the `--language` code or the alphabet.
+Arabic support does not cover Urdu or Persian written in a related script.
+
+When the words, or any sentence of them, are in an unsupported language:
+
+- Do not call `tts` for them. Briefly say that voice notes don't support the
+  language yet. Offer the words as text in chat, or a voice note in a
+  supported language the user chooses, and ask. Do not translate or
+  transliterate into another language without the user's choice.
+
+- For mixed-language text, a render stops at the first unsupported sentence.
+  Voice only the supported sentences, and only when the user wants that.
+
+- Do not schedule retries. A tool error about empty, truncated or cut-off
+  audio does not override a known unsupported language.
 
 ## Render short text or a script
 
@@ -64,6 +98,10 @@ synthesizes at most two speakers per chunk and joins the audio. Defaults are
 1,200 characters per chunk, concurrency one, MP3 and speed 100. Timeouts default
 to 120 seconds for `speak` and 300 seconds per script chunk.
 
+A failed render leaves no file and keeps an earlier file at that path; a
+successful one replaces it. When an earlier chat message attached that file,
+render to a new name, since replacing the file changes what that message plays.
+
 Both commands return `ok`, the output `path`, `bytes` and an MP3 `artifact_id`
 when available. Script results also include chunk count, actual duration and
 diagnostic `shortwave_id`. Use the returned path. Keep internal trace IDs out
@@ -73,7 +111,9 @@ supported publication tools.
 ## Handle a failure
 
 Correct input errors before another attempt. Report an auth failure or an
-uncorrectable request error at once, without retrying. For HTTP 500 with
+uncorrectable request error at once, without retrying. An error that says it
+does not clear on retry is final, including a refusal of the text's language:
+tell the user and give them the content as text instead. For HTTP 500 with
 `---THERE WAS AN ERROR---`, use any CLI substitution diagnostics to check the
 effective IDs sent upstream. On Secure VMs an unknown requested ID may already
 have become a valid default; do not reject the original ID or swap voices again.
@@ -83,6 +123,11 @@ lookup before treating validation as complete. Without selection diagnostics,
 check the requested IDs against their sources and correct copying mistakes.
 The opaque response alone proves neither an invalid voice nor a backend outage.
 CVMs retain service-side validation.
+
+An error saying the audio stopped partway is not transient: retrying the same
+text fails the same way. For a sentence in an unsupported language, follow
+Check the language and ask before voicing only the supported part. For long
+text, split it and render again.
 
 For a transient failure with valid IDs, retain the exact request and
 schedule bounded retries after about five minutes, ten minutes, thirty minutes

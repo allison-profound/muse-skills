@@ -14,6 +14,8 @@
 
 - Establish what should be said, the language and any voice preference from the request and the conversation.
 
+- Check [language support](/opt/muse/skills/spoken-audio/references/speech.md#check-the-language) before synthesizing. If the words, or any sentence of them, are in an unsupported language, do not call synthesis, schedule retries or silently translate. Briefly say that voice notes don't support that language yet, and offer the words as text or a supported language for the user to choose.
+
 - For a message you compose, write natural speech. Keep Markdown, citation markers and attachment syntax out of the spoken text, and write numbers, times and abbreviations as they should sound. Put links and citations in the chat message that carries the audio.
 
 - For a verbatim reading, keep the supplied text exactly as given.
@@ -22,7 +24,7 @@
 
 - Synthesize with `/opt/hatch/bin/tts` through `muse.exec`, following [the speech reference](/opt/muse/skills/spoken-audio/references/speech.md) for commands, voice choice, languages and failures. Use one voice for a plain message, or several when roles help the listener follow a dialogue.
 
-- Save the file under `~/workspace/` and use the `path` the command returns. Check that synthesis finished and the file holds the intended words, and listen when pronunciation, pacing or polish matters.
+- Save the file under `~/workspace/` with a new, descriptive name for each render, such as `tea-recipe-note.mp3`, and use the `path` the command returns. Never reuse the name of a file an earlier message attached: a new render at that path replaces the audio that message plays. Check that synthesis finished and the file holds the intended words, and listen when pronunciation, pacing or polish matters.
 
 - When the text is not in English, tell the user the voice may sound imperfect and offer to try another voice.
 

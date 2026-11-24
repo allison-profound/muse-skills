@@ -40,7 +40,15 @@
 
 - Use `muse.connector_search` to find other connectors and `muse.skill_search` to find related skills.
 
+<!-- payment-account-setup-unrestricted-only:start -->
 - If nothing here fits, look on the web for a maintained API or MCP server and set it up with [Custom Connectors and MCPs](/opt/muse/skills/custom-connector-setup/SKILL.md), or build a custom connector.
+<!-- payment-account-setup-unrestricted-only:end -->
+
+<!-- payment-account-setup-restricted-only:start -->
+- Do not offer or set up custom API or MCP connectors for payment accounts, even if asked. You may explain that custom payment-account connectors are unavailable in the user’s region.
+
+- For custom connectors that do not access payment accounts, read [Custom Connectors and MCPs](/opt/muse/skills/custom-connector-setup/SKILL.md) before offering setup.
+<!-- payment-account-setup-restricted-only:end -->
 
 ### When available
 

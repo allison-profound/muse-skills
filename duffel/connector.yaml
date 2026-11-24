@@ -36,9 +36,18 @@ features:
     # The runtime runs `stay-shadow` in the background beside shown Expedia
     # hotel results. It is left out of the CLI help and the connector docs.
     methods: [stay.read]
+  duffel-card-retry:
+    gk: hatch_duffel_card_retry
+    # After Duffel declines the card, Link issues no card, or Duffel refuses
+    # Link's payment token, `book` with another `--payment-method-id` (or,
+    # for the token, the same command) opens a fresh checkout and approval
+    # for the same offer instead of replaying the failure. Checked in the
+    # worker, since `book` has no connector method; the recovery text in
+    # references/recovery.md switches on it.
   duffel-payment-readiness:
-    # validate-booking's payment_setup_required and book's Link setup resume
-    # hint. The readiness read and its logging run whatever the gate says.
+    # validate-booking's and stay-quote's payment_setup_required and book's
+    # Link setup resume hint. The readiness read and its logging run whatever
+    # the gate says.
     gk: hatch_travel_payment_readiness
 non_confidential: true
 availability:

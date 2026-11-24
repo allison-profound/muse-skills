@@ -8,6 +8,10 @@ non_confidential: true
 availability:
   confidential_vm: true
 features:
+  # `--help`, `scope` and `<tool>` in place of `list-tools`, `describe-tool`
+  # and `call-tool`. Closed, the CLI reads whole catalogues as before.
+  meta-ads-scoped-discovery:
+    gk: muse_meta_ads_scoped_discovery
   data-connections:
     gk: shopify_sma_setup_on_muse_abra
     files:
@@ -17,6 +21,11 @@ features:
       - references/signals-connections-app.md
       - references/signals-connections-crm.md
       - references/signals-connections-offline.md
+  meta-ads-preview-attachments:
+    gk: hatch_internal_users
+  meta-ads-ig-boost:
+    gk: hatch_ads_ig_boost_guidance
+    files: [references/ig-boost.md]
 auth:
   connect: professional_consent
   disconnect: cli

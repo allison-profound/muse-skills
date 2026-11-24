@@ -20,12 +20,14 @@
 
 - The JSON goes to the file. Stderr lists each hotel with its prices, room, cancellation terms, and the `search_result` and `rate` IDs the next commands take.
 
-- `stay-rates` shows the full details of a rate the search chose, as the search found it. It takes `--search-result` and `--rate` plus the same stay flags, and works for 30 minutes after the search.
+- `stay-rates` shows the full details of a rate the search chose, as the search found it. It takes `--search-result` and `--rate` plus the search's `--location`, `--check-in`, `--check-out` and `--room`, and works for 30 minutes after the search.
 
 ## Hotel cards
 
 - To show the hotels as cards, pass the search file unchanged to `travel.create_hotel_results_widget`, with up to four `hotel_id` values in `hotel_ids`. The cards read the hotels, prices and photos from it.
 <!-- hotel-sources-only:start -->
+
+- When another lodging connector returned hotels for the same stay, the files merge into one card list with `hotels merge`, as Hotel Booking's [sources guide](/opt/muse/skills/hotel-booking/references/sources.md) describes, and the cards come from the merged file: the stays that book here beside the other connector's, each card booking with its own connector.
 
 - The same file is a `hotels compare --shown duffel=FILE` source when the Google Hotels read reports, as Hotel Booking's [Google Hotels read](/opt/muse/skills/hotel-booking/references/google-hotels-read.md) describes.
 <!-- hotel-sources-only:end -->
@@ -42,15 +44,19 @@
 
 - When the user presses Book on a card, the selection gives the `search_result_id` and `rate_id` to quote.
 
-- The quote has the current price and terms: what's charged now, any amount due at the property, the total, the cancellation terms and the rate's `conditions`. The user needs to see these before booking, including anything that changed since the search.
+- The quote has the current price and terms: `total_for_stay`, what's `charged_now`, `fees_paid_at_hotel`, the cancellation terms and the rate's `conditions`. The total already counts the hotel's fees. A `guarantee` rate charges nothing now, and its `paid_at_hotel` is the whole stay. The user needs to see these before booking, including anything that changed since the search. Giving the total once with when it's paid, and the hotel's fees on their own, keeps the price clear and the fees from surprising the guest at check-in.
 
-- A fee paid at the hotel, such as a resort fee, can appear only in `conditions` while the quote's hotel fees are zero (`due_at_property` for a pay-now rate, `fees_at_property` for a guarantee), so the total may not include it.
+- A fee paid at the hotel, such as a resort fee, can appear only in `conditions` while `fees_paid_at_hotel` is zero, so the total may not include it.
 
 - `ok: false` with a `code` means the rate can't be booked here, and `error` says why.
 
 - `ok: false` without a `code` means the quote request failed, not that the rate is gone. `retriable: true` means quoting again is safe.
 
 - A quote can be booked for up to 30 minutes.
+<!-- duffel-payment-readiness-only:start -->
+
+- The quote also checks whether Link can pay. `payment_setup_required` means `book` would stop for Link setup. Share its `next_action.markdown` unchanged at the end of the message that shows the price and asks for guest details, so the user sets up Link while answering and the quote is still good when they're done. Keep the quote and follow its `resume`. The user doesn't pick the hotel again.
+<!-- duffel-payment-readiness-only:end -->
 
 ## Book
 
@@ -79,6 +85,11 @@
 <!-- traveler-profiles-only:start -->
 - When the quote's `next_step` says the account has no Duffel traveler profile yet, follow it. `book` takes the account holder's details from the user's own saved traveler (`relationship: self`), and the `next_step` says which `--customer-*` flags or `traveler-request` to use when that traveler lacks one.
 <!-- traveler-profiles-only:end -->
+
+- `book` pays with [Link by Stripe](/opt/hatch/connectors/stripe-link/CONNECTOR.md). When Link isn't connected or has no card it can use, `book` stops before any approval with a setup step. Share its `next_action.markdown`, and book again once Link is ready, since `book` stops the same way until then. Muse is told when Link connects.
+<!-- duffel-payment-readiness-only:start -->
+  Its `resume` says how to continue the same booking.
+<!-- duffel-payment-readiness-only:end -->
 
 - `book` asks the user to approve, then books with their Link card. A pay-now rate is charged at booking. A guarantee rate charges nothing at booking. The guest pays at the hotel, and the card guarantees the booking, so the hotel can charge it as the rate's terms allow. The approval shows the hotel, dates, rooms, guests, room, amounts and cancellation terms.
 

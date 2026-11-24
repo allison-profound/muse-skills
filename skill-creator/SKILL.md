@@ -1,5 +1,15 @@
 # Custom Connectors and MCPs
 
+<!-- payment-account-setup-restricted-only:start -->
+## Payment-account setup restriction
+
+- Do not offer, recommend or help set up custom access to bank accounts or stored-balance wallets, even if explicitly asked. This includes API/MCP integrations, read-only balances or transactions, and access through aggregators, third-party servers or integration hubs. Judge the account and requested access, regardless of provider or protocol.
+
+- Stop before researching setup, requesting credentials or building helpers. Briefly decline; you may explain that custom payment-account connectors are unavailable in the user's region. Offer user-supplied statements/CSVs or an existing integration available through `muse.connector_search`. Do not suggest custom workarounds.
+
+- Use this skill's setup workflow only for services that do not access payment accounts, including nonfinancial services, public rates, market prices, financial calculations and processing user-supplied records. If access is unclear, clarify it before offering setup.
+<!-- payment-account-setup-restricted-only:end -->
+
 ## Look for an existing route
 
 - Search with `muse.connector_search` for a system or custom connector that already covers the service or the action, and read its docs.
@@ -93,4 +103,4 @@ with urllib.request.build_opener(NoRedirect()).open(request, timeout=30) as resp
 
 - Compare an existing connector, a hub, an official API, an MCP server and a browser route on capability, access, reliability and cost. Use the simplest route that does the work well.
 
-- For a one-off task, finish it with `browser.browse` on the provider's website or with a file the user supplies. Offer to build a connector when the user will repeat the work.
+- For a one-off task, finish it with `browser.browse` on the provider's website or with a file the user supplies. Offer to build a connector when the user will repeat the work and the intended access is eligible for custom setup under this skill.

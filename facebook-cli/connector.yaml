@@ -17,6 +17,8 @@ features:
     gk: hatch_fb_connector_reactions_test
     files: [references/writing-reactions.md]
     methods: [reaction.write]
+  facebook-group-moderation-batch2:
+    gk: hatch_fb_connector_group_moderation_batch2
   facebook-group-posts:
     gk: hatch_fb_connector_media_publishing_test
     description_phrase: ", including in their Groups"
@@ -49,6 +51,10 @@ features:
     gk: hatch_fb_connector_pages_tranche2_story_delete
   marketplace-needs-attention:
     gk: hatch_fb_connector_marketplace_test
+  facebook-prosumers-combined:
+    gk: hatch_fb_connector_prosumers_combined_nov_2026
+  social-skill-improvements-nov-2026:
+    gk: hatch_fb_connector_prosumers_combined_nov_2026
 onboarding: true
 non_confidential: true
 availability:

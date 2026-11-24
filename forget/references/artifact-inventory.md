@@ -70,8 +70,9 @@
     contents and list names for the subject
 
   - the travel booking history at `~/memory/travel/HISTORY.md`, written once
-    by the travel email bootstrap from past booking mail, user-editable, and
-    read directly by travel turns
+    by the travel email bootstrap from past booking mail (a bootstrap search
+    that found too few bookings repeats after 90 days, but writes the profile
+    only, no history), user-editable, and read directly by travel turns
 
   - `~/HEARTBEAT.md`, `~/AGENTS.md`, and `~/TOOLS.md` when the information
     became an instruction, standing check, or environment note

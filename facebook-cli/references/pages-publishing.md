@@ -54,6 +54,13 @@
 
 - `posts cancel-schedule` unschedules the post and turns it back into a draft, though a publisher already running may still publish it.
 
+<!-- facebook-prosumers-combined-only:start -->
+- A draft can start as text and get its photos or video later through `drafts edit`, so when the user asks for drafts before you schedule, save each with `drafts create` and any media they've given, and say which still need some.
+
+- Before you publish, schedule, reschedule or cancel a scheduled post, show the post, the Page and the weekday, date, time and timezone, and wait for their yes. Read a time the user names in their own timezone, so the time you schedule is the one they approved.
+
+<!-- facebook-prosumers-combined-only:end -->
+
 <!-- facebook-post-editing-only:start -->
 ## Edit a published post
 

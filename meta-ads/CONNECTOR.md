@@ -15,7 +15,7 @@
 - How-to, setup and spec questions about Facebook or Instagram ads also belong here, even with no account in context. Answer them from `ads_get_help_article`, not from memory, and follow the how-to guidance in [policy retrieval](references/policy.md). If Ads operations are not available, say that you could not check Meta's current help, and link the [Meta Business Help Center](https://www.facebook.com/business/help).
 
 - Each task has its own guide, and you read it before you start.
-  - Planning or creating a Meta ad uses [campaign creation](references/campaign-creation.md). Meta ads run on Facebook, Instagram, Messenger, Threads, WhatsApp and the Audience Network. An image or post that isn't for an ad doesn't use this guide.
+  - Planning or creating a Meta ad uses [campaign creation](references/campaign-creation.md). Meta ads run on Facebook, Instagram, Messenger, Threads, WhatsApp and the Audience Network. An image or post that isn't for an ad doesn't use this guide<!-- meta-ads-ig-boost-only:start -->. A request to boost or promote an existing Instagram post follows [boosting an Instagram post](references/ig-boost.md)<!-- meta-ads-ig-boost-only:end -->.
   - Ad ideas start from the account's current creatives and their ad-level results for the advertiser's goal. [Advertising Campaigns](/opt/muse/skills/advertising-campaigns/SKILL.md) covers how to shape and present them.
   - Any other change uses [write operations](references/writes.md). This includes editing a campaign, ad set or ad, and creating or changing an audience, catalog or pixel rule.
 
@@ -35,12 +35,25 @@
 
 - Run every command as its own `muse.exec` call. Never chain commands with a newline, `&&`, `;` or a pipe, or wrap them in `cd`, `env`, `timeout` or `bash`, because a wrapped command cannot open the consent card.
 
+<!-- meta-ads-scoped-discovery-only:start -->
+- Large results already come back as a file, so there is nothing to truncate or parse inline. Do not pass `--endpoint` or `--auth-mode`, since calls always use the fixed first-party route and OAuth mode is rejected.
+<!-- meta-ads-scoped-discovery-only:end -->
+<!-- meta-ads-scoped-discovery-off-only:start -->
 - Large results already come back as a file and `describe-tool --input-only` returns only the schema, so there is nothing to truncate or parse inline. Do not pass `--endpoint` or `--auth-mode`, since calls always use the fixed first-party route and OAuth mode is rejected.
+<!-- meta-ads-scoped-discovery-off-only:end -->
 
 ```sh
+<!-- meta-ads-scoped-discovery-only:start -->
+/opt/hatch/bin/meta-ads-cli --help
+/opt/hatch/bin/meta-ads-cli scope <scope>
+/opt/hatch/bin/meta-ads-cli <tool> --help
+/opt/hatch/bin/meta-ads-cli <tool> --arguments-json '<json-object>'
+<!-- meta-ads-scoped-discovery-only:end -->
+<!-- meta-ads-scoped-discovery-off-only:start -->
 /opt/hatch/bin/meta-ads-cli list-tools --names-only
 /opt/hatch/bin/meta-ads-cli describe-tool --name <tool> --input-only
 /opt/hatch/bin/meta-ads-cli call-tool --name <tool> --agent-output --arguments-json '<json-object>'
+<!-- meta-ads-scoped-discovery-off-only:end -->
 /opt/hatch/bin/meta-ads-cli estimate-budget <typed plan flags>
 /opt/hatch/bin/meta-ads-cli creative generate-image --placement <feed|story|reel> --prompt '<text>' --output-dir workspace/your_files
 /opt/hatch/bin/meta-ads-cli render-campaign-summary --summary-json '<json-object>'
@@ -50,17 +63,22 @@
 /opt/hatch/bin/meta-ads-cli disconnect-url
 ```
 
-- `creative generate-image` and the three render commands run locally and never read or change the ad account. `estimate-budget` lists its flags in `--help`, and [campaign budget](references/campaign-budget.md) covers what goes into it.
+- `creative generate-image` and local render commands run locally and never read or change the ad account. `estimate-budget` lists its flags in `--help`, and [campaign budget](references/campaign-budget.md) covers what goes into it.
 
 ## Connect and handle consent
 
 - The first account lookup is a protected call, and its complete command must be exactly this, with no arguments, quotes, flags or other commands added:
 
 ```sh
+<!-- meta-ads-scoped-discovery-only:start -->
+/opt/hatch/bin/meta-ads-cli ads_get_ad_accounts
+<!-- meta-ads-scoped-discovery-only:end -->
+<!-- meta-ads-scoped-discovery-off-only:start -->
 /opt/hatch/bin/meta-ads-cli call-tool --name ads_get_ad_accounts
+<!-- meta-ads-scoped-discovery-off-only:end -->
 ```
 
-- Compact discovery and the listing's descriptor still come first. Never ask the user to connect a generic Meta Ads connector, build an OAuth URL, produce a `/connectors/connect/meta_ads` link or describe a connector card yourself.
+- <!-- meta-ads-scoped-discovery-only:start -->Discovery and the tool's help still come first.<!-- meta-ads-scoped-discovery-only:end --><!-- meta-ads-scoped-discovery-off-only:start -->Compact discovery and the listing's descriptor still come first.<!-- meta-ads-scoped-discovery-off-only:end --> Never ask the user to connect a generic Meta Ads connector, build an OAuth URL, produce a `/connectors/connect/meta_ads` link or describe a connector card yourself.
 
 - The retired OAuth commands `authorize-url`, `exchange-code`, `refresh` and `disconnect` always return errors.
 
@@ -80,19 +98,39 @@
 
 ## Discover and call operations
 
+<!-- meta-ads-scoped-discovery-only:start -->
+- Run `meta-ads-cli --help` once per conversation and wait for it before calling any tool. It lists the scopes, each a group of related tools, the core tools most tasks start from, and the local commands. Then run `meta-ads-cli scope <scope>` for each scope the current step needs, which gives each tool's name and a short summary. Reuse these listings later in the conversation, and refresh them after a failed operation or any sign that capabilities changed.
+<!-- meta-ads-scoped-discovery-only:end -->
+<!-- meta-ads-scoped-discovery-off-only:start -->
 - Run `list-tools --names-only` once per conversation and wait for it before any `call-tool`. Reuse it later in the conversation, and refresh it after a failed operation or any sign that capabilities changed.
+<!-- meta-ads-scoped-discovery-off-only:end -->
 
 - The catalogue is gated per tool and changes over time. A tool remembered as missing, failing or not rolled out gets the same fresh check, and the names in [tool routing](references/tool-routing.md) are an intent map, not a promise of availability.
 
+<!-- meta-ads-scoped-discovery-only:start -->
+- Run `meta-ads-cli <tool> --help` for each tool selected for the current step. It shows the tool's description and input schema. Independent help commands may run together, but never fetch later-stage create schemas early.
+<!-- meta-ads-scoped-discovery-only:end -->
+<!-- meta-ads-scoped-discovery-off-only:start -->
 - Run `describe-tool --name <tool>` for each tool selected for the current step, adding `--input-only` when only its arguments are needed. Independent descriptor commands may run together, but never fetch later-stage create schemas early.
+<!-- meta-ads-scoped-discovery-off-only:end -->
 
+<!-- meta-ads-scoped-discovery-only:start -->
+- If discovery is incomplete or lacks a required tool, stop rather than guess. If root help says the scopes are unavailable, tell the user Meta Ads tools can't be reached right now. If `scope` is rejected as an unknown command, report a CLI version mismatch, and never substitute `status`, bare `list-tools`, guessed flags or a probe call.
+<!-- meta-ads-scoped-discovery-only:end -->
+<!-- meta-ads-scoped-discovery-off-only:start -->
 - If discovery is incomplete or lacks a required tool, stop rather than guess. If `list-tools --names-only` or `describe-tool` is rejected, report a CLI version mismatch, and never substitute `status`, bare `list-tools`, `--help`, guessed flags or a `call-tool` probe.
+<!-- meta-ads-scoped-discovery-off-only:end -->
 
 - Reuse an ID the user supplied or a successful call established in this conversation. A read-only tool can take an explicit `ad_account_id` directly, a missing ID comes from the relevant listing, and a guessed ID usually returns another object's data instead of an error.
 
 - When several accounts are reachable and the user makes no reference to a specific one, ask which one they mean before reading any figures. A request to compare accounts or cover all of them is different: answer for each account, as [account scope](references/account-scope.md) describes.
 
+<!-- meta-ads-scoped-discovery-only:start -->
+- Build `--arguments-json` strictly from the tool's input schema, and omit it when no field is required, since the CLI supplies `{}`.
+<!-- meta-ads-scoped-discovery-only:end -->
+<!-- meta-ads-scoped-discovery-off-only:start -->
 - Add `--agent-output` to every call except the exact account listing above, and build `--arguments-json` strictly from the tool's input schema. Omit `--arguments-json` when no field is required, since the CLI supplies `{}`.
+<!-- meta-ads-scoped-discovery-off-only:end -->
 
 - When a schema exposes `advertiser_request`, pass the advertiser's complete wording across turns, including later refinements and selections, not only the latest reply. Never supply `client_conversation_id`, which the CLI fills itself.
 
@@ -100,9 +138,16 @@
 
 - Before the first call, list every result and action the user asked for. For each, select and describe the tool, resolve IDs and current state, get any approval, run it once and verify the result, then make sure every part of the answer rests on evidence or a precise limitation.
 
+### Named campaign performance
+
+- For a named campaign’s overall performance over a recent period, such as “How did the [name] campaign perform over the last month?”, use `ads_get_ad_entities` at `level=campaign` for totals in the requested window and to resolve the campaign and its ad account. Unless the user asks for text only, follow it with a campaign-scoped ad-set trend before answering, even if the campaign totals are enough for a text summary.
+- If the trend tool is available and both IDs are confirmed, call `ads_insights_performance_trend` with the resolved `ad_account_id`, that campaign ID in `entity_ids`, and `analysis_level=ADSET`. Omit `analysis_metric`, `hide_ui`, and date arguments. Show the returned card as described in [charts](references/charts.md). Keep the ad-set trend window separate from the requested window for campaign totals. If the trend tool or card is unavailable, give the campaign totals you can verify. Do not substitute an account-wide trend for an unresolved campaign.
+
 ## Read results
 
-- `status`, discovery and `call-tool` results above 128 KiB come back as a descriptor with `output_file`, `output_bytes` and `output_format`, and the descriptor's `ok` still describes the Ads operation. `output_file` holds the complete original JSON, including any finalization fields, so read only the fields or slice you need from it in a separate call, never print the whole file back, and treat it as temporary.
+- <!-- meta-ads-scoped-discovery-only:start -->`status` and tool results above 128 KiB<!-- meta-ads-scoped-discovery-only:end --><!-- meta-ads-scoped-discovery-off-only:start -->`status`, discovery and `call-tool` results above 128 KiB<!-- meta-ads-scoped-discovery-off-only:end --> come back as a descriptor with `output_file`, `output_bytes` and `output_format`, and the descriptor's `ok` still describes the Ads operation. `output_file` holds the complete original JSON, including any finalization fields, so read only the fields or slice you need from it in a separate call, never print the whole file back, and treat it as temporary.
+
+- After `ads_insights_performance_trend` returns, check for `sandbox_link` in the returned JSON, following `output_file` if present. For a single result, unless the user requested no card or a text-only answer, place that exact link on its own line as a Markdown link before the short takeaway. The HTML file is already written, but it is not shown until you place the link in your reply; no additional render or widget call is needed. For several results, follow [charts](references/charts.md) to combine levels only within the same account and show separate cards for different accounts. A missing card link does not prove missing performance data; distinguish unavailable card output from an empty analytical result.
 
 - `output_available: false` means the output could not be delivered, even when the operation itself succeeded. Read the affected object to establish its state, and never repeat an operation just to recover its output.
 
@@ -119,6 +164,54 @@
 - Report only figures a tool returned, never an average, sum or projection you built from its rows. When the user asserts a different value, restate the retrieved figure and its period.
 
 - Report a failure faithfully in plain words, saying what failed and what did not happen. Keep error codes and diagnostic fields out of the answer.
+
+## Show ad previews
+
+- Never build a preview file from `preview_html`, a preview URL or an external iframe. The preview sandbox blocks external iframes. Use a returned attachment or ordinary preview link instead of writing your own HTML.
+
+<!-- meta-ads-preview-attachments-only:start -->
+- For `ads_get_ad_preview`, use one explicit `ad_format` per call. If the user asks for a placement or format, call only for that selection; do not also request the default set.
+
+- For a general preview request, use only the eight default presets below. These presets do not establish an ad's targeting or guarantee that a preview is available.
+
+```text
+MOBILE_FEED_STANDARD
+INSTAGRAM_STANDARD
+INSTAGRAM_STORY
+FACEBOOK_STORY_MOBILE
+MARKETPLACE_MOBILE
+INSTAGRAM_REELS
+INSTAGRAM_PROFILE_FEED
+FACEBOOK_REELS_MOBILE
+```
+
+- If the user asks for fresh captures, do not reuse previously saved results.
+
+- Make one standalone call per selected format. Calls for different formats can run in parallel; do not wrap them in a shell loop or script, and do not retry failed calls.
+
+- Add `--save-preview-result workspace/.ads-previews/<unique-format>.json` with `--agent-output` to each preview call. Use a fresh path for each format so the renderer can match saved results to the request.
+
+- Wait for all selected calls to finish before running `render-ad-previews` once. Pass a repeated `--preview FORMAT PATH` for each saved result and `--unavailable FORMAT` for a call with no saved result. Inputs must be complete JSON generated with `--save-preview-result`, which records the actual ad or creative identity. An ordinary call's `output_file` without `_ad_preview_request` cannot establish that identity: do not reuse or relabel it; keep that slot unavailable. Never read or transfer the image base64 into the conversation or author replacement HTML.
+
+```sh
+/opt/hatch/bin/meta-ads-cli call-tool --name ads_get_ad_preview --agent-output --arguments-json '<json-object-with-one-ad_format>' --save-preview-result workspace/.ads-previews/feed-result.json
+/opt/hatch/bin/meta-ads-cli render-ad-previews --preview MOBILE_FEED_STANDARD workspace/.ads-previews/feed-result.json --preview INSTAGRAM_STORY workspace/.ads-previews/story-result.json --unavailable INSTAGRAM_REELS
+```
+
+- Present the combined result's `sandbox_link`, if present, once as a Markdown link on its own line. Use the returned `placements` summary to report unavailable formats and variants omitted from the carousel. For included images, distinguish `placement_capture` from `creative_fallback`; call `unknown` provenance a returned image, not a screenshot. Do not post saved JSON or per-call attachments.
+
+- Reuse saved results only for the same account and ad or creative, when the returned format matches the requested format and the user has not asked for a fresh capture. The renderer rejects conflicting identities and keeps mismatched formats unavailable; do not relabel a file or substitute another placement.
+
+- A format without a usable image stays unavailable. If `render-ad-previews` returns no `sandbox_link`, report that no image fit or was available, as shown by `placements`. Offer a returned non-empty `preview_url` only if its `ad_format` matches the requested format. Do not create replacement HTML, use an external iframe or retry solely to recover an image.
+
+- Report failed, unavailable and excluded placements explicitly. Eight default previews are not necessarily every targeted placement; do not say all placements were shown when additional formats or unavailable slots remain.
+<!-- meta-ads-preview-attachments-only:end -->
+
+<!-- meta-ads-preview-attachments-off-only:start -->
+- Call `ads_get_ad_preview` once for the resolved ad or creative. Supply `ad_format` only when the user requests a placement; otherwise omit it and let the service choose the available formats.
+
+- Provide the returned `preview_url` as an ordinary link, naming the returned placement. If the service returns additional previews, describe only those returned and preserve unavailable placements; never turn their iframe HTML into a file attachment.
+<!-- meta-ads-preview-attachments-off-only:end -->
 
 ## Name ad objects
 
@@ -186,11 +279,11 @@
 
 - Generated creative is working material the advertiser may want to inspect, download or reuse. Provide a direct link to the saved file so they can access it, using its returned file location rather than only naming the folder.
 
-- New media reaches Ads only through `call-tool --name ads_creative_upload_media`, and only after the advertiser approves it. Send `ad_account_id` as digits without `act_`, `media_type` as `IMAGE` or `VIDEO`, its `media_handle`, or its exact local path as `file` only when no handle exists, and an optional `name`. Media URLs are rejected, so download the file first.
+- <!-- meta-ads-scoped-discovery-only:start -->New media reaches Ads only through `meta-ads-cli ads_creative_upload_media`,<!-- meta-ads-scoped-discovery-only:end --><!-- meta-ads-scoped-discovery-off-only:start -->New media reaches Ads only through `call-tool --name ads_creative_upload_media`,<!-- meta-ads-scoped-discovery-off-only:end --> and only after the advertiser approves it. Send `ad_account_id` as digits without `act_`, `media_type` as `IMAGE` or `VIDEO`, its `media_handle`, or its exact local path as `file` only when no handle exists, and an optional `name`. Media URLs are rejected, so download the file first.
 
 - An upload returns `image_hash` or `video_id` for later creative calls. Any approval it needs happens before the transfer, the Ads upload is never retried, and a failure after staging returns a `staged_media_handle` and marks the operation not retryable.
 
-- `call-tool --output-dir <dir>` works only with `ads_creative_create_image_variations`, which then saves each variation and returns its `local_path`.
+- <!-- meta-ads-scoped-discovery-only:start -->`--output-dir <dir>` works only with<!-- meta-ads-scoped-discovery-only:end --><!-- meta-ads-scoped-discovery-off-only:start -->`call-tool --output-dir <dir>` works only with<!-- meta-ads-scoped-discovery-off-only:end --> `ads_creative_create_image_variations`, which then saves each variation and returns its `local_path`.
 
 <!-- data-connections-only:start -->
 ## Use data connections

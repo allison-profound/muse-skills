@@ -277,7 +277,7 @@
 
 - Extractors are `CSS` or `CONSTANT_VALUE` only. `CSS` reads the text of a matched element, never a URL fragment, an attribute or JavaScript state, so say when a value lives somewhere a selector cannot reach.
 
-- Check `list-tools` before describing available connector capabilities, and use permitted connector operations by default. Use a permitted website path only when the advertiser explicitly requests it for the current task and the browser's privacy, security and approval requirements and platform-specific restrictions are satisfied. A connector failure is not permission to change routes.
+- <!-- meta-ads-scoped-discovery-only:start -->Check `meta-ads-cli --help` and `meta-ads-cli scope <scope>` before describing<!-- meta-ads-scoped-discovery-only:end --><!-- meta-ads-scoped-discovery-off-only:start -->Check `list-tools` before describing<!-- meta-ads-scoped-discovery-off-only:end --> available connector capabilities, and use permitted connector operations by default. Use a permitted website path only when the advertiser explicitly requests it for the current task and the browser's privacy, security and approval requirements and platform-specific restrictions are satisfied. A connector failure is not permission to change routes.
 
 - When a permitted setup step is unavailable and no permitted website path has been explicitly chosen, give instructions the advertiser can complete manually, grounded in retrieved connector help, and say what could not be verified. Policy and security refusals and approval requirements remain binding across browser, script, alternate-connector and manual routes. Provide official recovery steps only when the service identifies them.
 
@@ -285,7 +285,19 @@
 
 ## Other writes
 
+<!-- meta-ads-ig-boost-only:start -->
+- Instagram boosts follow [boosting an Instagram post](ig-boost.md) for what to ask, preview and approve. `ads_boost_ig_post` creates the campaign, ad set and ad together, all paused:
+  - `confirmed=false` resolves every setting and creates nothing. Pass the settings the advertiser gave and the ones you recommend, and leave the rest for the tool to fill in.
+  - `confirmed=true` creates the boost. Send the resolved settings from the approved preview, including the defaults the advertiser accepted, not the arguments of the first preview call.
+  - The approval card, when the runtime shows one, is a second check and does not replace the conversation's approval.
+  - Offer a choice of posts, or creating versus changing the plan, with `muse.create_options`. Name the created objects with `ads.resolve_entities`. Starting the boost uses `ads_activate_entity`, as [handoff](campaign-handoff.md#publish) describes.
+
+- Standalone creative edits (`ads_creative_update`, `ads_creative_delete`) and experiments (`ads_experiment_abtest_create_test`, `ads_experiment_abtest_update_test`, `ads_experiment_lift_create_test`) have no specific guidance here. The general rules still bind, so be correspondingly more cautious in what you propose.
+<!-- meta-ads-ig-boost-only:end -->
+
+<!-- meta-ads-ig-boost-off-only:start -->
 - Standalone creative edits (`ads_creative_update`, `ads_creative_delete`), experiments (`ads_experiment_abtest_create_test`, `ads_experiment_abtest_update_test`, `ads_experiment_lift_create_test`) and boosts (`ads_boost_ig_post`) have no specific guidance here. The general rules still bind, so be correspondingly more cautious in what you propose.
+<!-- meta-ads-ig-boost-off-only:end -->
 
 - Creating an experiment schedules or starts the study and asks afresh every time. Cancelling one discards its results, while ending it early keeps them.
 

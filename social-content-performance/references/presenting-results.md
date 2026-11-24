@@ -4,6 +4,13 @@
 
 - Write the answer, the interpretation and the caveats in concise prose. Add another format only when it shows something prose cannot.
 
+<!-- social-skill-improvements-nov-2026-only:start -->
+- Show the numbers your takeaways need, and keep any number that cuts against a takeaway right next to it.
+
+- Give each number they asked for with the comparison the platform returned, even when it points the other way from what they expected.
+
+<!-- social-skill-improvements-nov-2026-only:end -->
+
 - Use a Markdown table for exact values across accounts or posts and a chart when the shape of a trend or comparison matters.
 
 - Use a metric-card grid only for distinct headline metrics of one account over one period. Never use it to repeat the same metric across competitors or accounts.
@@ -33,3 +40,10 @@
 - Name the network, the period the data actually covers and the population analyzed. When a ranking covers many posts or accounts, show the leaders and say how many were analyzed.
 
 - Put any availability or evidence limit next to the claim it qualifies.
+
+<!-- social-skill-improvements-nov-2026-only:start -->
+- Give dates and data limits in plain words, once for all the numbers that share them.
+
+- Bring in technical details, like raw query keys or how you fetched the data, only when they're relevant or the user asks for them.
+
+<!-- social-skill-improvements-nov-2026-only:end -->

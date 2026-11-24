@@ -2,13 +2,16 @@ version: 1
 gating:
   allowed_countries: [US]
 metadata:
-  visible_in_settings: false
-auth: none
+  visible_in_settings: true
+auth:
+  client_id: "tpc_v7bQN48pzoADB4qAhEUQjG"
+  provider: zocdoc
+  required: false
 connector: zocdoc
 category: health
 display_name: Zocdoc
 icon: zocdoc
-description: Search healthcare providers and appointment availability on Zocdoc
+description: Search healthcare providers, check insurance eligibility, and book appointments on Zocdoc
 request_quota:
   mode: shadow
   workers: [zocdoc]
@@ -19,6 +22,18 @@ cli:
   skill: zocdoc
   service: zocdoc
 declarable_scopes: []
+surrogation:
+  name: zocdoc
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+    - api-developer.zocdoc.com
+  token_proxy:
+    - field: credentials.access_token
+      placement: bearer_header
+  token_refresh:
+    - path: /mcp/v2/token
 actions:
   read:
     default: allow
@@ -37,8 +52,25 @@ actions:
       insurance.read:
         label: Search insurance plans and carriers
         approval_phrase: search insurance plans and carriers on Zocdoc
+      insurance.eligibility.read:
+        label: Check insurance coverage and deductible
+        approval_phrase: check your insurance coverage and deductible on Zocdoc
+      appointments.prepare:
+        label: Prepare an appointment booking
+        approval_phrase: prepare an appointment booking on Zocdoc
+  write:
+    default: ask
+    label: Book appointments
+    response_guard: verification_codes
+    methods:
+      appointments.book:
+        label: Confirm an appointment booking
+        approval_phrase: confirm this appointment booking on Zocdoc
+        approval_policy: fresh_consent_only
 commands:
   status: null
+  authorize-url: null
+  refresh: null
   disconnect: null
   list-tools: catalog.read
   # Each reviewed provider tool selects its own method at runtime.
@@ -47,13 +79,13 @@ consent_screen:
   bullets:
     - icon: data_types
       title: "Find care with Zocdoc"
-      text: "Muse can search providers, locations, insurance plans, and appointment availability."
+      text: "Muse can find US healthcare providers, check insurance coverage and deductibles, and book appointments."
     - icon: info
-      title: "Booking stays with Zocdoc"
-      text: "Muse can share a Zocdoc booking link, but it cannot book or cancel an appointment through this connector."
+      title: "You choose what Muse can do"
+      text: "By default, Muse will ask before taking actions it thinks need review. Disconnect at any time in Settings."
     - icon: caution
-      title: "Confirm important details"
-      text: "Provider participation and appointment availability can change. Confirm insurance coverage and visit details before booking."
+      title: "Keep an eye on things"
+      text: "Muse may take unexpected actions. Monitor it carefully."
   footer_paragraphs:
-    - "The info used for your tasks is part of your interactions with Muse, which we may use to improve AI at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)"
+    - "Learn more about how we use this info in our [Privacy Policy](https://www.facebook.com/privacy/policy/) and [Health Policy](https://www.facebook.com/privacy/policies/health/)."
     - "Muse will exchange info with Zocdoc. To learn more, view their [terms](https://www.zocdoc.com/about/terms/) and [privacy policy](https://www.zocdoc.com/about/privacy/)."

@@ -20,6 +20,7 @@ cli:
   binary: meta-ads-cli
   skill: meta_ads
 cli_subcommands:
+  - scope
   - status
   - manage-consent
   - disconnect-url
@@ -28,6 +29,7 @@ cli_subcommands:
   - exchange-code
   - refresh
   - disconnect
+  - list-scopes
   - list-tools
   - describe-tool
   - call-tool
@@ -36,6 +38,7 @@ cli_subcommands:
   - render-campaign-success
   - render-chart
   - render-performance-trend
+  - render-ad-previews
   - creative generate-image
 actions:
   read:
@@ -134,9 +137,11 @@ actions:
         label: Cancel experiments and discard results
         approval_phrase: cancel your Meta Ads experiments and discard their results
 commands:
+  scope: null
   status: null
   manage-consent: null
   disconnect-url: null
+  list-scopes: null
   list-tools: null
   describe-tool: null
   estimate-budget: ads.read
@@ -145,6 +150,7 @@ commands:
   render-campaign-success: null
   render-chart: null
   render-performance-trend: null
+  render-ad-previews: null
   # Local media preparation through media-generation; it neither reads nor
   # changes the advertiser's Meta Ads account.
   "creative generate-image": null
