@@ -4,7 +4,7 @@
 
 - Choose the host names and synthesis voice IDs with [Cast the hosts](../SKILL.md#cast-the-hosts). In this two-host example, set `HOST_NAME` and `HOST_VOICE_ID` to the main host's name and synthesis voice ID, and `COHOST_NAME` and `COHOST_VOICE_ID` to the co-host's name and synthesis voice ID. Use the same names in the script's speaker labels and the `--speaker` mappings; quote each mapping so names with spaces stay one argument. Voice IDs must be synthesis IDs, not display names, `saved_voice_id` or `profile_id`.
 
-- Run the helper with the script, a title, a description, one `--speaker` per host, a cover prompt and the topics file:
+- Run the helper with the script, a title, a description, one `--speaker` per host, the target length in minutes, a cover prompt and the topics file:
 
 ```sh
 /opt/muse/skills/generate_podcast/scripts/podcast-helper generate \
@@ -13,9 +13,14 @@
   --description "$HOST_NAME and $COHOST_NAME explain how the moon moves the oceans" \
   --speaker "$HOST_NAME=$HOST_VOICE_ID" \
   --speaker "$COHOST_NAME=$COHOST_VOICE_ID" \
+  --minutes 6 \
   --cover-prompt "ocean tides under a full moon" \
   --topics-file /tmp/topics.md
 ```
+
+- Before synthesizing, the helper checks the script's length against `--minutes` (a number or a range such as `5-8`) and its format: speaker tags, unmapped names, text before the first tag, and markup that would be read aloud. When something is off it renders nothing and prints `ok: false` with a one-line `script check:` error. Fix only what it lists and run the same command again.
+
+- Run `generate` with exec's `yield_ms` at 120000. When the render finishes within that wait, deliver the episode in the same reply. A longer render comes back on its own when it finishes; don't promise the user a finish time.
 
 - For a recurring series, add `--series-id` with the schedule's job ID so its episodes share cover art.
 
@@ -23,8 +28,14 @@
 
 - For a freshly rendered episode, inspect `speakers` for the effective voice IDs and `tts_diagnostics` for substitutions or validation warnings. These TTS fields may be absent when reusing an older episode. If a requested voice became a default, tell the user which voice was used; do not claim the requested voice was honored or change saved preferences.
 
+<!-- podcast-designed-voices-only:start -->
+- A private episode needs nothing more. Add `--publish` and `--feed-title` only when publishing is authorized, as [publishing and delivery](publishing.md) explains.
+
+<!-- podcast-designed-voices-only:end -->
+<!-- podcast-designed-voices-off-only:start -->
 - Add `--publish` and `--feed-title` only when publishing is authorized, as [publishing and delivery](publishing.md) explains.
 
+<!-- podcast-designed-voices-off-only:end -->
 - Check [language support](languages.md), including for existing scripts and scheduled episodes. Synthesis follows the conversation's language by default. Pass `--language`, such as `es` or `pt_BR`, only to honor an explicit request, and write the script in that language.
 
 <!-- podcast-designed-voices-only:start -->
@@ -82,6 +93,8 @@
 
 <!-- podcast-voice-design-only:end -->
 <!-- podcast-voice-feature-only:end -->
+- When that error names a voice the cast plan picked for a host (a `saved`, `library` or `current` host), not one the user asked for, don't ask: run `cast` again with the same arguments plus `--exclude-voice VOICE_ID`, generate with the new plan, and say once in the reply which host's voice changed and why. The helper also remembers the refused voice, so later plans skip it.
+
 <!-- podcast-designed-voices-only:end -->
 - A `not allowed to use voiceID` error does not clear on retry, because that voice is not permitted. For a newly chosen cast, select another permitted voice from [Podcast preferred voices](podcast_preferred_voices.json), avoiding IDs already assigned to other speakers. Consult the full catalog only for a user-requested voice or voice characteristics, or when the shortlist has run out of distinct voices. If the rejected voice was explicitly requested or belongs to an established series' cast, explain the problem and ask before changing it. Fix an authentication failure or an invalid request rather than retrying it. [The speech reference](/opt/muse/skills/spoken-audio/references/speech.md) explains how to check voice IDs after an opaque HTTP 500.
 

@@ -12,9 +12,7 @@
 
 ## Rental cars
 
-<!-- duffel-rental-cars-only:start -->
 - Read [rental cars](references/rental-cars.md) before a live search, reservation, status check or cancellation. It covers the search inputs, comparing sources, airport pickups and the shortlist.
-<!-- duffel-rental-cars-only:end -->
 
 - Confirm the driver's age, license country and how long it has been held. Under-25 and over-70 drivers often pay surcharges or face limits, and many countries require an International Driving Permit alongside a foreign license.
 
@@ -60,9 +58,7 @@
 
 - Book through the source that showed the live option, whether a connector, the operator's own site or a reseller. Follow [checkout](/opt/muse/assets/booking/references/checkout.md) for the final refresh, worse terms, approval, an uncertain result and cancellation.
 
-<!-- duffel-rental-cars-only:start -->
 - A connector's pay-at-pickup rental-car reservation charges no card, so it follows its connector doc's reservation and approval steps and the [rental-car guide](references/rental-cars.md)'s worse-terms recheck instead of checkout.
-<!-- duffel-rental-cars-only:end -->
 
 - When the trip has a plan, write the result back to it through [Trip Planning](/opt/muse/skills/trip-planning/SKILL.md), keeping proposed, selected and booked options distinct.
 
@@ -84,9 +80,7 @@
 
 ## Available connectors
 
-<!-- duffel-rental-cars-only:start -->
 - [Duffel](/opt/hatch/connectors/duffel/CONNECTOR.md) for live rental-car rates with pay-at-pickup reservation and cancellation; its [rental-car reference](/opt/hatch/connectors/duffel/references/cars.md) has the commands.
-<!-- duffel-rental-cars-only:end -->
 
 - [Places Search](/opt/hatch/connectors/places/CONNECTOR.md) for rental desks, stations, terminals and their opening hours.
 

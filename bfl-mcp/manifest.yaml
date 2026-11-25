@@ -1,0 +1,84 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: flux
+category: productivity
+display_name: FLUX by Black Forest Labs
+icon: bfl
+description: Generate and edit images with FLUX models from Black Forest Labs
+cli:
+  binary: flux
+  skill: flux
+auth:
+  provider: flux
+  required: true
+  mcp:
+    endpoint: https://mcp.bfl.ai/
+    oauth:
+      type: oauth
+      authorization_url: https://uhjidycotobjggwyjdww.supabase.co/auth/v1/oauth/authorize
+      token_url: https://uhjidycotobjggwyjdww.supabase.co/auth/v1/oauth/token
+      registration_url: https://uhjidycotobjggwyjdww.supabase.co/auth/v1/oauth/clients/register
+      resource: https://mcp.bfl.ai/
+      token_endpoint_auth_method: none
+      scope: openid email profile
+    tool_names:
+      media.read:
+      - get_history
+      - get_credits
+      - get_result
+      - list_skills
+      - get_skill
+      media.modify:
+      - generate_image
+      - vto
+      - generate_video
+      - enhance_video
+      - generate_variations
+surrogation:
+  name: flux
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+    - mcp.bfl.ai
+    - uhjidycotobjggwyjdww.supabase.co
+  token_proxy:
+    - field: credentials.access_token
+      placement: bearer_header
+  stripped:
+    - credentials.refresh_token
+  token_refresh:
+    - path: /auth/v1/oauth/token
+actions:
+  read:
+    default: allow
+    label: Read permissions
+    methods:
+      media.read:
+        label: Read generations and credit balance
+  write:
+    default: ask
+    label: Write permissions
+    methods:
+      media.modify:
+        label: Generate and edit images and video
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+  - icon: data_types
+    title: Level up with FLUX - Create Video and Images
+    text: Muse will access things like your BFL account, credit balance, creation history and uploaded
+      media, and can generate, edit, and animate images and videos using your paid credits.
+  - icon: info
+    title: You choose what Muse can do
+    text: By default, Muse will ask before taking actions it thinks need review. Disconnect at any time
+      in Settings.
+  - icon: caution
+    title: Keep an eye on things
+    text: Muse may take unexpected actions. Monitor it carefully.
+  footer_paragraphs:
+  - The info used for your tasks is part of your interactions with Muse, which we may use to improve AI
+    at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)
+  - Muse will exchange info with FLUX - Create Video and Images. To learn more, view their [terms](https://bfl.ai/legal/terms-of-service)
+    and [privacy policy](https://bfl.ai/legal/privacy-policy).

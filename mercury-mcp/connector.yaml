@@ -1,0 +1,10 @@
+id: mercury
+title: "Mercury"
+description: "Read Mercury financial data, manage budgets, receipts and Books accounting, and request payments and transfers."
+aliases: [mercury]
+auth:
+  authorize: cli
+require_auth: false
+include_in_prompt: false
+availability:
+  confidential_vm: true

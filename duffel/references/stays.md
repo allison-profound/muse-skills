@@ -27,7 +27,7 @@
 - To show the hotels as cards, pass the search file unchanged to `travel.create_hotel_results_widget`, with up to four `hotel_id` values in `hotel_ids`. The cards read the hotels, prices and photos from it.
 <!-- hotel-sources-only:start -->
 
-- When another lodging connector returned hotels for the same stay, the files merge into one card list with `hotels merge`, as Hotel Booking's [sources guide](/opt/muse/skills/hotel-booking/references/sources.md) describes, and the cards come from the merged file: the stays that book here beside the other connector's, each card booking with its own connector.
+- When another lodging connector returned hotels for the same stay, or this connector's hotels for it are in several files, the files merge into one card list with `hotels merge`, as Hotel Booking's [sources guide](/opt/muse/skills/hotel-booking/references/sources.md) describes, and the cards come from the merged file: the stays that book here beside the other connector's, each card booking with its own connector.
 
 - The same file is a `hotels compare --shown duffel=FILE` source when the Google Hotels read reports, as Hotel Booking's [Google Hotels read](/opt/muse/skills/hotel-booking/references/google-hotels-read.md) describes.
 <!-- hotel-sources-only:end -->

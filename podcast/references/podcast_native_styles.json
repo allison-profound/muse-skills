@@ -1,0 +1,29 @@
+{
+ "_about": "Sent with a host's voice as the cTTS description when the voice doesn't speak the episode's language. Native-speaker raters preferred these locale texts; any other locale uses the template.",
+ "template": "Speak natural, fluent {variety} like a native speaker, with native {language} pronunciation, intonation and rhythm, and no foreign accent.",
+ "locales": {
+  "ar-EG": "Speak natural, fluent Egyptian Arabic, as spoken in Cairo, like a native speaker, with native Egyptian Arabic pronunciation, intonation and rhythm, and no foreign accent.",
+  "bn-BD": "Speak natural, fluent standard Bengali like a native speaker, with native Bengali pronunciation, intonation and rhythm, and no foreign accent.",
+  "de-DE": "Speak natural, fluent standard German, as spoken in Germany like a native speaker, with native German pronunciation, intonation and rhythm, and no foreign accent.",
+  "es-ES": "Speak natural, fluent Castilian Spanish, as spoken in Spain, like a native speaker, with native Spanish pronunciation, intonation and rhythm, and no foreign accent.",
+  "es-MX": "Speak natural, fluent Mexican Spanish like a native speaker, with native Spanish pronunciation, intonation and rhythm, and no foreign accent.",
+  "fr-CA": "Speak natural, fluent Quebec French, as spoken in Canada, like a native speaker, with native French pronunciation, intonation and rhythm, and no foreign accent.",
+  "fr-FR": "Speak natural, fluent standard French, as spoken in France like a native speaker, with native French pronunciation, intonation and rhythm, and no foreign accent.",
+  "hi-IN": "Speak natural, fluent standard Hindi, as spoken in North India like a native speaker, with native Hindi pronunciation, intonation and rhythm, and no foreign accent.",
+  "id-ID": "Speak natural, fluent standard Indonesian like a native speaker, with native Indonesian pronunciation, intonation and rhythm, and no foreign accent.",
+  "it-IT": "Speak natural, fluent standard Italian like a native speaker, with native Italian pronunciation, intonation and rhythm, and no foreign accent.",
+  "ja-JP": "Speak natural, fluent standard Tokyo Japanese like a native speaker, with native Japanese pronunciation, pitch accent and rhythm, and no foreign accent.",
+  "kn-IN": "Speak natural, fluent standard Kannada like a native speaker, with native Kannada pronunciation, intonation and rhythm, and no foreign accent.",
+  "ko-KR": "Speak natural, fluent standard Seoul Korean like a native speaker, with native Korean pronunciation and intonation, and no foreign accent.",
+  "mr-IN": "Speak natural, fluent standard Marathi like a native speaker, with native Marathi pronunciation, intonation and rhythm, and no foreign accent.",
+  "ms-MY": "Speak natural, fluent standard Malay like a native speaker, with native Malay pronunciation, intonation and rhythm, and no foreign accent.",
+  "pt-BR": "Speak natural, fluent Brazilian Portuguese like a native speaker, with native Portuguese pronunciation, intonation and rhythm, and no foreign accent.",
+  "pt-PT": "Speak natural, fluent European Portuguese, as spoken in Portugal, like a native speaker, with native Portuguese pronunciation, intonation and rhythm, and no foreign accent.",
+  "ta-IN": "Speak natural, fluent standard Tamil like a native speaker, with native Tamil pronunciation, intonation and rhythm, and no foreign accent.",
+  "te-IN": "Speak natural, fluent standard Telugu like a native speaker, with native Telugu pronunciation, intonation and rhythm, and no foreign accent.",
+  "th-TH": "Speak natural, fluent standard Thai like a native speaker, with correct native tones and rhythm, and no foreign accent.",
+  "tl-PH": "Speak natural, fluent standard Filipino (Tagalog) like a native speaker, with native Filipino pronunciation, intonation and rhythm, and no foreign accent.",
+  "vi-VN": "Speak natural, fluent standard Vietnamese like a native speaker, with correct native tones and rhythm, and no foreign accent.",
+  "zh-CN": "Speak natural, fluent standard Mandarin Chinese (Putonghua) like a native speaker, with correct native tones and rhythm, and no foreign accent."
+ }
+}

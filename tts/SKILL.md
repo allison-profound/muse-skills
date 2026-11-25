@@ -8,8 +8,14 @@
 
 - A live spoken back-and-forth is a voice conversation, which the user starts from the voice control in the app. This skill does not run voice conversations, so do not use it to answer during one.
 
+<!-- podcast-designed-voices-only:start -->
+- Use [Podcast Production](/opt/muse/skills/generate_podcast/SKILL.md) for a researched episode, a recurring briefing, an audio story or drama with several characters or voices, or anything published to a podcast feed. A short story read in one voice stays here.
+
+<!-- podcast-designed-voices-only:end -->
+<!-- podcast-designed-voices-off-only:start -->
 - Use [Podcast Production](/opt/muse/skills/generate_podcast/SKILL.md) for a researched episode, a recurring briefing or anything published to a podcast feed.
 
+<!-- podcast-designed-voices-off-only:end -->
 ## Prepare the words
 
 - Establish what should be said, the language and any voice preference from the request and the conversation.

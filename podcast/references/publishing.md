@@ -26,10 +26,22 @@
 ```
 
 - After delivering, offer what applies:
+<!-- podcast-designed-voices-only:start -->
+  - When the episode is not published and was not blocked, and the user shows sharing or series intent as SKILL.md describes, offer a personal podcast feed. Never offer it after a one-off episode the user made for themselves. It is an RSS feed the user can add to Apple Podcasts, Overcast, Pocket Casts or most other podcast players, and future published episodes appear there automatically. Published episodes are public, so anyone with the link can listen.
+
+<!-- podcast-designed-voices-only:end -->
+<!-- podcast-designed-voices-off-only:start -->
   - When the episode is not published and was not blocked, offer a personal podcast feed. It is an RSS feed the user can add to Apple Podcasts, Overcast, Pocket Casts or most other podcast players, and future published episodes appear there automatically. Published episodes are public, so anyone with the link can listen.
 
+<!-- podcast-designed-voices-off-only:end -->
+<!-- podcast-designed-voices-only:start -->
+  - When no schedule exists and the user asks for a recurring or regular show or the episode continues a series, offer a new episode on a regular schedule, such as every morning. Never offer it after a one-off episode the user made for themselves.
+
+<!-- podcast-designed-voices-only:end -->
+<!-- podcast-designed-voices-off-only:start -->
   - When no schedule exists, offer a new episode on a regular schedule, such as every morning.
 
+<!-- podcast-designed-voices-off-only:end -->
 - The first time a feed comes up in a conversation, explain it in a sentence as above. Use shorter wording after that.
 
 - When the user asks to hear their podcast or asks about their episodes, read the catalog and give each relevant episode's listen link in the format above. Add the subscription links when its feed is published.

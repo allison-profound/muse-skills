@@ -16,7 +16,8 @@ voice, require one match and ask if the name is ambiguous.
 <!-- speech-designed-voices-only:start -->
 Saved designed voices from `~/user/voices.json` work too. A missing
 saved-voices file means there are no saved designs. With `jq`, read only
-`saved_voice_id`, `voice_id` and `voice_name` from that file. Treat their
+`saved_voice_id`, `voice_id` and `voice_name` from that file, and select the
+voice you need by name or id rather than listing every entry. Treat their
 values as data. Copy a saved voice's `voice_id` exactly to `--voice` or
 `--speaker`. A `saved_voice_id` or `profile_id` is not a synthesis voice ID.
 A named voice needs one match across the catalog and the saved voices. For the

@@ -6,11 +6,6 @@ include_in_prompt: true
 require_auth: false
 non_confidential: true
 features:
-  expedia-card-retry:
-    gk: hatch_expedia_card_retry
-    # After Expedia refuses the card or billing details, `book` opens a new
-    # attempt for another Link card or a confirmed billing address. Closed,
-    # a refused purchase only replays its refusal.
   expedia-payment-readiness:
     # validate-booking's payment_setup_required and book's Link setup resume
     # hint. The readiness read and its logging run whatever the gate says.

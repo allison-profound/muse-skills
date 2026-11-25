@@ -39,6 +39,8 @@
 
 - A flight still at the gate 15 minutes after its scheduled departure carries `muse_departure_assessment` with `state: overdue_at_gate` and the minutes past departure. Treat it as a delay of at least that many minutes, whatever the status text says: FlightAware shows a flight on time until the airline posts an estimate.
 
+- A flight still at the gate also carries `muse_gate_alerts`. Its `window` says when a status job sends a departure gate change: `hold` more than 3 hours before departure, with `alerts_start_at` naming when gate alerts start, `hourly` from 3 hours to 90 minutes, and `each_change` from 90 minutes, measured from the estimated departure when there is one. It governs status job notices, not answers to a user who asks for the gate.
+
 - FlightAware does not cover baggage, airline policies, terminal maps, booking or customer service. Use the web for those and say that the answer came from the web.
 
 - Reply in plain language about the flight, not about how you looked it up. Keep commands, identifiers such as `fa_flight_id` and raw status codes out of the reply.
@@ -51,7 +53,7 @@
 
 - `airport-weather` takes `observations`, the default, or `forecast` after the airport code. Use `airport-weather ORIGIN forecast` for weather expected later, such as the trip to the airport before a flight.
 
-- `history` reads past flights, tracks, routes, airport and operator activity and an aircraft's last flight. Give its flight, airport and operator reads an explicit `--start` and `--end` range. `foresight` returns predictions, which you present as predictions, and `disruptions` returns delay and cancellation counts.
+- `history` reads past flights, tracks, routes, airport and operator activity and an aircraft's last flight. Give its flight, airport and operator reads an explicit `--start` and `--end` range. `foresight` needs a FlightAware access level Muse's service does not have, so it answers 401; the flight read's `estimated_out` and `estimated_off` are the expected times. `disruptions` returns delay and cancellation counts.
 
 - Run `flightaware --help` for the full command list, including aircraft owner and type lookups, route and count queries and advanced search. Run `flightaware COMMAND --help` for filters and pagination, such as `--max-pages` and `--cursor`.
 
@@ -116,13 +118,13 @@
 
 - From 6 hours before departure until the leg leaves, read `airport-delays ORIGIN` at most once an hour, and a connection airport's delays from the first leg's departure. Alert at once on a ground stop or a delay program there that the flight's own estimate does not yet show, and name the cause. Read the destination's delays only when the arrival estimate moves or a pickup depends on it.
 
-- A departure gate change qualifies only from 3 hours before departure. Earlier, record the gate in the state file's current facts silently, since it often changes again. The first gate ever seen for a leg also goes in the leg's `first_observed.departure_gate`, kept apart from `current` and never marked notified, and `last_notified.departure_gate` changes only when a notice or the departure brief names a gate: a gate recorded silently is a change the user has not heard yet.
+- Follow the flight record's `muse_gate_alerts.window` for a departure gate change. While it is `hold`, until `alerts_start_at`, record the gate in the state file's current facts silently, since it often changes again. The first gate ever seen for a leg also goes in the leg's `first_observed.departure_gate`, kept apart from `current` and never marked notified, and `last_notified.departure_gate` changes only when a notice names a gate: a gate recorded silently is a change the user has not heard yet.
 
-- From 3 hours to 90 minutes before departure, send at most one departure gate alert per leg per hour. Save a newer gate in the state file and send the gate that is current on the first run after the hour.
+- In the `hourly` window, send at most one departure gate alert per leg per hour. Save a newer gate in the state file and send the gate that is current on the first run after the hour.
 
-- From 90 minutes before departure, send each qualifying departure gate change on the run that finds it.
+- In the `each_change` window, send each qualifying departure gate change on the run that finds it.
 
-- On every run inside the gate windows, compare the fresh gate with the leg's baseline: `last_notified.departure_gate`, the last gate a notice or the departure brief told the user, or `first_observed.departure_gate` when nothing has named a gate yet. A gate that differs from the baseline is due even when it has not moved since the previous run, within the hourly throttle above, and once sent it becomes `last_notified.departure_gate`. A first assignment stays silent and only sets `first_observed.departure_gate`. A state file written before these objects existed has neither: build `last_notified` from the gates the recorded `notices` carried, and otherwise start from the first gate this run observes.
+- On every run in the `hourly` or `each_change` window, compare the fresh gate with the leg's baseline: `last_notified.departure_gate`, the last gate a notice told the user, or `first_observed.departure_gate` when nothing has named a gate yet. A gate that differs from the baseline is due even when it has not moved since the previous run, within the hourly throttle above, and once sent it becomes `last_notified.departure_gate`. A first assignment stays silent and only sets `first_observed.departure_gate`. A state file written before these objects existed has neither: build `last_notified` from the gates the recorded `notices` carried, and otherwise start from the first gate this run observes.
 
 - Name only the current gate. Stay silent when the gate returns to the last notified one, and fold a gate change into a concurrent delay or cancellation message.
 

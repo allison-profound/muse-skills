@@ -44,6 +44,17 @@ actions:
     methods:
       cart.write:
         label: Manage cart and shopping preferences
+      checkout.prepare:
+        default: allow
+        label: Prepare checkout without placing orders
+        approval_phrase: prepare Instacart checkout without placing an order
+        response_guard: disabled
+      order.place:
+        default: ask
+        approval_policy: fresh_consent_only
+        label: Place Instacart orders
+        approval_phrase: place the Instacart order below using your saved payment method
+        response_guard: disabled
 commands:
   status: null
   authorize-url: null
@@ -55,6 +66,9 @@ commands:
   search-products: null
   cart: null
   add-to-cart: null
+  initialize-checkout: checkout.prepare
+  update-checkout: checkout.prepare
+  finalize-checkout: order.place
 consent_screen:
   bullets:
     - icon: data_types

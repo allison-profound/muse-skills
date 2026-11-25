@@ -106,7 +106,7 @@
 - Leave the wallet provider and payment-method ID out of this request.
 <!-- muse-promo-code-on-only:start -->
 
-- Pass any available promo codes in this call's optional `discount_codes` list in order: codes from the user or a deal search they asked for, the product's `pdp_coupon.coupon_code` or the selected variant's `coupon_code` in `variant_coupon_prices`, up to three applicable candidates from `promo_offers`.
+- Pass any available promo codes in this call's optional `discount_codes` list in order: codes from the user or a deal search in this conversation, the product's `pdp_coupon.coupon_code` or the selected variant's `coupon_code` in `variant_coupon_prices`, up to three applicable candidates from `promo_offers`.
 <!-- muse-promo-code-on-only:end -->
 
 ```json
@@ -250,7 +250,7 @@
 
 - Refresh the same checkout with `checkout get` to verify the buyer update and read its delivery options. A buyer update request does not authorize completing or charging the checkout.
 
-- Apply promo codes by passing the complete desired set in `discount_codes`, in the same call as a delivery choice or on its own with the `checkout_id`, even when the checkout offers no delivery options. Use codes the user supplied or found in a deal search they asked for, never invent codes and do not interrupt every checkout to ask for one.
+- Apply promo codes by passing the complete desired set in `discount_codes`, in the same call as a delivery choice or on its own with the `checkout_id`, even when the checkout offers no delivery options. Use codes the user supplied or found in a deal search in this conversation, never invent codes and do not interrupt every checkout to ask for one.
 
 <!-- muse-promo-code-off-only:start -->
 

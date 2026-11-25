@@ -1,0 +1,10 @@
+id: flux
+title: "FLUX by Black Forest Labs"
+description: "Generate and edit images and video with FLUX models from Black Forest Labs."
+aliases: [flux]
+auth:
+  authorize: cli
+require_auth: true
+include_in_prompt: false
+availability:
+  confidential_vm: true

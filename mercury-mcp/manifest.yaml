@@ -1,0 +1,237 @@
+version: 1
+metadata:
+  visible_in_settings: true
+connector: mercury
+category: productivity
+display_name: "Mercury"
+icon: mercury
+description: "Read Mercury financial data, manage budgets, receipts and Books accounting, and request payments and transfers"
+cli:
+  binary: mercury
+  skill: mercury
+auth:
+  provider: mercury
+  required: true
+  mcp:
+    endpoint: "https://mcp.mercury.com/mcp"
+    oauth:
+      type: "oauth"
+      authorization_url: "https://mcp.mercury.com/authorize"
+      token_url: "https://mcp.mercury.com/token"
+      registration_url: "https://mcp.mercury.com/register"
+      resource: "https://mcp.mercury.com/mcp"
+      token_endpoint_auth_method: "none"
+      scope: "accrual_sources:create accrual_sources:update books_categorization_rules:create books_categorization_rules:delete books_transactions:categorize budgets:manage categories:create categories:edit journal_entries:create journal_entries:update journal_entries:delete ledgers:create ledgers:update ledgers:delete offline_access payment_applications:create payment_applications:delete read receipts:manage transactions:request transactions:update transfers:request"
+    tool_names:
+      get_account: "getAccount"
+      get_account_cards: "getAccountCards"
+      get_account_statements: "getAccountStatements"
+      get_transaction: "getTransaction"
+      get_accounts: "getAccounts"
+      list_categories: "listCategories"
+      list_credit: "listCredit"
+      get_organization: "getOrganization"
+      get_recipient: "getRecipient"
+      get_recipients: "getRecipients"
+      list_transactions: "listTransactions"
+      get_treasury: "getTreasury"
+      get_treasury_transactions: "getTreasuryTransactions"
+      get_card: "getCard"
+      list_cards: "listCards"
+      get_user: "getUser"
+      get_users: "getUsers"
+      get_webhook: "getWebhook"
+      get_webhooks: "getWebhooks"
+      get_transaction_by_id: "getTransactionById"
+      list_send_money_approval_requests: "listSendMoneyApprovalRequests"
+      get_safe_request: "getSafeRequest"
+      get_safe_requests: "getSafeRequests"
+      list_recipients_attachments: "listRecipientsAttachments"
+      get_attachment: "getAttachment"
+      get_customer: "getCustomer"
+      list_customers: "listCustomers"
+      get_invoice: "getInvoice"
+      list_invoices: "listInvoices"
+      list_invoice_attachments: "listInvoiceAttachments"
+      records.read:
+        - getAutoTransferRules
+        - getBudget
+        - getBudgetExpenditures
+        - getBudgetMembers
+        - getCashflowSummary
+        - getCreditAccountStatements
+        - getCurrentDate
+        - getReceipt
+        - getRecipientInvite
+        - getSendMoneyApprovalRequest
+        - getTransferMoneyApprovalRequest
+        - listBudgets
+        - listMerchants
+        - listReceipts
+        - listRecipientInvites
+        - listTransferMoneyApprovalRequests
+      accounting.read:
+        - getBooksBalanceSheet
+        - getBooksBill
+        - getBooksBills
+        - getBooksCashFlow
+        - getBooksCategorizationRules
+        - getBooksInstances
+        - getBooksInvoice
+        - getBooksInvoices
+        - getBooksLedger
+        - getBooksLedgerBalances
+        - getBooksLedgers
+        - getBooksLineEntries
+        - getBooksProfitAndLoss
+        - getBooksSourceAccounts
+        - getBooksTransaction
+        - getBooksTransactions
+        - getReimbursement
+        - getTask
+        - listBooksJournalEntries
+        - listInvoicePayments
+        - listProducts
+        - listReimbursements
+        - listTasks
+        - retrieveBooksJournalEntry
+      records.modify:
+        - archiveBudget
+        - assignTransactionToBudget
+        - createBudget
+        - createCategory
+        - editCategory
+        - updateBudget
+        - updateTransaction
+        - uploadTransactionReceipt
+      books.modify:
+        - bulkCreateBooksJournalEntries
+        - bulkDeleteBooksJournalEntries
+        - bulkUpdateBooksJournalEntries
+        - categorizeBooksTransactions
+        - createBooksBill
+        - createBooksCategorizationRule
+        - createBooksInvoice
+        - createBooksLedgers
+        - createBooksPaymentApplications
+        - deleteBooksCategorizationRule
+        - deleteBooksLedgers
+        - deleteBooksPaymentApplications
+        - setBooksLedgerOpeningBalances
+        - updateBooksBill
+        - updateBooksInvoice
+        - updateBooksLedgers
+      payments.request:
+        - requestSendMoney
+        - requestTransferMoney
+surrogation:
+  name: mercury
+  schema: oauth
+  mode: direct_oauth
+  privsep: true
+  hosts:
+    - mcp.mercury.com
+  token_proxy:
+    - field: credentials.access_token
+      placement: bearer_header
+  stripped:
+    - credentials.refresh_token
+  token_refresh:
+    - path: /token
+actions:
+  read:
+    default: ask
+    label: "Read permissions"
+    response_guard: verification_codes
+    methods:
+      get_account:
+        label: "Get account"
+      get_account_cards:
+        label: "Get account cards"
+      get_account_statements:
+        label: "Get account statements"
+      get_transaction:
+        label: "Get transaction"
+      get_accounts:
+        label: "Get accounts"
+      list_categories:
+        label: "List categories"
+      list_credit:
+        label: "List credit"
+      get_organization:
+        label: "Get organization"
+      get_recipient:
+        label: "Get recipient"
+      get_recipients:
+        label: "Get recipients"
+      list_transactions:
+        label: "List transactions"
+      get_treasury:
+        label: "Get treasury"
+      get_treasury_transactions:
+        label: "Get treasury transactions"
+      get_card:
+        label: "Get card"
+      list_cards:
+        label: "List cards"
+      get_user:
+        label: "Get user"
+      get_users:
+        label: "Get users"
+      get_webhook:
+        label: "Get webhook"
+      get_webhooks:
+        label: "Get webhooks"
+      get_transaction_by_id:
+        label: "Get transaction by id"
+      list_send_money_approval_requests:
+        label: "List send money approval requests"
+      get_safe_request:
+        label: "Get safe request"
+      get_safe_requests:
+        label: "Get safe requests"
+      list_recipients_attachments:
+        label: "List recipients attachments"
+      get_attachment:
+        label: "Get attachment"
+      get_customer:
+        label: "Get customer"
+      list_customers:
+        label: "List customers"
+      get_invoice:
+        label: "Get invoice"
+      list_invoices:
+        label: "List invoices"
+      list_invoice_attachments:
+        label: "List invoice attachments"
+      records.read:
+        label: "Read budgets, receipts and payment requests"
+      accounting.read:
+        label: "Read Books accounting, reimbursements, tasks and products"
+  write:
+    default: ask
+    label: "Write permissions"
+    methods:
+      records.modify:
+        label: "Manage budgets, categories, transactions and receipts"
+        approval_policy: fresh_consent_only
+      books.modify:
+        label: "Manage Books ledgers, journal entries, invoices, bills and categorization"
+        approval_policy: fresh_consent_only
+      payments.request:
+        label: "Request payments and transfers"
+        approval_policy: fresh_consent_only
+consent_screen:
+  bullets:
+    - icon: data_types
+      title: Level up with Mercury
+      text: Muse will access things like account balances, transactions, recipients, statements, budgets, receipts and Books records such as ledgers, invoices and bills.
+    - icon: info
+      title: You choose what Muse can do
+      text: By default, Muse will ask before taking actions it thinks need review. Disconnect at any time in Settings.
+    - icon: caution
+      title: Keep an eye on things
+      text: Muse may take unexpected actions. Monitor it carefully.
+  footer_paragraphs:
+    - The info used for your tasks is part of your interactions with Muse, which we may use to improve AI at Meta. You can manage this in Settings. [Learn more](https://muse.ai/privacy)
+    - Muse will exchange info with Mercury. To learn more, view their [terms](https://mercury.com/legal/terms) and [privacy policy](https://mercury.com/legal/privacy).

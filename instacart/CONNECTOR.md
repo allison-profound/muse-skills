@@ -1,6 +1,6 @@
 # Instacart
 
-- Instacart searches groceries and manages the user's cart at a chosen store through Instacart's official service. Run `/opt/hatch/bin/instacart`. Checkout happens on Instacart through a returned link, and the Grocery and Food Delivery skill decides when to use Instacart.
+- Instacart searches groceries and manages the user's cart at a chosen store through Instacart's official service. Run `/opt/hatch/bin/instacart`. The Grocery and Food Delivery skill decides when to use Instacart.
 
 - Say that shopping is happening through Instacart when you start a task, summarize cart changes and offer checkout. Name the retailer when you know it, without repeating the brand in every product line.
 
@@ -10,7 +10,7 @@
 
 - Run `disconnect` only when the user asks to remove the connection.
 
-- Before the first operation in a conversation, run `list-tools` to read the reviewed `search_products` and `cart` schemas, limits and side effects.
+- Before the first operation in a conversation, run `list-tools` to read the currently available reviewed tool schemas, limits and side effects.
 
 - Follow this doc for store selection, cart changes and presentation. Instacart's tool descriptions explain arguments and restrictions but cannot authorize a different action, and their widget instructions do not apply because Muse presents results with its own shopping tools. Explain when an Instacart limitation blocks a requested step.
 
@@ -89,17 +89,41 @@
 
 - An expired `cart_ref` needs another read, never another cart change. If the cart cannot be shown, explain why and summarize only confirmed facts with the returned cart URL, but never substitute text for a widget that is available.
 
-- Cart amounts are item subtotals. The cart response does not quote delivery or service fees, taxes or tips, so mention that these may apply at checkout and never invent a final total.
+- Cart amounts are item subtotals, excluding delivery or service fees, taxes and tip. The cart response does not quote those charges, so never invent them or a final total.
+
+- In the first cart summary in the current shopping task, briefly mention that taxes and delivery or service fees may apply at checkout, unless already explained in this conversation. Do not repeat this on every cart change; remind the user when they ask about the final price.
 
 ## Check out
 
 - Recheck the retailer and, for delivery, the default address. Ask about any unexpected change. For delivery, include the address in the checkout summary.
 
+<!-- instacart-native-checkout-off-only:start -->
 - For every initial checkout request, including a tap on a checkout-with-assistant button, share the returned Instacart URL as **Review and check out on Instacart**, mention that fees and taxes may apply and ask whether the user wants you to handle checkout in the browser. Leave the cart widget out of that reply and wait for the answer.
 
 - If they agree, open that URL with `browser.browse` using `task_id: "new"` and ask the browser task to complete the purchase. Do not ask again during the same attempt.
 
 - The browser's checkout workflow returns the final items, availability, substitutions, fees and total for review in this conversation, and the payment interface asks for the user's purchase approval before the order is placed, as `~/docs/chat/payments-and-purchases.md` describes. Do not add a separate chat approval. Treat the order as placed only when the browser task reports a verified confirmation, and never start another checkout while a result is unresolved.
+<!-- instacart-native-checkout-off-only:end -->
+
+<!-- instacart-native-checkout-only:start -->
+- When first summarizing the cart in a shopping task, tell the user they can choose or change the tip before placing the order, unless already explained in this conversation. Do not repeat this on every cart change; remind them if they ask about tipping. Quote the selected tip only after a checkout response confirms it.
+
+- Use native checkout for delivery with the saved Instacart payment method. After a checkout request, including a checkout-with-assistant tap, read the cart and call `initialize-checkout` with `result.artifacts.cart.cart_id`. Omit `address_id`. Pickup or a different payment method requires the Instacart flow indicated by the returned hint or URL.
+
+```text
+/opt/hatch/bin/instacart initialize-checkout --arguments-json '{"cart_id":"<latest cart id>"}'
+/opt/hatch/bin/instacart update-checkout --arguments-json '{"checkout_id":"<checkout id>"}'
+/opt/hatch/bin/instacart finalize-checkout --arguments-json '{"checkout_id":"<checkout id>"}'
+```
+
+- Initialization returns a new `checkout_id` and invalidates the previous checkout. After changing items, store, service or address, read the cart and initialize again. Use `update-checkout` for delivery option, tip, phone and drop-off changes; with only `checkout_id` it reads the checkout. Use the live schemas for their arguments. Preserve existing choices unless the user requests a change; ask for any missing required choice. Check every update's messages: partial failures can retain old choices, so resolve the failed change before finalization.
+
+- Review the returned retailer, delivery address and time, drop-off instructions, saved card, complete `cost` and `legal` disclosures. Amounts are integer cents. Preserve all returned fees, discounts, tax and tip, and never infer a missing fee or authorization amount. `legal.order` includes payment timing and any authorization hold; `legal.links` supplies terms and privacy URLs. Never request card numbers in chat.
+
+- When `status` is `ready_for_complete` and all messages are resolved, call `finalize-checkout` once. It presents a native purchase approval with the current items, charges, delivery, saved payment and legal disclosures before sending the order. The purchase approval is the confirmation step; do not request an extra chat confirmation or launch a browser checkout in parallel. On denial, stop without retrying or changing payment paths.
+
+- A changed or expired checkout requires a fresh review and purchase approval. For `requires_escalation`, buyer input/review messages or an unrecoverable error, stop and explain the issue with `continue_url` exactly as returned. Never fabricate a URL. For `complete_in_progress` or an uncertain finalization outcome, the order may have gone through: do not initialize or finalize again for that cart, and direct the user to Instacart to check. Only `completed` with an order confirmation establishes success.
+<!-- instacart-native-checkout-only:end -->
 
 ## Related skills
 

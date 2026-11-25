@@ -1,0 +1,2052 @@
+{
+  "GB": {
+    "accent": "British",
+    "variety": "British English",
+    "voices": [
+      {
+        "id": "avocado_v2:isabella",
+        "name": "Soothing Ribbon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:magnus",
+        "name": "Boomy Mountain",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:paloma",
+        "name": "Lilting Swing",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:atlas",
+        "name": "Burnished Trophy",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vdc_NOID41",
+        "name": "Weary Suitcase",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_quivering_kettle",
+        "name": "Stony Kettle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_quivering_oak",
+        "name": "Fretful Oak",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_giddy_bubble",
+        "name": "Giddy Bubble",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_tender_moon",
+        "name": "Cradling Moon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_coy_buckle",
+        "name": "Droll Buckle",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_weathered_scroll",
+        "name": "Jaded Scroll",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_shy_bog",
+        "name": "Shy Marsh",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_booming_cask",
+        "name": "Bold Barrel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_playful_mast",
+        "name": "Impish Mast",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:pirate-2",
+        "name": "Robust Fiddle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:pirate-5",
+        "name": "Looming Foghorn",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2840_v068_28k_g5k",
+        "name": "Ambitious Bauble",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0075_v068_28k_g5k",
+        "name": "Disapproving Bubble",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2847_v068_28k_g5k",
+        "name": "Guarded Table",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0109_v068_28k_g5k",
+        "name": "Ruffled Firecracker",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0249_v068_28k_g5k",
+        "name": "Bright Petal",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2865_v068_28k_g5k",
+        "name": "Chuckling Trunk",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2836_v068_28k_g5k",
+        "name": "Teasing Flute",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a059_v068_28k_g5k",
+        "name": "Dogged Anchor",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0041_v068_28k_g5k",
+        "name": "Energetic Dandelion",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2868_v068_28k_g5k",
+        "name": "Staunch Blossom",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2873_v068_28k_g5k",
+        "name": "Bantering Oak",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0006_v068_28k_g5k",
+        "name": "Placid Barrel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2875_v068_28k_g5k",
+        "name": "Wise Anchor",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0452_v068_28k_g5k",
+        "name": "Nervous Wick",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0543_v068_28k_g5k",
+        "name": "Sanguine Bell",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0063_v068_28k_g5k",
+        "name": "Dry Hearth",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2849_v068_28k_g5k",
+        "name": "Chatty Shell",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2853_v068_28k_g5k",
+        "name": "Canny Gargoyle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a009_v068_28k_g5k",
+        "name": "Wary Drawbridge",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2841_v068_28k_g5k",
+        "name": "Strolling Oak",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a066_v068_28k_g5k",
+        "name": "Truthful Kiln",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a038_v068_28k_g5k",
+        "name": "Flustered Key",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_2837_v068_28k_g5k",
+        "name": "Sedate Fence",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_a001_v068_28k_g5k",
+        "name": "Weary Driftwood",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_a037_v068_28k_g5k",
+        "name": "Languid Volcano",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_a039_v068_28k_g5k",
+        "name": "Aloof Marble",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0382_v068_28k_g5k",
+        "name": "Absorbed Paintbox",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0388_v068_28k_g5k",
+        "name": "Genteel Armchair",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0389_v068_28k_g5k",
+        "name": "Plainspoken Clarinet",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0399_v068_28k_g5k",
+        "name": "Fascinated Glockenspiel",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0407_v068_28k_g5k",
+        "name": "Affronted Dewdrop",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0409_v068_28k_g5k",
+        "name": "Diffident Buttercup",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0410_v068_28k_g5k",
+        "name": "Gleeful Truffle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0422_v068_28k_g5k",
+        "name": "Animated Sunhat",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0427_v068_28k_g5k",
+        "name": "Joyful Bicycle",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0429_v068_28k_g5k",
+        "name": "Defiant Soapbox",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0435_v068_28k_g5k",
+        "name": "Mischievous Cornet",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0444_v068_28k_g5k",
+        "name": "Insistent Bulldozer",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0447_v068_28k_g5k",
+        "name": "Outspoken Flint",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0449_v068_28k_g5k",
+        "name": "Perplexed Kettle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0452_v068_28k_g5k",
+        "name": "Compassionate Handbell",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0538_v068_28k_g5k",
+        "name": "Inspiring Lectern",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0610_v068_28k_g5k",
+        "name": "Determined Podium",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1901_v068_28k_g5k",
+        "name": "Rollicking Greenhouse",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1954_v068_28k_g5k",
+        "name": "Amused Parchment",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2117_v068_28k_g5k",
+        "name": "Particular Driftwood",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2134_v068_28k_g5k",
+        "name": "Compassionate Cup",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2148_v068_28k_g5k",
+        "name": "Irreverent Crabapple",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2172_v068_28k_g5k",
+        "name": "Patient Overcoat",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2288_v068_28k_g5k",
+        "name": "Ethereal Feather",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2308_v068_28k_g5k",
+        "name": "Ironic Bookcase",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2364_v068_28k_g5k",
+        "name": "Arch Clock",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2366_v068_28k_g5k",
+        "name": "Methodical Cobblestone",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2434_v068_28k_g5k",
+        "name": "Discreet Key",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2500_v068_28k_g5k",
+        "name": "Jaunty Parcel",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd_raspy_cypress",
+        "name": "Imperious Broom",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_steady_rudder",
+        "name": "Steely Sail",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0395_v068_28k_g5k",
+        "name": "Proper Hat",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0037_v068_28k_g5k",
+        "name": "Stately Candlestick",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0400_v068_28k_g5k",
+        "name": "Zealous Locomotive",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0208_v068_28k_g5k",
+        "name": "Jaunty Banjo",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep500_0236_v068_28k_g5k",
+        "name": "Humble Beanbag",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep500_0125_v068_28k_g5k",
+        "name": "Mild Snowball",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_a029_v068_28k_g5k",
+        "name": "Booming Ship",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_weathered_rope",
+        "name": "Rugged Boat",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0351_v068_28k_g5k",
+        "name": "Grand Staircase",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_smiling_trunk",
+        "name": "Grinning Keepsake",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0463_v068_28k_g5k",
+        "name": "Warm Scarf",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_pirate-1",
+        "name": "Goofy Kazoo",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0374_v068_28k_g5k",
+        "name": "Bustling Carriage",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_2471_v068_28k_g5k",
+        "name": "Careful Spoon",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0370_v068_28k_g5k",
+        "name": "Smooth Teacup",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0402_v068_28k_g5k",
+        "name": "Bright Sneaker",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0077_v068_28k_g5k",
+        "name": "Easy Deckchair",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0147_v068_28k_g5k",
+        "name": "Pleased Skylight",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep500_0182_v068_28k_g5k",
+        "name": "Curious Buttercup",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0404_v068_28k_g5k",
+        "name": "Discerning Bookmark",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0420_v068_28k_g5k",
+        "name": "Cheeky Scissors",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_a001_v068_28k_g5k",
+        "name": "Valiant Star",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0394_v068_28k_g5k",
+        "name": "Sparky Tinsel",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0408_v068_28k_g5k",
+        "name": "Amazed Flowerpot",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_chipper_teapot",
+        "name": "Zestful Rosebush",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_1091_v068_28k_g5k",
+        "name": "Cultured Candelabra",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_2171_v068_28k_g5k",
+        "name": "Twinkly Lampshade",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_polished_icicle",
+        "name": "Shrewd Tiara",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_2359_v068_28k_g5k",
+        "name": "Dutiful Envelope",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_pirate-3",
+        "name": "Rumbling Cave",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0392_v068_28k_g5k",
+        "name": "Protective Overcoat",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0557_v068_28k_g5k",
+        "name": "Excitable Globe",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_2127_v068_28k_g5k",
+        "name": "Principled Glove",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep5k_3363_v068_28k_g5k",
+        "name": "Sage Planet",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0417_v068_28k_g5k",
+        "name": "Laughing Cardigan",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_2350_v068_28k_g5k",
+        "name": "Energetic Cauldron",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0270_v068_28k_g5k",
+        "name": "Bemused Slipper",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_indignant_ladle",
+        "name": "Thrifty Crate",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0454_v068_28k_g5k",
+        "name": "Honest Jar",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_gleeful_sail",
+        "name": "Nimble Rope",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep500_a005_v068_28k_g5k",
+        "name": "Noble Helmet",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0421_v068_28k_g5k",
+        "name": "Competent Tote",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0199_v068_28k_g5k",
+        "name": "Quick Cactus",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep5k_3278_v068_28k_g5k",
+        "name": "Robust Bridge",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:personas3_026_ghost",
+        "name": "Wistful Locket",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:pb1_hero_01",
+        "name": "Gallant Banner",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:pb1_music_02",
+        "name": "Hearty Oar",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:lady_ghost",
+        "name": "Stately Chandelier",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:crypt_keeper",
+        "name": "Charming Key",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:does_it_scouse_3",
+        "name": "Gritty Scarf",
+        "gender": "M"
+      }
+    ]
+  },
+  "AU": {
+    "accent": "Australian",
+    "variety": "Australian English",
+    "voices": [
+      {
+        "id": "avocado_v2:vdc_5",
+        "name": "Sunny Apricot",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vdc_27524",
+        "name": "Quick Scissors",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vdc_NOID63",
+        "name": "Harried Postcard",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_sunny_paddle",
+        "name": "Carefree Paddle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_somber_umbrella",
+        "name": "Rueful Umbrella",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_quick_maraca",
+        "name": "Restive Maraca",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_watchful_gate",
+        "name": "Guarded Anchor",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0462_v068_28k_g5k",
+        "name": "Bantering Dandelion",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a021_v068_28k_g5k",
+        "name": "Chanting Barrel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0097_v068_28k_g5k",
+        "name": "Mischievous River",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_3155_v068_28k_g5k",
+        "name": "Dazed Boulder",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0043_v068_28k_g5k",
+        "name": "Vexed Patch",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0606_v068_28k_g5k",
+        "name": "Heartening Porch",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0441_v068_28k_g5k",
+        "name": "Heartfelt Raindrop",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0152_v068_28k_g5k",
+        "name": "Joyful Maypole",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0102_v068_28k_g5k",
+        "name": "Peaceful Ledge",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_0193_v068_28k_g5k",
+        "name": "Impish Gravel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_0293_v068_28k_g5k",
+        "name": "Doting Whistle",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_0323_v068_28k_g5k",
+        "name": "Doleful Chimney",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0574_v068_28k_g5k",
+        "name": "Composed Chessboard",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0580_v068_28k_g5k",
+        "name": "Cheery Moneybox",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0594_v068_28k_g5k",
+        "name": "Smug Trophy",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0595_v068_28k_g5k",
+        "name": "Frazzled Thistle",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0598_v068_28k_g5k",
+        "name": "Blithe Deckchair",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0600_v068_28k_g5k",
+        "name": "Hardworking Windmill",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0604_v068_28k_g5k",
+        "name": "Nurturing Breadbasket",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0606_v068_28k_g5k",
+        "name": "Grandiose Tuba",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0614_v068_28k_g5k",
+        "name": "Chirpy Steamboat",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0617_v068_28k_g5k",
+        "name": "Plucky Rollerskate",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0618_v068_28k_g5k",
+        "name": "Avid Saxophone",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0624_v068_28k_g5k",
+        "name": "Persistent Shovel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0626_v068_28k_g5k",
+        "name": "Nostalgic Oatcake",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0627_v068_28k_g5k",
+        "name": "Marveling Raindrop",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0631_v068_28k_g5k",
+        "name": "Thrilled Spoon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0658_v068_28k_g5k",
+        "name": "Busy Bugle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1921_v068_28k_g5k",
+        "name": "Gleeful Sparkler",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2076_v068_28k_g5k",
+        "name": "Exultant Quilt",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2240_v068_28k_g5k",
+        "name": "Hearty Tractor",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2241_v068_28k_g5k",
+        "name": "Bothered Ukulele",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2397_v068_28k_g5k",
+        "name": "Assured Colander",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2430_v068_28k_g5k",
+        "name": "Blissful Gumboot",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0573_v068_28k_g5k",
+        "name": "Witty Sandal",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0579_v068_28k_g5k",
+        "name": "Decisive Signpost",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0566_v068_28k_g5k",
+        "name": "Gregarious Tent",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0628_v068_28k_g5k",
+        "name": "Zippy Windmill",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_1969_v068_28k_g5k",
+        "name": "Bubbly Puddle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0590_v068_28k_g5k",
+        "name": "Sunny Leaf",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0795_v068_28k_g5k",
+        "name": "Cheery Flag",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_a078_v068_28k_g5k",
+        "name": "Soft Sweater",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_2477_v068_28k_g5k",
+        "name": "Bold Bulldozer",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0634_v068_28k_g5k",
+        "name": "Devoted Earmuff",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0528_v068_28k_g5k",
+        "name": "Smiling Sun",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0048_v068_28k_g5k",
+        "name": "Zooming Car",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0629_v068_28k_g5k",
+        "name": "Regal Jacaranda",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_2306_v068_28k_g5k",
+        "name": "Emphatic Mallet",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0597_v068_28k_g5k",
+        "name": "Busy Basket",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0153_v068_28k_g5k",
+        "name": "Peppy Speedboat",
+        "gender": "M"
+      }
+    ]
+  },
+  "IN": {
+    "accent": "Indian",
+    "variety": "Indian English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_quirky_basket",
+        "name": "Tranquil Basket",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_crisp_reed",
+        "name": "Pointed Quill",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_gleeful_tuba",
+        "name": "Chortling Tuba",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0196_v068_28k_g5k",
+        "name": "Ironic Page",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0673_v068_28k_g5k",
+        "name": "Knowing Cabinet",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_3220_v068_28k_g5k",
+        "name": "Impassioned Rudder",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0347_v068_28k_g5k",
+        "name": "Jovial Map",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0128_v068_28k_g5k",
+        "name": "Joyful Ribbon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0681_v068_28k_g5k",
+        "name": "Cautious Harbor",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0639_v068_28k_g5k",
+        "name": "Urgent Raindrop",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0506_v068_28k_g5k",
+        "name": "Sheepish Cloud",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_0197_v068_28k_g5k",
+        "name": "Spirited Trumpet",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0710_v068_28k_g5k",
+        "name": "Plucky Trombone",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0718_v068_28k_g5k",
+        "name": "Exuberant Bongo",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0728_v068_28k_g5k",
+        "name": "Ebullient Grandstand",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0735_v068_28k_g5k",
+        "name": "Worried Lantern",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0740_v068_28k_g5k",
+        "name": "Astonished Bell",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0754_v068_28k_g5k",
+        "name": "Deadpan Skylight",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep5k_2803_v068_28k_g5k",
+        "name": "Gentle Raincloud",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0369_v068_28k_g5k",
+        "name": "Settled Lamppost",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0756_v068_28k_g5k",
+        "name": "Daring Skyscraper",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_0736_v068_28k_g5k",
+        "name": "Dedicated Window",
+        "gender": "M"
+      }
+    ]
+  },
+  "SG": {
+    "accent": "Singaporean",
+    "variety": "Singapore English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0671_v068_28k_g5k",
+        "name": "Bewildered Bridge",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep1k_0135_v068_28k_g5k",
+        "name": "Sympathetic Tugboat",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep1k_0397_v068_28k_g5k",
+        "name": "Rueful Trampoline",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1716_v068_28k_g5k",
+        "name": "Scrappy Tightrope",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1718_v068_28k_g5k",
+        "name": "Frazzled Platter",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1726_v068_28k_g5k",
+        "name": "Courteous Bassoon",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_sg_f703",
+        "name": "Gutsy Lantern",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_sg_f521",
+        "name": "Gregarious Pinwheel",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_sg_f606",
+        "name": "Glowing Balloon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_sg_f448",
+        "name": "Tickled Snowflake",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_sg_f531",
+        "name": "Inquiring Snowglobe",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_sg_f711",
+        "name": "Reflective Locket",
+        "gender": "F"
+      }
+    ]
+  },
+  "IE": {
+    "accent": "Irish",
+    "variety": "Irish English",
+    "voices": [
+      {
+        "id": "avocado_v2:conor",
+        "name": "Polished Coin",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_craggy_clover",
+        "name": "Rousing Bench",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_hopeful_oar",
+        "name": "Pleased Oar",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_careful_locket",
+        "name": "Hesitant Locket",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_playful_bell",
+        "name": "Easygoing Bell",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_wily_coin",
+        "name": "Chortling Pinwheel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_weathered_boot",
+        "name": "Weary Woodpile",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_playful_broom",
+        "name": "Roguish Broom",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:pirate-6",
+        "name": "Daring Squall",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0310_v068_28k_g5k",
+        "name": "Caring Scroll",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a048_v068_28k_g5k",
+        "name": "Miffed Ladder",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a012_v068_28k_g5k",
+        "name": "Sheepish Wheel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0682_v068_28k_g5k",
+        "name": "Buoyant Chimney",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0212_v068_28k_g5k",
+        "name": "Inquisitive Bench",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_3315_v068_28k_g5k",
+        "name": "Mournful Rock",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_3320_v068_28k_g5k",
+        "name": "Teasing Drum",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0123_v068_28k_g5k",
+        "name": "Chatty Bell",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_b026_v068_28k_g5k",
+        "name": "Roguish Hearth",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0533_v068_28k_g5k",
+        "name": "Stirring Kettle",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1095_v068_28k_g5k",
+        "name": "Bold Matchbox",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1097_v068_28k_g5k",
+        "name": "Dignified Lifeboat",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2097_v068_28k_g5k",
+        "name": "Collected Milestone",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2119_v068_28k_g5k",
+        "name": "Dashing Oar",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2121_v068_28k_g5k",
+        "name": "Jittery Ribbon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2280_v068_28k_g5k",
+        "name": "Genial Hearth",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2351_v068_28k_g5k",
+        "name": "Lovestruck Lantern",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2468_v068_28k_g5k",
+        "name": "Nonchalant Clothesline",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_1084_v068_28k_g5k",
+        "name": "Peaceful Bluebell",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep500_0120_v068_28k_g5k",
+        "name": "Lyrical Hillside",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_playful_moon",
+        "name": "Operatic Violin",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_1063_v068_28k_g5k",
+        "name": "Ardent Waterfall",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_1083_v068_28k_g5k",
+        "name": "Glowing Medal",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_careful_mountain",
+        "name": "Considerate Hilltop",
+        "gender": "M"
+      }
+    ]
+  },
+  "NZ": {
+    "accent": "New Zealand",
+    "variety": "New Zealand English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0646_v068_28k_g5k",
+        "name": "Candid Sparkler",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0072_v068_28k_g5k",
+        "name": "Dry Spoon",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0021_v068_28k_g5k",
+        "name": "Bemused Bowl",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a079_v068_28k_g5k",
+        "name": "Nurturing Hearthstone",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0377_v068_28k_g5k",
+        "name": "Lighthearted Balloon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0022_v068_28k_g5k",
+        "name": "Aloof Canoe",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0121_v068_28k_g5k",
+        "name": "Disapproving Trunk",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1962_v068_28k_g5k",
+        "name": "Peaceful Mountain",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_nz_f15",
+        "name": "Friendly Windchime",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_nz_f44",
+        "name": "Daring Speedboat",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_nz_f07",
+        "name": "Bubbling Teaspoon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_nz_f41",
+        "name": "Rallying Megaphone",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_nz_f43",
+        "name": "Chattering Gazebo",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0325_v068_28k_g5k",
+        "name": "Jocular Backpack",
+        "gender": "M"
+      }
+    ]
+  },
+  "ZA": {
+    "accent": "South African",
+    "variety": "South African English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_dry_weathervane",
+        "name": "Irreverent Weathervane",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_0326_v068_28k_g5k",
+        "name": "Steadfast Broom",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2374_v068_28k_g5k",
+        "name": "Savvy Riverbank",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_za_m21",
+        "name": "Intrepid Ridge",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_za_m43",
+        "name": "Jovial Rope",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_za_m25",
+        "name": "Restful Riverbank",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_za_m24",
+        "name": "Studious Trowel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_za_m42",
+        "name": "Charitable Trailer",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_za_m22",
+        "name": "Welcoming Doorbell",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_za_m28",
+        "name": "Vigorous Sailboat",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_za_f34",
+        "name": "Cheering Pennant",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f33",
+        "name": "Interested Gate",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f21",
+        "name": "Twinkling Rosebud",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f22",
+        "name": "Excited Suitcase",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f08",
+        "name": "Perceptive Parcel",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f32",
+        "name": "Adventurous Tent",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f35",
+        "name": "Applauding Sprout",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f38",
+        "name": "Elated Piano",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f04",
+        "name": "Sparky Trumpet",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_za_f31",
+        "name": "Twirling Carousel",
+        "gender": "F"
+      }
+    ]
+  },
+  "NG": {
+    "accent": "Nigerian",
+    "variety": "Nigerian English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_fiery_lantern",
+        "name": "Animated Cymbal",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_airy_window",
+        "name": "Wondering Window",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep5k_3443_v068_28k_g5k",
+        "name": "Pensive Hull",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m26",
+        "name": "Musing Chessboard",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m21",
+        "name": "Questing Planet",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m30",
+        "name": "Motivated Satchel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m08",
+        "name": "Tinkering Wrench",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m23",
+        "name": "Inspiring Gong",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m27",
+        "name": "Lauded Workbench",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m43",
+        "name": "Nostalgic Photo",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m33",
+        "name": "Hardy Backpack",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_m29",
+        "name": "Intent Puzzlebox",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ng_f23",
+        "name": "Rhapsodic Bookmark",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ng_f51",
+        "name": "Loving Tambourine",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ng_f25",
+        "name": "Cherishing Lamp",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ng_f06",
+        "name": "Convivial Cymbal",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ng_f04",
+        "name": "Vivid Firework",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ng_f29",
+        "name": "Sunlit Ribbon",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ng_f41",
+        "name": "Thorough Toolbelt",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ng_f22",
+        "name": "Overjoyed Posy",
+        "gender": "F"
+      }
+    ]
+  },
+  "KE": {
+    "accent": "Kenyan",
+    "variety": "Kenyan English",
+    "voices": [
+      {
+        "id": "avocado_v2:okeyo",
+        "name": "Engaging Plum",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m22",
+        "name": "Whirring Bicycle",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m21",
+        "name": "Grateful Farmhouse",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m27",
+        "name": "Ebullient Lagoon",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m28",
+        "name": "Esteemed Tabletop",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m46",
+        "name": "Gratified Terrace",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m43",
+        "name": "Fulfilled Millstone",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m41",
+        "name": "Thankful Windmill",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m48",
+        "name": "Reliable Gate",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_m23",
+        "name": "Supportive Signpost",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f44",
+        "name": "Tireless Whistle",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f29",
+        "name": "Rejoicing Fountain",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f36",
+        "name": "Heartened Archway",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f25",
+        "name": "Purposeful Baton",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f33",
+        "name": "Dazzled Lighthouse",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f21",
+        "name": "Appreciative Garden",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f02",
+        "name": "Brimming Sailboat",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f32",
+        "name": "Joyous Bellflower",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f23",
+        "name": "Brisk Greenhouse",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_ke_f42",
+        "name": "Galvanized Drum",
+        "gender": "F"
+      }
+    ]
+  },
+  "JM": {
+    "accent": "Jamaican",
+    "variety": "Jamaican English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_resolute_boulder",
+        "name": "Plucky Boulder",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0068_v068_28k_g5k",
+        "name": "Prickly Table",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0428_v068_28k_g5k",
+        "name": "Serene Snowflake",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0361_v068_28k_g5k",
+        "name": "Prickly Bench",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2237_v068_28k_g5k",
+        "name": "Steady Barn",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_jovial_drum",
+        "name": "Steady Cliff",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep500_0219_v068_28k_g5k",
+        "name": "Breezy Pinwheel",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep5k_3420_v068_28k_g5k",
+        "name": "Reliable Tree",
+        "gender": "M"
+      }
+    ]
+  },
+  "TT": {
+    "accent": "Trinidadian",
+    "variety": "Trinidadian English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_warm_porthole",
+        "name": "Sympathetic Porthole",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_0139_v068_28k_g5k",
+        "name": "Curious Hull",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_tt_m26",
+        "name": "Fond Feather",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_tt_m49",
+        "name": "Lucky Oar",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_tt_m48",
+        "name": "Clapping Bandstand",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_tt_m41",
+        "name": "Carefree Kite",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_tt_m45",
+        "name": "Absorbed Sapling",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_tt_m46",
+        "name": "Beckoning Bonfire",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_tt_m47",
+        "name": "Goodhearted Doorway",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f41",
+        "name": "Summery Parasol",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f43",
+        "name": "Aspiring Signboard",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f49",
+        "name": "Kind Roundabout",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f35",
+        "name": "Amiable Awning",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f48",
+        "name": "Festive Garland",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f50",
+        "name": "Cordial Seawall",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f52",
+        "name": "Humming Flute",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f46",
+        "name": "Devoted Sunhat",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_tt_f37",
+        "name": "Fluttering Flag",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0240_v068_28k_g5k",
+        "name": "Dependable Birch",
+        "gender": "M"
+      }
+    ]
+  },
+  "PH": {
+    "accent": "Filipino",
+    "variety": "Philippine English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_brisk_pennant",
+        "name": "Collected Pennant",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_curious_sandal",
+        "name": "Pondering Sandal",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a041_v068_28k_g5k",
+        "name": "Frank Windchime",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep500_0015_v068_28k_g5k",
+        "name": "Steady Gate",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0009_v068_28k_g5k",
+        "name": "Clear Pond",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r82_rep5k_1019_v068_28k_g5k",
+        "name": "Swift Train",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0477_v068_28k_g5k",
+        "name": "Chipper Pier",
+        "gender": "F"
+      }
+    ]
+  },
+  "MY": {
+    "accent": "Malaysian",
+    "variety": "Malaysian English",
+    "voices": [
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a128_v068_28k_g5k",
+        "name": "Boisterous Rosette",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r8_rep1k_a126_v068_28k_g5k",
+        "name": "Trembling Firework",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep500_0205_v068_28k_g5k",
+        "name": "Joyful Skateboard",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_1916_v068_28k_g5k",
+        "name": "Wise Storybook",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2072_v068_28k_g5k",
+        "name": "Doting Treehouse",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2201_v068_28k_g5k",
+        "name": "Courtly Chandelier",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_my_m58",
+        "name": "Zestful Raft",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_my_m55",
+        "name": "Storied Lute",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_my_m51",
+        "name": "Giving Oven",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_my_f53",
+        "name": "Peppy Whistle",
+        "gender": "F"
+      }
+    ]
+  },
+  "ZW": {
+    "accent": "Zimbabwean",
+    "variety": "Zimbabwean English",
+    "voices": [
+      {
+        "id": "avocado_v2:vg_zw_m56",
+        "name": "Acclaimed Hilltop",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_m47",
+        "name": "Hospitable Veranda",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_m51",
+        "name": "Riveted Mirror",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_m53",
+        "name": "Reunited Suitcase",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_m44",
+        "name": "Wowed Lampshade",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_m41",
+        "name": "Rapt Seashell",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_m50",
+        "name": "Waving Flagpole",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_m33",
+        "name": "Stunned Reel",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_m46",
+        "name": "Pensive Bench",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f41",
+        "name": "Celebrated Rosette",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f21",
+        "name": "Bountiful Treetop",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f46",
+        "name": "Thriving Scooter",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f43",
+        "name": "Vivacious Rattle",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f52",
+        "name": "Effusive Schoolbell",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f48",
+        "name": "Orchestrating Bugle",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f54",
+        "name": "Keen Pushcart",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f58",
+        "name": "Mustering Convoy",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f53",
+        "name": "Scrupulous Moneybox",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vg_zw_f45",
+        "name": "Uplifted Windowsill",
+        "gender": "F"
+      }
+    ]
+  },
+  "CA": {
+    "accent": "Canadian",
+    "variety": "Canadian English",
+    "voices": [
+      {
+        "id": "avocado_v2:vdc_NOID15",
+        "name": "Caring Umbrella",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vdc_NOID19",
+        "name": "Surprised Firework",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vdc_NOID17",
+        "name": "Enquiring Canoe",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vdc_NOID18",
+        "name": "Mischievous Marble",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_0439_v068_28k_g5k",
+        "name": "Zippy Sled",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2451_v068_28k_g5k",
+        "name": "Dutiful Boathouse",
+        "gender": "M"
+      },
+      {
+        "id": "avocado_v2:vd2_r82_rep5k_2529_v068_28k_g5k",
+        "name": "Tenderhearted Birch",
+        "gender": "F"
+      },
+      {
+        "id": "avocado_v2:vd3_vd2_r8_rep1k_0073_v068_28k_g5k",
+        "name": "Sharp Snowshoe",
+        "gender": "M"
+      }
+    ]
+  }
+}

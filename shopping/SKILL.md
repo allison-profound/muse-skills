@@ -12,6 +12,10 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 ## Understand what the user needs
 
+<!-- deal-search-on-only:start -->
+- A specific product search looks for a product the user names, such as "Panasonic NN-SN686S microwave". A product recommendation looks for the best of a kind of product, such as "best microwave".
+
+<!-- deal-search-on-only:end -->
 <!-- product-search-improvements-off-only:start -->
 - Establish whether the user wants a specific product or a recommendation, who it is for and whether used or refurbished is acceptable.
 
@@ -46,7 +50,7 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - Search without asking when the product type, required attributes and relevant known preferences are enough for a useful search. Missing recipient or acceptable-condition information is not a separate prerequisite: ask about it only when it is a required attribute or a soft preference whose answer would improve the search.
 
-- Ask with one `muse.create_options` question when a single required attribute with a known set of answers is missing, or when you can't run a useful search until you know the product type within the category (a coffee maker could be a drip coffee maker or an espresso machine). Style, fit, material, and occasion are types of soft preferences.
+- Ask with one `muse.create_options` question when a single required attribute with a known set of answers is missing, or when you can't run a useful search until you know the product type within the category (a coffee maker could be a drip coffee maker or an espresso machine).<!-- deal-search-on-only:start --> While a deal search is still running, a variant question can wait for the final results, since a store's sale can cover only one variant.<!-- deal-search-on-only:end --> Style, fit, material, and occasion are types of soft preferences.
 
 - When several required attributes are open, ask for them together in one plain-text message: two `option` widgets in one message render as a stray, unanswerable list beside the one the user is answering.
 
@@ -134,9 +138,17 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 ```json
 {
   "task_id": "new",
-  "task": "<what the user asked to find, in their words>. Find real purchasable products online for: <user request>. Preserve these requirements: <constraints>. Do not search Amazon. Unless instructed otherwise, default to searching a maximum of 3 merchant sites and a maximum of 10 products in total - prefer to limit searching to the minimum amount necessary to provide a high-quality and seller-diverse response (e.g. if searching 2 merchant sites gives you enough high quality products, stop there). Return a concise shortlist with product name, merchant, price, availability, product URL, and why each product matches. Report every shortlisted product through browser.report.products. Ensure that each URL is a dedicated product page, not a search page. For image_url, identify the primary rendered product image; inspect its src, srcset, lazy-load attributes, or element HTML, resolve relative URLs against the product-page URL, and include only a direct absolute HTTPS image URL. Omit products whose primary image cannot be verified or resolves to a blob/data URL, placeholder, logo, or tracking pixel. Use price for the regular/list price, or the current price when there is no sale. Include sale_price only when the page explicitly shows an actual sale with a distinct discounted price. Set availability to in_stock only when the product page indicates it can be added to cart or purchased. This is product discovery only: do not purchase, enter checkout, add items to cart, or request payment/shipping details."
+  "task": "<what the user asked to find, in their words>. Find real purchasable products online for: <user request>. Preserve these requirements: <constraints>. Do not search Amazon. Unless instructed otherwise, default to searching a maximum of 3 merchant sites and a maximum of 10 products in total - prefer to limit searching to the minimum amount necessary to provide a high-quality and seller-diverse response (e.g. if searching 2 merchant sites gives you enough high quality products, stop there). Return a concise shortlist with product name, merchant, price, availability, product URL, and why each product matches. Report every shortlisted product through browser.report.products. Ensure that each URL is a dedicated product page, not a search page. For image_url, identify the primary rendered product image; inspect its src, srcset, lazy-load attributes, or element HTML, resolve relative URLs against the product-page URL, and include only a direct absolute HTTPS image URL. Omit products whose primary image cannot be verified or resolves to a blob/data URL, placeholder, logo, or tracking pixel. Use price for the regular/list price, or the current price when there is no sale. Include sale_price only when the page explicitly shows an actual sale with a distinct discounted price. Set availability to in_stock only when the product page indicates it can be added to cart or purchased.<!-- deal-search-on-only:start --> <optional deal search context><!-- deal-search-on-only:end --> This is product discovery only: do not purchase, enter checkout, add items to cart, or request payment/shipping details."
 }
 ```
+<!-- deal-search-on-only:start -->
+
+- For a specific product search for one product the user hasn't asked to buy yet, read [deal search](/opt/muse/skills/shopping/references/deal-search.md) before writing the brief, and replace `<optional deal search context>` with the deal search text from that reference.
+
+- For those searches, run the browser product search even when the catalog or a page read already has the listing. Start the browser product search before checking the product's page with any other browser tool, since this search will already read the product's page.
+
+- For any other search, including a comparison of several products, leave out `<optional deal search context>`.
+<!-- deal-search-on-only:end -->
 
 - Run parallel browser tasks only for distinct discovery angles, such as different retailers or product types. Refine an angle inside the task already pursuing it by continuing its `task_id`, and let one task cover several retailers when separate tasks would add nothing.
 
@@ -245,6 +257,14 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 - After "Search every source in parallel", in the turn interim results arrive, resolve and name one or two strong products, such as catalog results from a well-known retailer. Say the update is early and what you're still checking, and keep it free of superlatives, rankings and verdicts.
 
 <!-- product-search-improvements-on-only:end -->
+<!-- deal-search-on-only:start -->
+- While a deal search is still running, an interim update shares what has turned up so far. The store and price can still change, so purchase choices come with the final results.
+
+- If either the same item and variant were found at a lower price or a promo code was found, then we should present the findings. A saving under 2% of the price, or under $1, isn't worth switching stores or entering a code.
+
+- Saving the user money is what the deal search is for, so cheaper items from other stores go first in the shopping-results widget (the search's own widget, or a new one after a follow-up deal search), in the purchase options and in the reply. The exception is a store the user asked to buy from, which stays first because they may have reasons we can't see, such as trust. A store that only comes from a saved item or a link doesn't count. A promo code for the item's store goes in the reply with its terms, and into the checkout task when the user buys so checkout can try it.
+
+<!-- deal-search-on-only:end -->
 <!-- shopping-collections-off-only:start -->
 - Once the last search finishes, pass every result file for the request in one `result_paths` list, rank the best products across the whole pool and call `shopping.create_shopping_results_widget` with the returned `path`. A later search adds candidates and never replaces earlier ones.
 
@@ -265,6 +285,10 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 <!-- product-search-improvements-off-only:start -->
 - When variants such as sizes or colors exist for a named product, offer to show them without naming more products.
+<!-- deal-search-on-only:start -->
+
+- After product recommendations, offering a deal search for the top pick is a useful follow-up: a `muse.create_options` option that names the product. Skip it after a deal hunt, a specific product search, or a reply that already compared sellers' prices, since those already looked for deals.
+<!-- deal-search-on-only:end -->
 <!-- product-search-improvements-off-only:end -->
 <!-- product-search-improvements-on-only:start -->
 - When variants such as sizes or colors exist for a named product, offer (with `muse.create_options` alongside any other follow-on actions) to show them without naming more products.
@@ -306,9 +330,14 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - If the page text does not show the offer information the user asked for, give `browser.browse` that page's URL and say which details still need checking, such as a discount, code or end date. Tell the user you're checking, then report the offers when the result arrives.
 
+<!-- deal-search-off-only:start -->
 - Establish the product's usual price, then research where deals for it or its category appear, such as Newegg for electronics.
 
 - Search thoroughly with `browser.browse` for listings below the usual price, and separately for current sales and coupon or promo codes at the sellers themselves.
+<!-- deal-search-off-only:end -->
+<!-- deal-search-on-only:start -->
+- [Deal search](/opt/muse/skills/shopping/references/deal-search.md) describes how to find a deal, including for products from search results.
+<!-- deal-search-on-only:end -->
 
 - Test a code in the basket when the user allows it.
 

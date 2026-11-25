@@ -152,6 +152,10 @@ Artifact inventory, names, source locations and session associations.
 
   Soft local reference → `chat.chats.chat_id`. Stored preferred chat reference for this local Space; the API returns only active persistent owner-visible chats. Chat retirement clears the reference; archiving retains it.
 
+- `dependency_state` uses `jsonb` and is nullable.
+
+  Runtime-owned record of the packages the runtime installed into a TypeScript Space: package.json, bun.lock, a per-package node_modules tree digest, the reviewed third-party packages, and the digests of the server bundles the runtime built. Null when the runtime recorded no baseline: Spaces created before the dependency gate, and new TypeScript Spaces created while the hatch_spaces_reviewed_dependencies rollout gate was confirmed off. Null does not by itself mean a Space is old.
+
 ## Keys and relationships
 
 - PRIMARY KEY `spaces_pkey` covers `space_slug`.

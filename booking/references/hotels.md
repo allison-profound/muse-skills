@@ -85,9 +85,9 @@
 <!-- travel-browser-preapproval-only:start -->
 ## Book on the seller's website
 
-- When the stay books on the seller's site (an Agoda or Google Hotels card, an `expedia_web` rate, a property or booking site Muse found) and `permissions.preapprove` is available, the user approves the booking before the browser task, and the task books without another card. Follow [approve first](/opt/muse/assets/booking/references/approve-first.md). Without the tool, or for a booking in the user's own browser (`browser` set to `device`), book as **Complete the chosen reservation** describes, with the approval at checkout.
+- When the stay books on the seller's site (an Agoda or Google Hotels card, an `expedia_web` rate, a property or booking site Muse found) and `permissions.preapprove` is available and `wallet.list_payment_methods` shows Link connected, with `purchase_preapproval_eligible: true` and a usable card, the user approves the booking before the browser task, and the task books without another card. Follow [approve first](/opt/muse/assets/booking/references/approve-first.md). Without the tool or such a card, or for a booking in the user's own browser (`browser` set to `device`), book as **Complete the chosen reservation** describes, with the approval at checkout, and ask no payment question.
 
-- Signing in carries the guest's status only on the hotel's own site, so the sign-in option comes first there when the profile lists their program with that chain. A stay sold through another site earns the program's benefits only when that site says so, so claim none there.
+- Signing in carries the guest's status only on the hotel's own site, so the task signs in there with the saved login when the profile lists their program with that chain, and pays with the wallet card unless the profile says the card saved there. A stay sold through another site earns the program's benefits only when that site says so, so claim none there. Two rooms or stays the site books as separate orders follow approve first's **Several bookings**.
 
 - A Google Hotels card shows Google's listing of one seller's total, not the seller's room, payment timing or cancellation terms. Before the review, read them from the seller's page in a research task, as browser booking's **Research offers** describes. A connector's rate already carries its terms.
 

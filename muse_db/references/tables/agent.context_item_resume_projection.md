@@ -6,7 +6,7 @@ Readable context projected for agent resume, with protected items withheld.
 
 ## Read restrictions
 
-Redacted. Rows projected from model-reasoning items (thinking or redacted-thinking) are withheld, and the legacy item copy is withheld because it can hold model reasoning. Saved per-turn developer instructions are also withheld from this inspection surface. They are instruction snapshots, not model reasoning. Queries against this table run against the security-barrier view `inspection.context_item_resume_projection`, which projects the columns listed below. Withheld columns: `item_json`, `turn_developer_context`, `public_import_exempt`, `public_import_done_provenance_md5`.
+Redacted. Rows projected from model-reasoning items (thinking or redacted-thinking) are withheld, and the legacy item copy is withheld because it can hold model reasoning. Saved per-turn developer instructions are also withheld from this inspection surface. They are instruction snapshots, not model reasoning. Queries against this table run against the security-barrier view `inspection.context_item_resume_projection`, which projects the columns listed below. Withheld columns: `item_json`, `turn_developer_context`, `public_import_exempt`, `public_import_done_provenance_md5`, `producer_request_id`, `producer_root_request_id`, `producer_parent_request_id`.
 
 ## Columns
 

@@ -29,7 +29,17 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
+from podcast_cast import (
+    REFUSED_FILENAME,
+    add_cast_parser,
+    cmd_cast,
+    default_paths,
+    record_refused,
+    refused_voice_from_error,
+    speaker_styles,
+)
 from podcast_telemetry import GenerationTelemetry
+from podcast_script_check import check_script
 
 
 SPOTIFY_NO_EXTERNAL_ATTEMPT_MARKER = (
@@ -80,6 +90,12 @@ def main():
         help="Speaker-to-voice mapping (repeat for each speaker)",
     )
     sp_gen.add_argument(
+        "--no-style",
+        action="append",
+        metavar="NAME",
+        help="A speaker to leave without the native-speech style: each name in the cast plan's no_style",
+    )
+    sp_gen.add_argument(
         "--publish", action="store_true", help="Publish to podcast feed"
     )
     sp_gen.add_argument("--feed-title", help="Feed title (required with --publish)")
@@ -98,6 +114,11 @@ def main():
         "--series-id",
         help="Series ID for shared cover art (e.g. cron job ID). "
         "Episodes with the same series-id reuse the same cover.",
+    )
+    sp_gen.add_argument(
+        "--minutes",
+        help='Target length in minutes, such as "6" or "5-8". The script is checked against it '
+        "before rendering, and a script far off the target isn't rendered",
     )
     sp_gen.add_argument(
         "--topics-file",
@@ -189,6 +210,9 @@ def main():
     sp_slug = subparsers.add_parser("generate-slug", help="Generate a slug from title")
     sp_slug.add_argument("--title", required=True)
 
+    # ── cast ────────────────────────────────────────────────────────
+    add_cast_parser(subparsers)
+
     args = parser.parse_args()
     if args.command == "generate" and args.language is None:
         args.language = os.environ.get("JARVIS_PRESENTATION_LOCALE", "en-US").replace(
@@ -212,6 +236,9 @@ def main():
             cmd_update_cover(args)
         elif args.command == "generate-slug":
             cmd_generate_slug(args)
+        elif args.command == "cast":
+            if not cmd_cast(args).get("ok"):
+                sys.exit(1)
     except Exception as e:
         print(json.dumps({"ok": False, "error": str(e)}, separators=(",", ":")), file=sys.stdout)
         sys.exit(1)
@@ -790,6 +817,16 @@ def _generate(args, telemetry):
     # episode record round-trips its own transcript.
     script_text = script_src.read_text(encoding="utf-8")
 
+    # Length and format, before any synthesis: a problem comes back as one line
+    # and nothing renders, so the agent fixes only what it reports.
+    telemetry.stage = "script_check"
+    script_check = check_script(
+        script_text, args.speaker, args.language, getattr(args, "minutes", None)
+    )
+    if not script_check["ok"]:
+        raise ValueError(script_check["line"])
+    telemetry.stage = "script"
+
     # Optional topics summary: the major topics/key points this episode covered,
     # for future-episode dedup. Passed by path so multi-line bullets need no
     # shell escaping. A named-but-missing file is a caller error, not a silent
@@ -815,6 +852,11 @@ def _generate(args, telemetry):
     ]
     for speaker_mapping in args.speaker:
         tts_cmd.extend(["--speaker", speaker_mapping])
+    # A speaker whose voice doesn't speak the episode's language gets a description asking it
+    # to speak like a native speaker. Only the cTTS route sends it; tts reports
+    # description_dropped when the episode rendered elsewhere.
+    for description in speaker_styles(args.language, args.speaker, getattr(args, "no_style", None)):
+        tts_cmd.extend(["--speaker-description", description])
     # Marks this as a podcast render so tts may use the podcast cTTS pilot
     # when its gate is on; other synthesize-script callers never opt in.
     tts_cmd.append("--podcast")
@@ -823,6 +865,11 @@ def _generate(args, telemetry):
     result = subprocess.run(tts_cmd, capture_output=True, text=True)
     if result.returncode != 0:
         stderr = result.stderr.strip() if result.stderr else "unknown error"
+        # Remember a saved voice the podcast voice service refused, so the
+        # next `cast` plans without it instead of failing the same way.
+        refused = refused_voice_from_error(stderr)
+        if refused:
+            record_refused(podcasts_dir() / REFUSED_FILENAME, refused, default_paths()["saved"])
         raise RuntimeError(f"tts failed: {stderr}")
 
     tts_output = json.loads(result.stdout)
@@ -876,9 +923,13 @@ def _generate(args, telemetry):
         "chunk_count": chunk_count,
         "bytes": audio_bytes,
         "published": False,
+        "script_check": script_check["line"],
     }
     if "speakers" in tts_output:
         output["speakers"] = tts_output["speakers"]
+    for key in ("backend", "described_turns", "description_dropped"):
+        if key in tts_output:
+            output[key] = tts_output[key]
     if result.stderr.strip():
         output["tts_diagnostics"] = result.stderr.strip()
     if cover_path:

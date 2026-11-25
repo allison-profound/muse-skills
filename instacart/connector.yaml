@@ -10,3 +10,7 @@ availability:
 auth:
   authorize: "{bin} authorize-url"
   disconnect: cli
+features:
+  instacart-native-checkout:
+    gk: hatch_instacart_native_checkout
+    methods: [checkout.prepare, order.place]

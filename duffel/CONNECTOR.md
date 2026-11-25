@@ -4,17 +4,11 @@
 
 - `/opt/hatch/bin/duffel` searches, books and manages flights from many airlines. Its commands are `places`, `search`, `seat-options`, `validate-booking`, `book`, `booking-status`, `cancellation-quote` and `cancel-booking`. It needs no user login, and payment uses the user's Link by Stripe card. `duffel COMMAND --help` lists each command's flags.
 
-<!-- duffel-rental-cars-only:start -->
 - It also searches and reserves pay-at-pickup rental cars with `car-search`, `car-quote` and `car-book`.
-<!-- duffel-rental-cars-only:end -->
 
-<!-- duffel-bags-only:start -->
 - It also adds paid bags to a flight booking with `bag-options` and `--bag`, as [Booking](references/booking.md) describes.
-<!-- duffel-bags-only:end -->
 
-<!-- gflights-first-only:start -->
 - A flight search also reads Google Flights in a browser task, with `gflights-url` and `route`, as [Google Flights](references/google-flights.md) describes.
-<!-- gflights-first-only:end -->
 
 <!-- duffel-stays-only:start -->
 - It also books hotel stays with `stay-search`, `stay-rates`, `stay-quote` and `book --quote-id`. Read [hotel stays](references/stays.md) before any hotel command. The flight sections below don't apply to hotels.

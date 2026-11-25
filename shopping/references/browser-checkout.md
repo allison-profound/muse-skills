@@ -22,7 +22,7 @@
 ```
 <!-- muse-promo-code-off-only:end -->
 <!-- muse-promo-code-on-only:start -->
-- Pass `<promo codes>` to the `task` list in order: codes from the user or a deal search they asked for, the product's `pdp_coupon.coupon_code` or the selected variant's `coupon_code` in `variant_coupon_prices`, up to three applicable candidates from `promo_offers`.
+- Pass `<promo codes>` to the `task` list in order: codes from the user or a deal search in this conversation, the product's `pdp_coupon.coupon_code` or the selected variant's `coupon_code` in `variant_coupon_prices`, up to three applicable candidates from `promo_offers`.
 - If none of the above are present then `<promo codes>` is empty.
 
 ```json

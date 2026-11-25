@@ -49,6 +49,18 @@ cli_subcommands:
   - "threads"
   - "unlock"
   - "unsend"
+# Hidden clap aliases of the paths above, each mapped to its canonical path, so
+# a call spelled with an alias still gets the canonical tool variant. A group
+# with a default subcommand (`HatchMessengerCliTool::default_subcommands`) maps
+# to that subcommand's path. manifest_tests.rs keeps this map equal to the
+# binary's aliases and defaults.
+cli_subcommand_aliases:
+  "list": "threads"
+  "list-threads": "threads"
+  "inbox": "threads"
+  "read-thread": "messages"
+  "search-messages": "search"
+  "sync": "sync messages"
 actions:
   read:
     default: allow

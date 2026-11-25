@@ -55,9 +55,9 @@ Prefer: That's Messi's second assist of the night, and it puts Argentina up two 
 
 ## Review before generating
 
-- Read the script once as a listener would. Check every claim, name, number and date against your sources, and fix anything that will sound wrong when spoken.
+- Review the script as a listener would before you save it. Check every claim, name, number and date against your sources, and fix anything that will sound wrong when spoken.
 
-- Check the length by counting words, for example with `wc -w`, and dividing by 130 for the approximate minutes.
+- Write the script once, then go straight to `generate` with `--minutes` set to the target length. Don't count words or re-read the file to check it: `generate` checks the length and the format before rendering, and fix only what it reports.
 
 ## Save the topics summary
 
