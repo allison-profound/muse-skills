@@ -73,8 +73,11 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
   - Meta Catalog, adding the flags the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs give for categories, gender, brands, sellers, prices and images.
   - A browser product search with `browser.browse` and `task_id: "new"`, briefed as below. Always run it, especially for home goods, unless the user asked only for Facebook Marketplace.
   - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup or tight-budget requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
+<!-- walmart-disable-browser-only:start -->
+  - Walmart, at the same time as the other searches, through the [Walmart](/opt/hatch/connectors/walmart/CONNECTOR.md) connector as its docs describe, for a US user. It needs no connected Walmart account.
+<!-- walmart-disable-browser-only:end -->
 
-- Cover the brand's official store and a few established retailers, such as Walmart, Target or Best Buy in the US, plus a specialist or local shop when the item calls for one. Leave out Amazon unless the user asks for it.
+- Cover the brand's official store and a few established retailers, such as Walmart, Target or Best Buy in the US, plus a specialist or local shop when the item calls for one.<!-- walmart-disable-browser-only:start --> For a US user, Walmart results come from the Walmart connector and Meta Catalog, so leave Walmart out of the browser search.<!-- walmart-disable-browser-only:end --> Leave out Amazon unless the user asks for it.
 <!-- product-search-improvements-off-only:end -->
 <!-- product-search-improvements-on-only:start -->
 ## Search strategies
@@ -92,7 +95,7 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - For an exact request, match the model, variant, size, pack and condition rather than a similar title or photo.
 
-- When a user looks for deals without naming a category, consider including a couple of their interests and at least two other categories they might like, so they can discover something familiar and something new.
+- When a user looks for deals without naming a category, include a couple of their interests, at least two other categories they might like and the biggest savings on TVs, laptops, appliances or other high-value products the store is known for.
 
 - Never relax a required attribute or a stated price limit. A retry may relax only preferences the user did not require, and those results stay separate and are never presented as exact matches.
 
@@ -110,6 +113,9 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 - Search the Meta Catalog first, plus Facebook Marketplace when it applies:
   - Meta Catalog, adding the flags the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs give for intent, brands, sellers, gender, prices and images. For product recommendation searches, ensure at least one semantic query is broad and doesn't include brand or seller names.
   - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup or tight-budget requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
+<!-- walmart-disable-browser-only:start -->
+  - Walmart, at the same time as the other searches, through the [Walmart](/opt/hatch/connectors/walmart/CONNECTOR.md) connector as its docs describe, for a US user. It needs no connected Walmart account.
+<!-- walmart-disable-browser-only:end -->
 
 - If the Meta Catalog search doesn't return results for products or brands identified during the context gathering phase, rephrase or generalize the queries and try again with the same user-required flags.
 
@@ -123,8 +129,11 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
   - Meta Catalog, adding the flags the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs give for intent, brands, sellers, gender, prices and images.
   - A browser product search with `browser.browse` and `task_id: "new"`, briefed as below. Always run it unless the user asked only for Facebook Marketplace.
   - Facebook Marketplace with `/opt/hatch/bin/facebook-cli marketplace search` for used, local, pickup or tight-budget requests, following the Facebook connector's [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md).
+<!-- walmart-disable-browser-only:start -->
+  - Walmart, at the same time as the other searches, through the [Walmart](/opt/hatch/connectors/walmart/CONNECTOR.md) connector as its docs describe, for a US user. It needs no connected Walmart account.
+<!-- walmart-disable-browser-only:end -->
 
-- Cover the brand's official store and a few established retailers, such as Walmart, Target or Best Buy in the US, plus a specialist or local shop when the item calls for one. Leave out Amazon unless the user asks for it. For a deal hunt, also follow "Find a deal".
+- Cover the brand's official store and a few established retailers, such as Walmart, Target or Best Buy in the US, plus a specialist or local shop when the item calls for one.<!-- walmart-disable-browser-only:start --> For a US user, Walmart results come from the Walmart connector and Meta Catalog, so leave Walmart out of the browser search.<!-- walmart-disable-browser-only:end --> Leave out Amazon unless the user asks for it. For a deal hunt, also follow "Find a deal".
 
 - Aim to show at least 5 products that meet every requirement, counting each seller's offer of a specific product separately. Search again only while it could still add matches.
 <!-- product-search-improvements-on-only:end -->
@@ -135,10 +144,14 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - Keep the brief's "Do not search Amazon." and never name Amazon as a site to search, even as an example, unless the user asked for Amazon.
 
+<!-- walmart-disable-browser-only:start -->
+- Keep the brief's "Do not search Walmart." and don't name Walmart as a site to search, even as an example, including when the user asked for Walmart: Walmart results come from the Walmart connector and Meta Catalog. The connector works without a connected Walmart account but only in the US, so leave that sentence out for a user outside the US.
+
+<!-- walmart-disable-browser-only:end -->
 ```json
 {
   "task_id": "new",
-  "task": "<what the user asked to find, in their words>. Find real purchasable products online for: <user request>. Preserve these requirements: <constraints>. Do not search Amazon. Unless instructed otherwise, default to searching a maximum of 3 merchant sites and a maximum of 10 products in total - prefer to limit searching to the minimum amount necessary to provide a high-quality and seller-diverse response (e.g. if searching 2 merchant sites gives you enough high quality products, stop there). Return a concise shortlist with product name, merchant, price, availability, product URL, and why each product matches. Report every shortlisted product through browser.report.products. Ensure that each URL is a dedicated product page, not a search page. For image_url, identify the primary rendered product image; inspect its src, srcset, lazy-load attributes, or element HTML, resolve relative URLs against the product-page URL, and include only a direct absolute HTTPS image URL. Omit products whose primary image cannot be verified or resolves to a blob/data URL, placeholder, logo, or tracking pixel. Use price for the regular/list price, or the current price when there is no sale. Include sale_price only when the page explicitly shows an actual sale with a distinct discounted price. Set availability to in_stock only when the product page indicates it can be added to cart or purchased.<!-- deal-search-on-only:start --> <optional deal search context><!-- deal-search-on-only:end --> This is product discovery only: do not purchase, enter checkout, add items to cart, or request payment/shipping details."
+  "task": "<what the user asked to find, in their words>. Find real purchasable products online for: <user request>. Preserve these requirements: <constraints>. Do not search Amazon. <!-- walmart-disable-browser-only:start -->Do not search Walmart. <!-- walmart-disable-browser-only:end -->Unless instructed otherwise, default to searching a maximum of 3 merchant sites and a maximum of 10 products in total - prefer to limit searching to the minimum amount necessary to provide a high-quality and seller-diverse response (e.g. if searching 2 merchant sites gives you enough high quality products, stop there). Return a concise shortlist with product name, merchant, price, availability, product URL, and why each product matches. Report every shortlisted product through browser.report.products. Ensure that each URL is a dedicated product page, not a search page. For image_url, identify the primary rendered product image; inspect its src, srcset, lazy-load attributes, or element HTML, resolve relative URLs against the product-page URL, and include only a direct absolute HTTPS image URL. Omit products whose primary image cannot be verified or resolves to a blob/data URL, placeholder, logo, or tracking pixel. Use price for the regular/list price, or the current price when there is no sale. Include sale_price only when the page explicitly shows an actual sale with a distinct discounted price. Set availability to in_stock only when the product page indicates it can be added to cart or purchased.<!-- deal-search-on-only:start --> <optional deal search context><!-- deal-search-on-only:end --> This is product discovery only: do not purchase, enter checkout, add items to cart, or request payment/shipping details."
 }
 ```
 <!-- deal-search-on-only:start -->
@@ -192,7 +205,7 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - Rank the products that match the constraints and preferences first, then favor direct sellers, well-known retailers, real discounts and products with many strong reviews. A sponsored placement or a crossed-out "original" price does not prove value, so compare the price the user would pay.
 
-- Verify product details and research reviews for the top five products with `browser.search` and `browser.open`, and re-rank them on what you learn. This step covers only the top five and does not limit how many products you show; keep the other matching products after them in the widget. Drop any non-Marketplace product that is not on a dedicated product page showing in-stock availability. Open product URLs with `browser.open` to fetch the live product details. Never verify with `browser.browse` because it adds significant latency. `browser.open` cannot fetch Meta-owned hosts such as instagram.com, facebook.com and threads.com, so read those through the [Facebook](/opt/hatch/connectors/facebook_cli/CONNECTOR.md) or [Instagram](/opt/hatch/connectors/instagram/CONNECTOR.md) connector. If `browser.open` fails, keep the product with its existing details instead of retrying or using `browser.browse`, even when the tool result suggests recovering with `browser.browse`.
+- Verify product details and research reviews for the top five products with `browser.search` and `browser.open`, and re-rank them on what you learn.<!-- walmart-disable-browser-only:start --> A Walmart product from the Walmart connector's `search_products` is already verified, since it is a live read from Walmart. Verify a walmart.com product from Meta Catalog through the connector, as its [docs](/opt/hatch/connectors/walmart/CONNECTOR.md) describe under "Price and stock checks".<!-- walmart-disable-browser-only:end --> This step covers only the top five and does not limit how many products you show; keep the other matching products after them in the widget. Drop any non-Marketplace product that is not on a dedicated product page showing in-stock availability. Open product URLs with `browser.open` to fetch the live product details. Never verify with `browser.browse` because it adds significant latency. `browser.open` cannot fetch Meta-owned hosts such as instagram.com, facebook.com and threads.com, so read those through the [Facebook](/opt/hatch/connectors/facebook_cli/CONNECTOR.md) or [Instagram](/opt/hatch/connectors/instagram/CONNECTOR.md) connector. If `browser.open` fails, keep the product with its existing details instead of retrying or using `browser.browse`, even when the tool result suggests recovering with `browser.browse`.
 
 - A catalog result's `size` and `color` describe the one variant the catalog returned for that product page. When they differ from the requested size or color, confirm the requested variant as the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs describe, and show that variant in place of the returned one. When a product's details carry no size information, keep it rather than filtering on its `size` text.
 
@@ -225,6 +238,10 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 }
 ```
 
+<!-- walmart-disable-browser-only:start -->
+- Pass Walmart connector results files with the catalog, Marketplace and browser files, and rank Walmart products among the others by the same criteria. When Meta Catalog returns the same Walmart item, select the connector's copy.
+
+<!-- walmart-disable-browser-only:end -->
 - The resolver returns a `path` for `shopping.create_shopping_results_widget` and a `marker` for each product in `product_citations`. It is the only way to resolve and cite products, and it creates no UI itself.
 
 - Select catalog products and Marketplace listings only when the [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) docs or the Facebook [Marketplace guide](/opt/hatch/connectors/facebook_cli/references/marketplace.md) say the resolver accepts them, because one rejected selection fails the whole call.
@@ -343,6 +360,14 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - Lead with a recommendation. When there is no current deal, say so and share what you learned about past or upcoming sales.
 
+### Watch a sale
+
+- When you set up a job that follows a store's or season's sale, write these rules into its body, because the job won't see this skill:
+  - Cover the items the user named, their usual categories, and the sale's biggest savings on TVs, laptops, appliances or other high-value products the store is known for. Leave out the high-value products only when the user asked for specific items or categories only, or turned them down.
+  - Search each category separately, and verify each price on the seller's page.
+  - Rank deals by dollars saved.
+  - Report new deals in the user's items and categories, and surface any new standout high-value deals, labeled as standouts.
+
 ## Search by photo
 
 - When a photo shows several plausible products and the user has not said which one, ask which item to shop before searching.
@@ -386,6 +411,10 @@ For connectors that return a ready-to-present shopping-results JSON file, follow
 
 - For [Meta Catalog](/opt/hatch/connectors/meta_catalog_search/CONNECTOR.md) products, confirm each selected product's exact variant as those docs describe. When its product-details response has a `checkout_token` and a `checkout.rail` of `shopify_ucp` or `ucp_direct`, check out as the [UCP](/opt/hatch/connectors/ucp/CONNECTOR.md) docs describe.
 
+<!-- walmart-connector-only:start -->
+- Otherwise, buy a walmart.com product now through the [Walmart](/opt/hatch/connectors/walmart/CONNECTOR.md) connector, whether Meta Catalog, a browser task or another search found it.
+
+<!-- walmart-connector-only:end -->
 <!-- purchase-preapproval-off-only:start -->
 - Otherwise follow [browser checkout](/opt/muse/skills/shopping/references/browser-checkout.md). For a request to buy, assign the browser task to complete checkout and confirm the order was placed.
 <!-- purchase-preapproval-off-only:end -->
@@ -494,7 +523,7 @@ Follow the instructions in [Muse Charm](~/docs/devices/charm.md) for product loo
 - When a browser product search runs, search the brand's store and the chosen retailers with the brief above, giving the exact model, variant, quantity and delivery country.
 <!-- product-search-improvements-on-only:end -->
 
-- [Walmart](https://www.walmart.com/) and [Target](https://www.target.com/) for general goods in the US, [Best Buy](https://www.bestbuy.com/) for electronics, and [Home Depot](https://www.homedepot.com/) or [Lowe's](https://www.lowes.com/) for home improvement.
+- <!-- walmart-disable-browser-off-only:start -->[Walmart](https://www.walmart.com/) and <!-- walmart-disable-browser-off-only:end -->[Target](https://www.target.com/) for general goods in the US, [Best Buy](https://www.bestbuy.com/) for electronics, and [Home Depot](https://www.homedepot.com/) or [Lowe's](https://www.lowes.com/) for home improvement.
 
 - [Walmart Canada](https://www.walmart.ca/) and [Best Buy Canada](https://www.bestbuy.ca/) in Canada, and [Walmart Mexico](https://www.walmart.com.mx/) or [Liverpool](https://www.liverpool.com.mx/) in Mexico.
 

@@ -89,14 +89,18 @@ cli_subcommands:
   - "marketplace listing details"
   - "marketplace listing delete"
   - "marketplace listing publish"
+  - "marketplace listing set-availability"
   - "marketplace listing create"
   - "marketplace listing edit"
+  - "marketplace listing renew"
   # Hidden copies of the listing commands one level up (`marketplace details`).
   - "marketplace details"
   - "marketplace delete"
   - "marketplace publish"
+  - "marketplace set-availability"
   - "marketplace create"
   - "marketplace edit"
+  - "marketplace renew"
   - "groups details"
   - "groups search"
   - "groups posts"
@@ -287,14 +291,28 @@ actions:
         approval_policy: fresh_consent_only
         label: Publish Marketplace listings
         approval_phrase: publish this Marketplace listing on Facebook
+        approval_button_variants:
+          groups:
+            approval_phrase: publish this Marketplace listing and post it to buy and sell groups
       marketplace.listing.update:
         approval_policy: fresh_consent_only
         label: Update Marketplace listings
         approval_phrase: update this Marketplace listing on Facebook
+        approval_button_variants:
+          groups:
+            approval_phrase: update this Marketplace listing and post it to buy and sell groups
+      marketplace.listing.availability:
+        approval_policy: fresh_consent_only
+        label: Mark Marketplace listings sold or available
+        approval_phrase: mark this Marketplace listing sold or available on Facebook
       marketplace.listing.delete:
         approval_policy: fresh_consent_only
         label: Delete Marketplace listings
         approval_phrase: delete this Marketplace listing from Facebook
+      marketplace.listing.renew:
+        approval_policy: fresh_consent_only
+        label: Renew Marketplace listings
+        approval_phrase: renew this Marketplace listing on Facebook
       groups.moderate:
         approval_policy: fresh_consent_only
         label: Manage groups that you admin or moderate
@@ -376,6 +394,9 @@ commands:
   "marketplace listing edit": marketplace.listing.update
   "marketplace listing publish": marketplace.listing.publish
   "marketplace listing delete": marketplace.listing.delete
+  "marketplace listing set-availability": marketplace.listing.availability
+  "marketplace set-availability": marketplace.listing.availability
+  "marketplace listing renew": marketplace.listing.renew
   "groups details": facebook.search
   "groups search": facebook.search
   "groups posts": facebook.search

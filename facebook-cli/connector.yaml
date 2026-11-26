@@ -5,6 +5,9 @@ aliases: [facebook-cli, facebook_cli, facebook-marketplace, facebook_marketplace
 wire_id: facebook
 include_in_prompt: true
 features:
+  marketplace-availability:
+    gk: hatch_fb_connector_marketplace_test
+    methods: [marketplace.listing.availability]
   facebook-post-editing:
     gk: hatch_fb_connector_post_editing_test
     files: [references/editing-posts.md]
@@ -51,10 +54,17 @@ features:
     gk: hatch_fb_connector_pages_tranche2_story_delete
   marketplace-needs-attention:
     gk: hatch_fb_connector_marketplace_test
+  marketplace-group-posting:
+    gk: hatch_fb_connector_marketplace_test
   facebook-prosumers-combined:
     gk: hatch_fb_connector_prosumers_combined_nov_2026
   social-skill-improvements-nov-2026:
     gk: hatch_fb_connector_prosumers_combined_nov_2026
+  marketplace-listing-visibility:
+    gk: hatch_fb_connector_marketplace_test
+  marketplace-listing-renew:
+    gk: hatch_fb_connector_marketplace_test
+    methods: [marketplace.listing.renew]
 onboarding: true
 non_confidential: true
 availability:

@@ -4,6 +4,13 @@ description: "Search, book and cancel complete flight itineraries through Duffel
 aliases: [duffel]
 include_in_prompt: true
 features:
+  gflights-one-list:
+    gk: hatch_flight_search_gflights_one_list
+    # The Google Flights read runs as a reader-only browser task: no chat card,
+    # no planner, one report within about a minute and two at most. The runtime
+    # reads the same gate at admission, and the Flight Booking skill's
+    # gflights-one-list blocks hold the flight list for that report, so the
+    # traveler sees one list. No command of its own.
   traveler-profiles:
     gk: hatch_traveler_profiles
     methods: [traveler.read]

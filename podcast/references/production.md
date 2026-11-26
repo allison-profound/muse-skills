@@ -22,9 +22,11 @@
 
 - Run `generate` with exec's `yield_ms` at 120000. When the render finishes within that wait, deliver the episode in the same reply. A longer render comes back on its own when it finishes; don't promise the user a finish time.
 
-- For a recurring series, add `--series-id` with the schedule's job ID so its episodes share cover art.
+- For another episode in an existing series, pass `--series-id`. Take it from the schedule's body or from the most recent episode in that series in `manifest read`. Use the returned UUIDv4 for new schedules; existing schedules can keep passing their job ID. Without the flag, regenerating an episode with the same slug keeps its stored series ID if it has one; otherwise the helper starts a new series.
 
-- The helper synthesizes the script, writes `~/workspace/podcasts/<slug>/<slug>.mp3` and records the episode in the catalog. It prints JSON with `slug`, `path`, `duration_secs` and `cover`. When it also published, the JSON adds `feed_url`, `episode_url` and `subscription_links`.
+- A series groups episodes whether or not they are published. `feed_url` identifies the public feed an episode was published to.
+
+- The helper synthesizes the script, writes `~/workspace/podcasts/<slug>/<slug>.mp3` and records the episode in the catalog. It prints JSON with `episode_id`, `series_id`, `slug`, `path`, `duration_secs` and `cover`. `episode_id` is an opaque UUIDv4 assigned by the catalog on first insertion and preserved when that catalog episode is updated, published or reused. Use it for analytics instead of the title-derived `slug`. `series_id` identifies the series; reuse it for later episodes. When it also published, the JSON adds `feed_url`, `episode_url` and `subscription_links`.
 
 - For a freshly rendered episode, inspect `speakers` for the effective voice IDs and `tts_diagnostics` for substitutions or validation warnings. These TTS fields may be absent when reusing an older episode. If a requested voice became a default, tell the user which voice was used; do not claim the requested voice was honored or change saved preferences.
 
@@ -48,9 +50,11 @@
 
 - Always pass `--cover-prompt` with a short description of the episode's theme. The helper generates square cover art itself, so do not call `media.generate_image` for a cover.
 
-- With `--series-id`, the first episode generates the cover and later episodes in the series reuse it. Without it, every episode gets its own art.
+- With `--series-id`, the first episode that passes it generates the series cover and later episodes in the series reuse it. Without it, every episode gets its own art.
 
-- Never pass `--cover-image`. Publishing accepts only generated art or the bundled default, so a published episode with `--cover-image` fails. When the user supplies an image, describe it in `--cover-prompt` and tell them you generated a cover from it.
+- Never pass `--cover-image`. Publishing accepts only generated art or the bundled default, so a published episode with `--cover-image` fails. When the user supplies an image, describe it in `--cover-prompt`.
+
+- The result's `cover_source` says where the cover came from: `generated` for new art, `reused` for the series' existing cover (the helper then ignores `--cover-prompt`), `default` for the bundled default and `existing` for any other image. Describe the cover to the user from that value, and say you generated a cover from their image only when it is `generated`.
 
 - Without a cover prompt, the helper uses the user's avatar or the bundled default. An avatar cover cannot be published.
 
@@ -100,7 +104,7 @@
 
 ## Use the other helper commands
 
-- `manifest read` prints the catalog. `episodes` lists each episode with its `slug`, `title`, `path`, `topics`, `cover` and any `feed_url`. `feed` is the show published most recently and `feeds` lists every show.
+- `manifest read` prints the catalog. `episodes` lists each episode with its `episode_id`, any `series_id`, `slug`, `title`, `path`, `topics`, `cover` and any `feed_url`. `feed` is the show published most recently and `feeds` lists every show.
 
 - `generate-slug --title "<title>"` prints the slug a title produces, which ends with today's date.
 

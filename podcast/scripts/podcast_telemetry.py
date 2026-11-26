@@ -23,7 +23,7 @@ def _request_id(attempt_id):
 
 
 class GenerationTelemetry:
-    def __init__(self, retry_generation, send):
+    def __init__(self, retry_generation, send, series_id=None):
         self.generation_id = str(retry_generation or uuid.uuid4())
         self.attempt_id = str(uuid.uuid4())
         self.retry = retry_generation is not None
@@ -32,7 +32,10 @@ class GenerationTelemetry:
         self._send = send
         self._started = time.monotonic()
         self._finished = False
-        self._emit({"event": "start"})
+        start = {"event": "start"}
+        if series_id is not None:
+            start["series_id"] = series_id
+        self._emit(start)
 
     def result_fields(self):
         return {
@@ -40,18 +43,24 @@ class GenerationTelemetry:
             "generation_attempt_id": self.attempt_id,
         }
 
-    def finish(self, outcome):
+    def finish(self, outcome, episode_id=None, series_id=None):
         if self._finished:
             return
         self._finished = True
-        self._emit({
+        observation = {
             "event": "end",
             "outcome": outcome,
             "stage": self.stage,
             "elapsed_ms": min(2**32 - 1, max(0, int(
                 (time.monotonic() - self._started) * 1000
             ))),
-        })
+        }
+        if outcome == "success":
+            if episode_id is not None:
+                observation["episode_id"] = episode_id
+            if series_id is not None:
+                observation["series_id"] = series_id
+        self._emit(observation)
 
     def _emit(self, observation):
         try:

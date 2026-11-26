@@ -21,7 +21,7 @@ auth:
       registration_url: https://uhjidycotobjggwyjdww.supabase.co/auth/v1/oauth/clients/register
       resource: https://mcp.bfl.ai/
       token_endpoint_auth_method: none
-      scope: openid email profile
+      scope: email offline_access openid profile
     tool_names:
       media.read:
       - get_history

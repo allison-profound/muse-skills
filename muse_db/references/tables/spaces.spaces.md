@@ -142,11 +142,11 @@ Artifact inventory, names, source locations and session associations.
 
   Default: `'space'::text`.
 
-  space for a Space the user sees; template_clone for the hidden copy a template upload builds and deletes, which is not one of the user's Spaces.
+  space for a Space the user sees. template_clone for a hidden copy used during a template upload or install. template_clone rows aren't user Spaces. Upload copies get deleted. Install copies become space when install succeeds.
 
 - `clone_of_slug` uses `text` and is nullable.
 
-  The Space a template_clone row was copied from; null on every other row.
+  Source Space for a template_clone row created by a template upload. Null on all other rows, including template installs.
 
 - `side_chat_id` uses `text` and is nullable.
 
@@ -155,6 +155,20 @@ Artifact inventory, names, source locations and session associations.
 - `dependency_state` uses `jsonb` and is nullable.
 
   Runtime-owned record of the packages the runtime installed into a TypeScript Space: package.json, bun.lock, a per-package node_modules tree digest, the reviewed third-party packages, and the digests of the server bundles the runtime built. Null when the runtime recorded no baseline: Spaces created before the dependency gate, and new TypeScript Spaces created while the hatch_spaces_reviewed_dependencies rollout gate was confirmed off. Null does not by itself mean a Space is old.
+
+- `builtin_id` uses `text` and is nullable.
+
+  Opaque correlation identifier; no declared local table relationship. The built-in app artifact.add_builtin reserved this Space for when it created it; set only by add_builtin.
+
+- `builtin_build_id` uses `text` and is nullable.
+
+  Opaque correlation identifier; no declared local table relationship. current_build_id when artifact.add_builtin reserved this Space for builtin_id; a later build ends the built-in's trust.
+
+- `builtin_installed` uses `boolean` and is required.
+
+  Default: `false`.
+
+  True once artifact.add_builtin finished installing builtin_id at builtin_build_id.
 
 ## Keys and relationships
 

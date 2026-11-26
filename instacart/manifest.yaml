@@ -16,6 +16,7 @@ icon: instacart
 shopping:
   website: https://www.instacart.com
   cart: true
+  edit_cart: true
   checkout: handoff
   cart_checkout: true
 request_quota:

@@ -44,6 +44,12 @@
 
 - `listing create` uploads the photos and creates the listing in one step. Report the response `message` as the status: a complete listing is submitted for review and isn't visible to buyers until it passes, and an incomplete one is saved as a draft.
 
+<!-- marketplace-listing-visibility-only:start -->
+
+- For a new listing the user wants hidden from friends, pass `--hide-from-friends true` with the other fields and photos.
+
+<!-- marketplace-listing-visibility-only:end -->
+
 - If it came back as a draft but the user wanted it posted, name the missing fields and offer to add them with `listing edit`, then run `listing publish`.
 
 ```sh
@@ -51,6 +57,12 @@
 ```
 
 - `listing edit` changes the flags you pass and keeps everything else. New photos replace the whole photo set, and new delivery types replace the existing choices. Show each change with its current and new value.
+
+<!-- marketplace-listing-visibility-only:start -->
+
+- `--hide-from-friends` on `listing edit` changes the existing listing's hide-from-friends setting. Leave it out to keep the current setting.
+
+<!-- marketplace-listing-visibility-only:end -->
 
 ```sh
 /opt/hatch/bin/facebook-cli marketplace listing publish --listing-id '<listing_id>'
@@ -68,6 +80,78 @@
 
 - After each write, give the true status and the listing link as plain text.
 
+<!-- marketplace-availability-only:start -->
+
+```sh
+/opt/hatch/bin/facebook-cli marketplace listing set-availability --listing-id '<id>' --availability '<sold|available>'
+```
+
+- Mark a listing sold, or available again, with `listing set-availability`. Get the listing ID from [my-listings](#find-the-users-listings).
+
+- `listing set-availability` is unavailable on confidential VMs until the flow is qualified. It stops before consent or Facebook access; reconnecting does not enable it.
+
+```sh
+/opt/hatch/bin/facebook-cli marketplace listing details --listing-id '<listing_id>'
+```
+
+<!-- marketplace-availability-only:end -->
+
+<!-- marketplace-group-posting-only:start -->
+## Post a listing to buy and sell groups
+
+```sh
+/opt/hatch/bin/facebook-cli marketplace listing create --title '<title>' --price <dollars> --photo '<path>' --condition <condition> --category '<category name or ID>' --latitude <latitude> --longitude <longitude> --group-id '<group_id>'
+```
+
+- Use `--group-id` to also share the listing to a specific buy-and-sell group.
+
+- Repeat it for each group the user chose (at most 20).
+
+- To find a particular group, look for its name and ID in `summary.crosspost_groups` on the first page of `marketplace my-listings`.
+
+- Being a member doesn't mean a group takes Marketplace listings. Let the user choose from that list.
+
+- When it's empty or lacks a group the user named, say so before creating the listing.
+
+- Create it without groups only if the user agrees.
+
+```sh
+/opt/hatch/bin/facebook-cli marketplace listing publish --listing-id '<listing_id>' --group-id '<group_id>'
+```
+
+- A draft isn't posted to groups and doesn't keep them, so pass `--group-id` again with `listing publish`.
+
+```sh
+/opt/hatch/bin/facebook-cli marketplace listing edit --listing-id '<listing_id>' --group-id '<group_id>'
+```
+
+- A listing that is already published is not posted to groups by `listing publish`.
+
+- With only `--group-id`, `listing edit` requests group copies of a published listing without changing its other fields.
+
+- A group post is queued, not done: the group can still reject it or hold it for an admin's approval.
+
+- In a successful receipt, `crosspost_outcome: unknown` means only that group delivery remains unconfirmed. Reserve uncertain-write recovery for `MARKETPLACE_CROSSPOST_*_OUTCOME_UNKNOWN` errors.
+<!-- marketplace-group-posting-only:end -->
+
+<!-- marketplace-listing-renew-only:start -->
+## Renew a listing
+
+- `listing renew` is unavailable on confidential VMs until the flow is qualified. It stops before consent or Facebook access; reconnecting does not enable it. The renewal flow below applies only on non-confidential VMs.
+
+- `listing renew --listing-id <listing_id>`: the listing shows as recently listed. Find its `listing_id` with `my-listings`.
+
+- When the user asks to delete and relist a listing so more buyers see it, offer renew instead, once per conversation. If they still want it deleted and relisted, do that.
+
+- When the user has identified one listing, name it with its title and link and run renew in the same message.
+
+- `already_renewed: false` means the listing was renewed. `already_renewed: true` means it was renewed in the last 10 minutes, so nothing changed.
+
+- `RENEW_TOO_SOON` means the listing was created or renewed too recently; give the user the date after "renewed again after". `RENEW_LIMIT_REACHED` means it was renewed the maximum number of times.
+
+- `MARKETPLACE_RENEW_OUTCOME_UNKNOWN` means the renew may have happened. Check the listing with `listing details` and tell the user what it shows.
+<!-- marketplace-listing-renew-only:end -->
+
 ## Check buyer messages after publishing
 
 ```sh
@@ -80,8 +164,8 @@
 
 ## Recover from a failed write
 
-- When a create, edit, publish or delete fails, tell the user what you tried, the exact error, why you think it failed and the change you propose, then wait for their review before trying again. A retry with the same or changed values can create a duplicate or publish the wrong details.
+- When a create, edit, publish or delete<!-- marketplace-availability-only:start -->, or `set-availability`,<!-- marketplace-availability-only:end --> fails, tell the user what you tried, the exact error, why you think it failed and the change you propose, then wait for their review before trying again. A retry with the same or changed values can create a duplicate or publish the wrong details.
 
-- A timeout or unreadable response can leave the outcome unknown, so read the listing through `my-listings` or item details before proposing another write.
+- A timeout or unreadable response can leave the outcome unknown, so read the listing through `my-listings` or item details before proposing another write. An unchanged listing or empty search does not prove that the write failed.<!-- marketplace-group-posting-only:start --> For a grouped write, check each selected group as well; missing copies do not prove failure either.<!-- marketplace-group-posting-only:end -->
 
 - A failed read can run again without approval.

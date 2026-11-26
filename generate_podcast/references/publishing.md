@@ -48,9 +48,9 @@
 
 ## Choose the feed
 
-- Keep one feed unless the user asks for a separate show. Run `manifest read` before publishing: `feeds` lists every show and `feed` is the one published most recently. When either has a non-empty `feed_url`, reuse that feed's `feed_title` exactly.
+- Keep using the existing RSS feed unless the user asks for a separate RSS feed. Run `manifest read` before publishing and reuse the selected feed's `feed_title` exactly when it has a non-empty `feed_url`.
 
-- The feed title picks the show. A title that matches an existing feed adds to it and any other title creates a new feed, so reuse a title character for character and never reuse one for a different show.
+- The feed title selects where to publish, independently of `series_id`. Episodes from different series and one-off episodes can share the same RSS feed. A title that matches an existing feed adds to it; a new title creates a new feed.
 
 - For the first feed, choose a title from the name the user gave Muse, such as "Today with Alex".
 
@@ -111,7 +111,7 @@ Or open directly in a podcast app:
   --feed-title "Today with Alex"
 ```
 
-- The command starts a new feed for the show by moving its most recent episode into it, and new episodes publish there from then on. The old feed stays up as a read-only archive titled "ARCHIVE: <title>" with the earlier episodes and receives no new ones. Schedules that publish to the show by its title keep working unchanged.
+- `migrate-feed` selects the RSS feed by `--feed-title` and moves that feed's latest published episode into a new feed without changing its series. The old RSS feed stays up as a read-only archive titled "ARCHIVE: <title>" with the earlier episodes. Schedules publishing under the original feed title use the new feed.
 
 - On success, present `subscription_links` as above, mention that the new feed starts with `seed_episode_title`, and tell the user to switch their podcast app to the new feed. Older episodes remain in the archive feed.
 
@@ -129,14 +129,14 @@ Or open directly in a podcast app:
 
 - Create one job with `cron.add`, giving it a kebab-case `id`, `mode: task`, `enabled: true`, `predicted_connector_permissions` (`[]` when the run uses no connector), a recurring `schedule` and `timeout_secs: 1800` so a run has time to research, synthesize and publish. Report the effective timeout that `cron.add` returns.
 
-- Establish the series' cast with the first episode, then put those resolved names and synthesis voice IDs in the job body. Reuse that cast in later episodes, including after a skill update or a change to Muse's name or selected voice; change it only when the user explicitly asks to recast the series. An existing job's fixed cast must not be replaced by the new-podcast defaults. Replace the illustrative host names, voice IDs and feed title below with the first episode's actual values before creating a job.
+- Establish the series' cast with the first episode, then put those resolved names and synthesis voice IDs, and the `series_id` that episode's helper output returned, in the job body. Reuse that cast in later episodes, including after a skill update or a change to Muse's name or selected voice; change it only when the user explicitly asks to recast the series. An existing job's fixed cast must not be replaced by the new-podcast defaults. Replace the illustrative host names, voice IDs, series ID and feed title below with the first episode's actual values before creating a job.
 
 - Write a body that stands on its own, because the run cannot see this conversation. Include:
   - the topic, the angle and a reminder to research live sources when the episode is produced
 
   - the fixed cast, with each host's name and `--speaker` voice ID
 
-  - `--series-id` set to the job ID, and a `--cover-prompt`
+  - `--series-id` set to the first episode's `series_id`, and a `--cover-prompt`. An existing job whose body passes its job ID as `--series-id` keeps one series; leave it unchanged
 
   - reading `manifest read` topics first to avoid repeats, then writing and passing a `--topics-file`
 
@@ -150,7 +150,7 @@ Or open directly in a podcast app:
   "enabled": true,
   "predicted_connector_permissions": [],
   "timeout_secs": 1800,
-  "body": "Produce today's episode of the tides podcast with the Podcast Production skill. Research today's tide and weather news first. Keep the cast: Muse (--speaker Muse=avocado_v2:MAI_01) and Jordan (--speaker Jordan=avocado_v2:MAI_03). Run manifest read and avoid topics earlier episodes covered. Use --series-id daily-tides-podcast and --cover-prompt 'ocean tides at sunrise', and pass a short topics summary with --topics-file. Publish to the feed titled 'Tides with Muse'."
+  "body": "Produce today's episode of the tides podcast with the Podcast Production skill. Research today's tide and weather news first. Keep the cast: Muse (--speaker Muse=avocado_v2:MAI_01) and Jordan (--speaker Jordan=avocado_v2:MAI_03). Run manifest read and avoid topics earlier episodes covered. Use --series-id 3f0b6c1e-8a4d-4e2b-9c7f-5d1a2b3c4e5f and --cover-prompt 'ocean tides at sunrise', and pass a short topics summary with --topics-file. Publish to the feed titled 'Tides with Muse'."
 }
 ```
 

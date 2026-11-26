@@ -8,6 +8,10 @@
 
 - Read [Marketplace buying](/opt/hatch/connectors/facebook_cli/references/marketplace-buying.md) to search listings and read items, sellers and saved listings, or [Marketplace selling](/opt/hatch/connectors/facebook_cli/references/marketplace-selling.md) to create, edit, publish or delete the user's own listings.
 
+<!-- marketplace-group-posting-only:start -->
+- Listings can also be shared to eligible buy-and-sell groups. See [Marketplace selling](/opt/hatch/connectors/facebook_cli/references/marketplace-selling.md).
+<!-- marketplace-group-posting-only:end -->
+
 ## Show listings
 
 - Listings come back in the top-level `data` array on stdout. Choose from stdout, because the `--out` file is for the resolver.

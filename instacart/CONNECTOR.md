@@ -53,7 +53,9 @@
 
 - Use `search-products` for browsing, replacements and exact sizes or weights, and `cart` for additions, quantity changes, removals and delivery or pickup changes. Batch the requested item changes into one `cart` call with `--expected-retailer '<task store>'`. Verify the result and report warnings or skipped items, because multi-item changes are best effort.
 
-- `--expected-retailer` checks the active store without switching it. If the command reports `retailer_mismatch`, no item changes were made. Select the intended store in a separate call using `retailer_name` without item changes, then retry the edit. Ask which store to use only when the intended store is unclear.
+- `--expected-retailer` checks the active store without switching it. If the command reports `retailer_mismatch`, no item changes were made. For edits requested in chat, select the intended store in a separate call using `retailer_name` without item changes, then retry the edit. Ask which store to use only when the intended store is unclear.
+
+- When the user taps **Update cart** in the cart panel, use `displayed_cart.retailer_name` as the expected retailer. If it is missing, differs from the fresh cart, or the write returns `retailer_mismatch`, ask the user to reopen the cart instead of switching stores. Skip and report any requested `product_id` no longer in the cart. If any lines remain to change, send their final quantities in one `item_updates` batch (zero removes). Check the returned quantities and warnings, then show the refreshed cart.
 
 - Put product, brand and variety names in `quick_add_search_queries`, never measurements, and treat their quantities as amounts to add. For an exact size or weight, search first and use the returned `product_id` in `item_updates`, where quantities are absolute and zero removes the item.
 

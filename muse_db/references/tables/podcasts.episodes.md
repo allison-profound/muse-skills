@@ -40,6 +40,18 @@ Generated podcast episodes, descriptions, audio paths and duration.
 
 - `topics` uses `text` and is nullable.
 
+- `episode_id` uses `uuid` and is required.
+
+  Default: `gen_random_uuid()`.
+
+  Opaque correlation identifier; no declared local table relationship.
+
+- `series_id` uses `uuid` and is nullable.
+
+  Opaque correlation identifier; no declared local table relationship.
+
 ## Keys and relationships
 
 - PRIMARY KEY `episodes_pkey` covers `slug`.
+
+- UNIQUE `podcasts_episodes_episode_id_key` covers `episode_id`.

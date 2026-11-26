@@ -10,7 +10,7 @@
 
 - For direct UCP checkout, offer Shop Pay as a route before the checkout is created, as the [UCP](/opt/hatch/connectors/ucp/CONNECTOR.md) docs describe.
 
-- Shop Pay pays direct UCP and native Shopify browser checkouts in supported currencies. Its virtual card route at other merchants pays only a purchase in US dollars that the merchant does not charge again later. Use the checkout's stated currency and exact total; Japanese yen amounts have no fractional units.
+- Shop Pay pays direct UCP and native Shopify browser checkouts in any currency. Its virtual card route at other merchants pays only a purchase in US dollars that the merchant does not charge again later. Use the checkout's stated currency and exact total; Japanese yen amounts have no fractional units.
 
 ## Connect and choose a card
 
