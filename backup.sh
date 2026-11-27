@@ -48,5 +48,9 @@ MSG="${COMMIT_MSG:-skills snapshot $DATE
 
 $CHANGED}"
 git -c user.name="file-integrity" -c user.email="file-integrity@local" commit -m "$MSG"
-[ -n "${SKIP_PUSH:-}" ] || git push origin HEAD
+# Auth: the hatch-git wrapper reads global config from
+# /var/lib/hatch/git/config and ignores ~/.gitconfig, so the gh credential
+# helper configured there is never seen by git. Pass it per-invocation
+# (caller -c still wins under the wrapper) instead of relying on ~/.gitconfig.
+[ -n "${SKIP_PUSH:-}" ] || git -c credential.helper='!/usr/bin/gh auth git-credential' push origin HEAD
 echo "Committed: $MSG"
