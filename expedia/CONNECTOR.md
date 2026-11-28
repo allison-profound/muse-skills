@@ -132,7 +132,14 @@
 
 - Use the confirmed guest details: a primary guest for each room, a booking email and a contact phone number.
 
+<!-- expedia-link-at-approval-off-only:start -->
 - Check `wallet.list_payment_methods` for `stripe-link`. Native checkout pays with a one-time card from Link, so when connection or reauthentication is needed, let the user know that connecting Link is what lets this checkout continue. Send the returned `next_action.markdown` unchanged and end the message. Resume the same checkout after connection. With no usable card, use `wallet.add_payment_method`.
+<!-- expedia-link-at-approval-off-only:end -->
+<!-- expedia-link-at-approval-only:start -->
+- Native checkout pays with a one-time card from Link. Collect the guest details first, and leave Link out of those messages: when Link isn't connected or has no card it can use, `book` stops before the approval with a setup step. Ask once, in about 60 words: why Link is needed, in your own words from the stop's `why`, its `next_action.markdown` unchanged, and the same rate on Expedia's site as the other way. Muse is told when Link connects. Then run the same `book` again.
+
+- When the user would rather not connect Link, book the same rate on Expedia's site through [browser booking](/opt/muse/assets/booking/references/browser-booking.md), from the stop's `browser_alternative`, with the approval at checkout, as `expedia_web` above describes. Say in the task why the website: the user chose not to pay through Link.
+<!-- expedia-link-at-approval-only:end -->
 
 - Copy the chosen rate's `selection`, add `booking` and pass the document as `--body-json`. Omit `roomN.childAges` for a room without children rather than sending an empty value, and never put prices or payment details in the body.
 
@@ -163,7 +170,7 @@
 - A booking that used a saved traveler's email returns `booking_email_note` in place of `booking_email`. When saved details can't be read, or lack an email or phone the booking needs, the command fails before anything reaches Expedia, and its error ends with what to do: the `traveler-request` that adds a missing detail, or asking in chat for this booking when the details can't be read. `travelers` shows the current ids.
 <!-- expedia-traveler-profiles-only:end -->
 
-- For booking review<!-- hotel-sources-only:start --><!-- expedia-hotel-merge-only:start --> of a `native_checkout` rate<!-- expedia-hotel-merge-only:end --><!-- hotel-sources-only:end -->, run `validate-booking` after guest details and Link are ready. Compare the fresh rate with `displayed_terms` for the same offer and rate. Explain material changes and follow the checkout guide if the price rises or terms worsen. Continue when `ready_to_book` is true.<!-- hotel-sources-only:start --><!-- expedia-hotel-merge-only:start --> A review of an `expedia_web` rate, which a merged hotel list can start, books on Expedia's site as `expedia_web` above describes, so it needs neither Link nor `ready_to_book`.<!-- expedia-hotel-merge-only:end --><!-- hotel-sources-only:end --> For other checkouts, this separate call is optional because `book` refreshes the rate.
+- For booking review<!-- hotel-sources-only:start --><!-- expedia-hotel-merge-only:start --> of a `native_checkout` rate<!-- expedia-hotel-merge-only:end --><!-- hotel-sources-only:end -->, run `validate-booking` after guest details<!-- expedia-link-at-approval-off-only:start --> and Link are ready<!-- expedia-link-at-approval-off-only:end -->. Compare the fresh rate with `displayed_terms` for the same offer and rate. Explain material changes and follow the checkout guide if the price rises or terms worsen. Continue when `ready_to_book` is true.<!-- hotel-sources-only:start --><!-- expedia-hotel-merge-only:start --> A review of an `expedia_web` rate, which a merged hotel list can start, books on Expedia's site as `expedia_web` above describes, so it needs neither Link nor `ready_to_book`.<!-- expedia-hotel-merge-only:end --><!-- hotel-sources-only:end --> For other checkouts, this separate call is optional because `book` refreshes the rate.
 
 <!-- expedia-payment-readiness-only:start -->
 - `validate-booking` also checks whether Link can pay a pay-now rate. `payment_setup_required` means `book` would stop for Link setup: share its `next_action.markdown` unchanged and end the message, and don't run `book` until Link is ready. Keep the booking document unchanged and follow its `resume`, so the user doesn't choose the room again. A `book` that stops for Link setup carries the same `resume`.

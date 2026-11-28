@@ -2,7 +2,7 @@
 
 - `stay-search`, `stay-rates` and `stay-quote` are hidden from `--help`, so use them as shown here.
 
-- Duffel books rates paid by card, in US or Canadian dollars. Each hotel a search returns comes with its cheapest such rate, and the quote says when it's paid: now or at the hotel.
+- Duffel books rates paid by card. Each hotel a search returns comes with its cheapest such rate, and the quote says when it's paid: now or at the hotel.
 
 ## Search
 
@@ -54,8 +54,14 @@
 
 - A quote can be booked for up to 30 minutes.
 <!-- duffel-payment-readiness-only:start -->
+<!-- duffel-link-at-approval-off-only:start -->
 
 - The quote also checks whether Link can pay. `payment_setup_required` means `book` would stop for Link setup. Share its `next_action.markdown` unchanged at the end of the message that shows the price and asks for guest details, so the user sets up Link while answering and the quote is still good when they're done. Keep the quote and follow its `resume`. The user doesn't pick the hotel again.
+<!-- duffel-link-at-approval-off-only:end -->
+<!-- duffel-link-at-approval-only:start -->
+
+- The quote also checks whether Link can pay, and says nothing about it: ask for the guest details first. When Link isn't ready, `book` stops before the approval with the setup step and the same stay for a seller's website, as **Book** describes.
+<!-- duffel-link-at-approval-only:end -->
 <!-- duffel-payment-readiness-only:end -->
 
 ## Book
@@ -86,10 +92,17 @@
 - When the quote's `next_step` says the account has no Duffel traveler profile yet, follow it. `book` takes the account holder's details from the user's own saved traveler (`relationship: self`), and the `next_step` says which `--customer-*` flags or `traveler-request` to use when that traveler lacks one.
 <!-- traveler-profiles-only:end -->
 
+<!-- duffel-link-at-approval-off-only:start -->
 - `book` pays with [Link by Stripe](/opt/hatch/connectors/stripe-link/CONNECTOR.md). When Link isn't connected or has no card it can use, `book` stops before any approval with a setup step. Share its `next_action.markdown`, and book again once Link is ready, since `book` stops the same way until then. Muse is told when Link connects.
 <!-- duffel-payment-readiness-only:start -->
   Its `resume` says how to continue the same booking.
 <!-- duffel-payment-readiness-only:end -->
+<!-- duffel-link-at-approval-off-only:end -->
+<!-- duffel-link-at-approval-only:start -->
+- `book` pays with [Link by Stripe](/opt/hatch/connectors/stripe-link/CONNECTOR.md). When Link isn't connected or has no card it can use, `book` stops before the approval with a setup step, once the guest details are in. Ask once, in about 60 words: why Link is needed, in your own words from the stop's `why`, its `next_action.markdown` unchanged, and the website booking as the other way. Muse is told when Link connects. Then run the same `book` command again.
+
+- When the user would rather not connect Link, book the same stay on a seller's website through [browser booking](/opt/muse/assets/booking/references/browser-booking.md), with the approval at checkout, as the stop's `browser_alternative` describes: the other connector's offer under `also` when `hotels route` listed one, else the hotel's own site or Booking.com. Say in the task why the website: the user chose not to pay through Link.
+<!-- duffel-link-at-approval-only:end -->
 
 - `book` asks the user to approve, then books with their Link card. A pay-now rate is charged at booking. A guarantee rate charges nothing at booking. The guest pays at the hotel, and the card guarantees the booking, so the hotel can charge it as the rate's terms allow. The approval shows the hotel, dates, rooms, guests, room, amounts and cancellation terms.
 

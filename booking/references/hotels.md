@@ -73,8 +73,14 @@
 <!-- hotel-sources-only:end -->
 
 <!-- expedia-payment-readiness-only:start -->
+<!-- expedia-link-at-approval-off-only:start -->
 - When native checkout will charge the stay to Link, the connector's validation also checks whether Link can pay, after the guest details, as its docs describe. When it can't, share the setup step it returns before booking. Once Link is ready, continue the same booking from where it stopped, keeping the room and rate the user chose.
 
+<!-- expedia-link-at-approval-off-only:end -->
+<!-- expedia-link-at-approval-only:start -->
+- When native checkout will charge the stay to Link, collect the guest details first. The connector's `book` stops before the approval when Link can't pay and asks once, with why and the seller's website as the other way, as its docs describe. A user who would rather not connect Link books the same stay on the seller's website, with the approval at checkout.
+
+<!-- expedia-link-at-approval-only:end -->
 <!-- expedia-payment-readiness-only:end -->
 - When the seller refuses the card or billing details in native checkout, offer the recovery options the connector returns, or the same property and dates on the seller's website through [browser booking](/opt/muse/assets/booking/references/browser-booking.md).
 

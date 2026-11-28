@@ -30,7 +30,11 @@
 
 - When `decision.verify_price` is true, Google Flights' price for this airline often differs from the airline's own: confirm it with Duffel or on the airline's site before calling it the price.
 
-- Pass `--device-browser` to `flights merge` and `flights route` when the browser status lists a device browser (the Chrome extension or the in-app browser) for this message. An airline whose site refuses Muse's cloud browser, such as United, then routes to `airline_site` with `decision.browser` set to `device` instead of a hand-off; follow `decision.instructions` for it.
+- Pass `--device-browser` to `flights merge` and `flights route` when the browser status lists a device browser (the Chrome extension or the in-app browser) for this message. An airline the policy books in the traveler's own browser, such as United, then routes to `airline_site` with `decision.browser` set to `device` instead of a hand-off. Follow `decision.instructions` for it.
+<!-- duffel-link-at-approval-only:start -->
+
+- Pass `--without-duffel` to `flights route`, or to `duffel route --carriers`, when the traveler would rather not pay through Link, which Duffel's checkout needs: the trip routes among the airline's cash routes without Duffel, and the decision's `reason` reads `link_declined`.
+<!-- duffel-link-at-approval-only:end -->
 
 - `duffel route` is not part of Flight Booking's flows: `flights merge` decides every trip, browser trips included, and `flights route` decides a tapped one again. The command remains only as the older form of the same routing for a browser-only search file.
 

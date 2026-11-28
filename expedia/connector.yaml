@@ -10,6 +10,12 @@ features:
     # validate-booking's payment_setup_required and book's Link setup resume
     # hint. The readiness read and its logging run whatever the gate says.
     gk: hatch_travel_payment_readiness
+  expedia-link-at-approval:
+    gk: hatch_travel_link_at_approval
+    # Native checkout asks for Link only when `book` stops before the
+    # approval, with why it's needed and the same rate on Expedia's site when
+    # the user would rather not connect it; validate-booking then says nothing
+    # about Link. The same gate as Duffel's feature.
   expedia-hotel-merge:
     gk: hatch_hotel_sources_merge_expedia
     # Within hotel-sources: whether Expedia's hotels join the other lodging

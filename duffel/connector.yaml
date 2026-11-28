@@ -42,6 +42,16 @@ features:
     # Link setup resume hint. The readiness read and its logging run whatever
     # the gate says.
     gk: hatch_travel_payment_readiness
+  duffel-link-at-approval:
+    gk: hatch_travel_link_at_approval
+    # A flight or stay asks for Link only when `book` stops before the
+    # approval, with why it's needed and the same trip or stay for a seller's
+    # website when the user would rather not connect it; validate-booking and
+    # stay-quote then say nothing about Link. Checked in the worker, since
+    # `book` has no connector method. The same gate as Expedia's feature.
 non_confidential: true
 availability:
+  # Duffel's rollout gate, read per VM owner. Its country groups decide
+  # where the connector is offered at all; the SDK checks it before every command.
+  gk: hatch_duffel_enabled
   confidential_vm: true

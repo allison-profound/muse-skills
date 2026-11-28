@@ -29,9 +29,13 @@
 - When the user picks an offer, call `wallet.list_payment_methods` with `provider: "stripe-link"`, `wallet.get_user_info` and `/opt/hatch/bin/duffel travelers` in the same turn. `travelers` lists the user's saved travelers, each with an `id`, names, `relationship` (`self` is the user), `saved_fields` and `missing_for_booking`, and leaves their saved details out. Match each passenger to a saved traveler by name or relationship, the user only when the conversation shows the user is flying.
 <!-- traveler-profiles-only:end -->
 - In the same `wallet.get_user_info` result, `agent_wallet_spend_limits` holds the user's Link limits in minor units. When the offer is in the wallet's `default_spend_request_currency` and its total is above `per_transaction.limit` or the `daily` or `thirty_day` `remaining`, tell the user before collecting details: they can raise the limit in Link, which covers every Link card, or book on the airline's own site. `book` refuses such a purchase before the approval card with `link_spend_limit_exceeded`. When the currency differs or `default_spend_request_currency` is absent, skip this check and let `book` decide.
+<!-- duffel-link-at-approval-only:start -->
+
+- Link's connection waits for `book`, which stops before the approval when Link can't pay: collect the traveler details first, and leave Link out of those messages.
+<!-- duffel-link-at-approval-only:end -->
 
 <!-- traveler-profiles-off-only:start -->
-- Show the chosen trip in that same message, so the traveler can ask for changes before validation: each flight with its date, times and flight number, the cabin and the fare brand exactly as the offer names it, bags, change and refund terms, each proposed seat, and the total. Then ask for what is still missing: usually each traveler's birth date and gender (`m` or `f`), and each traveler's legal given and family name when not already known. If Link is `not_connected`, ask for what is still missing first, then end that message with Link's connection link (`next_action.markdown`, unchanged), so the user connects while answering.
+- Show the chosen trip in that same message, so the traveler can ask for changes before validation: each flight with its date, times and flight number, the cabin and the fare brand exactly as the offer names it, bags, change and refund terms, each proposed seat, and the total. Then ask for what is still missing: usually each traveler's birth date and gender (`m` or `f`), and each traveler's legal given and family name when not already known.<!-- duffel-link-at-approval-off-only:start --> If Link is `not_connected`, ask for what is still missing first, then end that message with Link's connection link (`next_action.markdown`, unchanged), so the user connects while answering.<!-- duffel-link-at-approval-off-only:end -->
 <!-- traveler-profiles-off-only:end -->
 <!-- traveler-profiles-only:start -->
 - Show the chosen trip in that same message, so the traveler can ask for changes before validation: each flight with its date, times and flight number, the cabin and the fare brand exactly as the offer names it, bags, change and refund terms, each proposed seat, and the total.
@@ -39,7 +43,7 @@
 - Traveler details go in the secure traveler form, so values you don't already have stay out of this conversation and its transcript. The exceptions are what the form can't take or reach: a passport, the account holder's `--customer-*` details from the chat or the wallet, and details a command's `next` says to ask for in chat, which it does when this chat can show no card or the saved details can't be read.
 - For a saved traveler whose `missing_for_booking.flight` lists fields, run `/opt/hatch/bin/duffel traveler-request --purpose flight --traveler ID` with one `--field` per listed field. Other passengers need no `email` or `phone`. For a passenger who is not saved yet, run it without `--traveler`, with `--field born_on --field gender`, adding `--field email --field phone` for the first passenger.
 - Add what you already know from the conversation, `~/USER.md` or `wallet.get_user_info` with one `--prefill FIELD=VALUE` per field, such as `--prefill given_name=Dana --prefill email=dana@example.com`, so the card opens filled in for the user to confirm. Any detail the user gave in chat can be prefilled this way, a Known Traveler or redress number included. Prefill `relationship` whenever the user says who the traveler is to them: `self` for the user, `partner` for a wife, husband or partner, or `child`, `parent`, `family`, `friend`, `colleague` or `other`, as in `--prefill relationship=partner --prefill given_name=Alexandra`.
-- Each run asks for a secure card in this chat, and a note after the result says whether the card is on screen. When it is, tell the user to add the details in the card and end your reply: the chat continues when they save, and `travelers` shows the new or updated traveler. When it is not, the command's `next` says what to ask in chat instead. If Link is `not_connected`, end that message with Link's connection link (`next_action.markdown`, unchanged), so the user connects while answering.
+- Each run asks for a secure card in this chat, and a note after the result says whether the card is on screen. When it is, tell the user to add the details in the card and end your reply: the chat continues when they save, and `travelers` shows the new or updated traveler. When it is not, the command's `next` says what to ask in chat instead.<!-- duffel-link-at-approval-off-only:start --> If Link is `not_connected`, end that message with Link's connection link (`next_action.markdown`, unchanged), so the user connects while answering.<!-- duffel-link-at-approval-off-only:end -->
 - When every passenger is saved with nothing missing, validate right away without asking for details.
 <!-- traveler-profiles-only:end -->
 
@@ -102,7 +106,12 @@
 <!-- traveler-profiles-only:end -->
 
 <!-- duffel-payment-readiness-only:start -->
+<!-- duffel-link-at-approval-off-only:start -->
 - Validation also checks whether Link can pay. `payment_setup_required` means `book` would stop for Link setup, even when `ready_to_book` is true. Share its `next_action.markdown` unchanged at the end of the same message that asks for any missing details, so the user sets up Link while answering, and don't run `book` until Link is ready. Keep the offer and booking JSON and follow its `resume`; the user doesn't pick the flight again.
+<!-- duffel-link-at-approval-off-only:end -->
+<!-- duffel-link-at-approval-only:start -->
+- Validation also checks whether Link can pay, and says nothing about it: collect the traveler details first. When Link isn't ready, `book` stops before the approval with the setup step and the same flights for the airline's website, as **Book** describes.
+<!-- duffel-link-at-approval-only:end -->
 <!-- duffel-payment-readiness-only:end -->
 
 - Treat `selected_offer` as the current itinerary, price, bags and fare terms. Check each slice's `from` and `to` against the chosen airports, and stop if they differ.
@@ -130,10 +139,17 @@
 
 - Held orders, Duffel balance payment, inline cards and raw order APIs are not supported.
 
+<!-- duffel-link-at-approval-off-only:start -->
 - If Link is not connected, explain the one-time card and share its connection link.
 <!-- duffel-payment-readiness-only:start -->
   When `book` itself stops for Link setup, its `resume` says how to continue: once Link is ready, rerun the same `book` unchanged rather than starting the booking over.
 <!-- duffel-payment-readiness-only:end --> For an airline-site fallback, use `browser.browse` and follow `~/docs/chat/payments-and-purchases.md`. Use Wallet for payment or assign browser takeover for the user to enter payment on the merchant site. Do not pass card details in task text. If neither supported route works, stop with the itinerary prepared and say that payment is blocked.
+<!-- duffel-link-at-approval-off-only:end -->
+<!-- duffel-link-at-approval-only:start -->
+- When Link isn't connected or has no card it can use, `book` stops before the approval with a setup step, once the traveler details are in. Ask once, in about 60 words: why Link is needed, in your own words from the stop's `why`, its `next_action.markdown` unchanged, and the airline's website as the other way. Muse is told when Link connects. Then run the same `book` command again.
+
+- When the traveler would rather not connect Link, book the same flights on the airline's website through [browser booking](/opt/muse/assets/booking/references/browser-booking.md), with the approval at checkout, as the stop's `browser_alternative` describes: route the trip again with `flights route --trips MERGED_FILE --offer POINTER --without-duffel` when it came from a merged list, else `duffel route --carriers CODES --without-duffel`, and book from the decision, from its link when there is one. Say in the task why the website: the user chose not to pay through Link. Follow `~/docs/chat/payments-and-purchases.md` there, with browser takeover for the user's own card, and keep card details out of task text.
+<!-- duffel-link-at-approval-only:end -->
 
 - Prefer one offer that covers the whole itinerary. Split it into separate bookings only with the user's agreement before the first `book`. Explain that each booking has its own approval, payment and terms, that later offers are not held, and that a later failure can leave earlier tickets booked.
 
